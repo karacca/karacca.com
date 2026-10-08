@@ -90,11 +90,11 @@
 ## Hosting
 
 - Public GitHub repo
-- Cloudflare Workers static assets; auto-deploy on push to `main`, preview deploys for branches
+- Cloudflare Workers static assets; auto-deploy on push to `master`, preview deploys for branches
 - No GitHub Actions workflows; the GitHub chart refreshes on each deploy
 - Fully static, no backend
 - Cloudflare Web Analytics (cookieless, no consent banner)
-- Commit directly to `main` with conventional commits (`feat:`, `fix:`, `content:`, `style:`, `chore:`)
+- Commit directly to `master` with conventional commits (`feat:`, `fix:`, `content:`, `style:`, `chore:`)
 
 ## Open
 

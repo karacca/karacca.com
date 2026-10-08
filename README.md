@@ -99,7 +99,7 @@ The chart on the home page is rendered at build time, so the page ships no chart
 2. Without a token, or if that request fails, the public contributions page on github.com.
 3. If GitHub cannot be reached at all, the snapshot committed in `src/data/github-contributions.json`.
 
-The chart is only as fresh as the last build, and every push to `main` rebuilds it. `pnpm contributions:update` fetches the same data and rewrites the snapshot. Commit the result now and then so the fallback does not get too old.
+The chart is only as fresh as the last build, and every push to `master` rebuilds it. `pnpm contributions:update` fetches the same data and rewrites the snapshot. Commit the result now and then so the fallback does not get too old.
 
 The token is optional but makes the build less dependent on GitHub's page markup. A personal access token without any scopes is enough for public contributions. For local work, copy `.env.example` to `.env` and fill it in; `pnpm build` and `pnpm contributions:update` both read it. `.env` is git-ignored.
 
@@ -121,12 +121,12 @@ The site is served by Cloudflare Workers static assets. There is no Worker scrip
    - Deploy command: `pnpm exec wrangler deploy`
    - Non-production branch deploy command: `pnpm exec wrangler versions upload`
    - Root directory: `/`
-   - Production branch: `main`
+   - Production branch: `master`
 4. Enable builds for non-production branches. Every pushed branch then gets a preview URL on `workers.dev`.
 5. Build variables and secrets: add `GITHUB_TOKEN` as a secret (optional, see the chart section above). The Node version is read from `.nvmrc`. If the build image picks a different pnpm than the one in `packageManager`, set `PNPM_VERSION` as a build variable.
 6. Worker → Settings → Domains & Routes → add `karacca.com` as a custom domain.
 
-After that, every push to `main` builds and deploys production.
+After that, every push to `master` builds and deploys production.
 
 ### Manual deploy
 
@@ -159,5 +159,5 @@ There is no CI. Before pushing, run:
 
 ## Conventions
 
-- Commit straight to `main` with conventional commits: `feat:`, `fix:`, `content:`, `style:`, `chore:`.
+- Commit straight to `master` with conventional commits: `feat:`, `fix:`, `content:`, `style:`, `chore:`.
 - Project rules for people and agents are in `AGENTS.md`.
