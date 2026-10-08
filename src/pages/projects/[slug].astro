@@ -1,0 +1,73 @@
+---
+import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
+import { render } from "astro:content";
+import Chip from "@/components/Chip.astro";
+import Icon from "@/components/Icon.astro";
+import PlatformLinks from "@/components/PlatformLinks.astro";
+import Prose from "@/components/Prose.astro";
+import Section from "@/components/Section.astro";
+import Base from "@/layouts/Base.astro";
+import { getProjects } from "@/lib/content";
+import { site } from "@/site.config";
+
+export const getStaticPaths = (async () => {
+  const projects = await getProjects();
+  return projects
+    .filter((project) => project.data.detail)
+    .map((project) => ({
+      params: { slug: project.id },
+      props: { project },
+    }));
+}) satisfies GetStaticPaths;
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { project } = Astro.props;
+const { title, description, year, company } = project.data;
+const { Content } = await render(project);
+---
+
+<Base title={title} description={description} type="article">
+  <Section as="article" title={title}>
+    <div class="project-meta" slot="rail">
+      <a class="meta quiet-link back-link" href="/projects">
+        <Icon name="arrow-left" />
+        {site.labels.backToProjects}
+      </a>
+      <span class="meta">
+        {[year, company].filter(Boolean).join(site.labels.metaSeparator)}
+      </span>
+      <PlatformLinks project={project} labelled />
+    </div>
+    <p class="description muted">{description}</p>
+    <div class="content">
+      <Prose>
+        <Content components={{ Chip }} />
+      </Prose>
+    </div>
+  </Section>
+</Base>
+
+<style>
+  .project-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0 var(--space-m);
+  }
+
+  .description {
+    max-width: var(--layout-measure);
+  }
+
+  .content {
+    margin-block-start: var(--space-prose);
+  }
+
+  @media (min-width: 52rem) {
+    .project-meta {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>

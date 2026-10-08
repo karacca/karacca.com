@@ -1,0 +1,66 @@
+---
+import { currentState } from "@/lib/paths";
+import { site } from "@/site.config";
+
+const { pathname } = Astro.url;
+---
+
+<header class="site-header page rail-grid">
+  <a class="name" href="/">
+    {site.name}
+  </a>
+  <nav aria-label={site.labels.mainMenu}>
+    <ul role="list">
+      {site.menu.map((item) => (
+        <li>
+          <a
+            class="quiet-link"
+            href={item.href}
+            aria-current={currentState(item.href, pathname)}
+          >
+            {item.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+</header>
+
+<style>
+  .site-header {
+    align-items: baseline;
+    padding-block: var(--layout-header-space);
+  }
+
+  .name {
+    justify-self: start;
+    font-weight: var(--text-weight-name);
+    text-decoration-line: none;
+  }
+
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 var(--space-s);
+    margin: 0;
+  }
+
+  @media (width < 23rem) {
+    ul {
+      gap: 0 var(--space-xs);
+      font-size: var(--text-size-small);
+    }
+  }
+
+  @media (min-width: 52rem) {
+    ul {
+      gap: 0 var(--space-l);
+    }
+  }
+
+  a {
+    display: inline-block;
+    margin-inline: calc(var(--space-2xs) * -1);
+    padding: var(--space-2xs);
+  }
+</style>

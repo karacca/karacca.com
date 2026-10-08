@@ -1,0 +1,311 @@
+@import "./tokens/color.css";
+@import "./tokens/typography.css";
+@import "./tokens/spacing.css";
+@import "./tokens/layout.css";
+@import "./tokens/motion.css";
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scrollbar-gutter: stable;
+}
+
+body {
+  margin: 0;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: var(--text-size-body);
+  font-weight: var(--text-weight-body);
+  line-height: var(--text-leading-body);
+  letter-spacing: var(--text-tracking-body);
+  overflow-wrap: break-word;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+ul,
+ol,
+dl,
+dd,
+figure,
+blockquote,
+pre {
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-heading);
+  font-size: inherit;
+  font-weight: var(--text-weight-heading);
+  line-height: var(--text-leading-heading);
+  letter-spacing: var(--text-tracking-heading);
+  text-wrap: balance;
+}
+
+p,
+li,
+figcaption {
+  text-wrap: pretty;
+}
+
+ul[role="list"],
+ol[role="list"] {
+  list-style: none;
+  padding: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration-line: underline;
+  text-decoration-color: var(--color-link-underline);
+  text-decoration-thickness: var(--underline-thickness);
+  text-underline-offset: var(--underline-offset);
+  transition-property: color, text-decoration-color;
+  transition-duration: var(--motion-hover-duration);
+  transition-timing-function: var(--motion-hover-ease);
+}
+
+@media (hover: hover) {
+  a:hover {
+    text-decoration-color: currentColor;
+  }
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+img {
+  height: auto;
+}
+
+code,
+kbd,
+pre {
+  font-family: var(--font-code);
+  font-variant-ligatures: none;
+}
+
+::selection {
+  background: var(--color-selection);
+  color: var(--color-text);
+}
+
+:focus-visible {
+  outline: var(--focus-width) solid var(--color-focus);
+  outline-offset: var(--focus-offset);
+  border-radius: var(--radius-s);
+}
+
+.page {
+  width: min(var(--layout-page-max), 100% - 2 * var(--layout-gutter));
+  margin-inline: auto;
+}
+
+.rail-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-xs) var(--layout-gap);
+}
+
+@media (min-width: 52rem) {
+  .rail-grid {
+    grid-template-columns: var(--layout-rail) minmax(0, 1fr);
+  }
+}
+
+.meta {
+  font-family: var(--font-meta);
+  font-size: var(--text-size-meta);
+  letter-spacing: var(--text-tracking-meta);
+  color: var(--color-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.muted {
+  color: var(--color-text-muted);
+}
+
+.quiet-link {
+  color: var(--color-text-muted);
+  text-decoration-line: none;
+}
+
+.quiet-link[aria-current],
+.quiet-link:focus-visible {
+  color: var(--color-text);
+}
+
+.quiet-link[aria-current] {
+  text-decoration-line: underline;
+  text-decoration-color: var(--color-text-muted);
+}
+
+@media (hover: hover) {
+  .quiet-link:hover {
+    color: var(--color-text);
+  }
+}
+
+.action-link {
+  display: inline-block;
+  padding-block: var(--space-2xs);
+  color: var(--color-text-muted);
+}
+
+.action-link:focus-visible {
+  color: var(--color-text);
+}
+
+@media (hover: hover) {
+  .action-link:hover {
+    color: var(--color-text);
+  }
+}
+
+a.back-link > .icon {
+  display: inline-block;
+  width: var(--icon-size-s);
+  height: var(--icon-size-s);
+  margin-inline-end: var(--space-2xs);
+  vertical-align: var(--icon-baseline-offset);
+  transition-property: transform;
+  transition-duration: var(--motion-hover-duration);
+  transition-timing-function: var(--motion-hover-ease);
+}
+
+@media (hover: hover) {
+  a.back-link:hover > .icon {
+    transform: translateX(var(--motion-nudge-distance));
+  }
+}
+
+.rows {
+  list-style: none;
+  max-width: var(--layout-wide);
+  margin: 0;
+  padding: 0;
+}
+
+.rows > li {
+  position: relative;
+  border-top: var(--border-width) solid var(--color-border);
+}
+
+.rows > li:last-child {
+  border-bottom: var(--border-width) solid var(--color-border);
+}
+
+.row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-xs) var(--space-l);
+  padding-block: var(--space-row);
+}
+
+.row-link {
+  text-decoration-color: transparent;
+}
+
+.row-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.row-link:focus-visible {
+  outline: none;
+}
+
+.row-link:focus-visible::after {
+  outline: var(--focus-width) solid var(--color-focus);
+  outline-offset: var(--focus-offset);
+  border-radius: var(--radius-s);
+}
+
+@keyframes enter {
+  from {
+    opacity: var(--motion-enter-opacity);
+    transform: translateY(var(--motion-enter-distance));
+    filter: blur(var(--motion-enter-blur));
+  }
+}
+
+@keyframes enter-in-place {
+  from {
+    opacity: var(--motion-enter-opacity);
+    filter: blur(var(--motion-enter-blur));
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  :root[data-enter] :is(.site-header, main > *, .site-footer) {
+    animation: enter var(--motion-enter-duration) var(--motion-enter-ease)
+      backwards;
+    animation-delay: calc(var(--enter-index, 0) * var(--motion-enter-stagger));
+  }
+
+  :root[data-enter] .site-footer {
+    --enter-index: 2;
+    animation-name: enter-in-place;
+  }
+
+  :root[data-enter] main > :nth-child(1 of :not(script)) {
+    --enter-index: 1;
+  }
+
+  :root[data-enter] main > :nth-child(2 of :not(script)) {
+    --enter-index: 2;
+  }
+
+  :root[data-enter] main:has(> :nth-child(2 of :not(script))) ~ .site-footer {
+    --enter-index: 3;
+  }
+
+  :root[data-enter] main > :nth-child(3 of :not(script)) {
+    --enter-index: 3;
+  }
+
+  :root[data-enter] main:has(> :nth-child(3 of :not(script))) ~ .site-footer {
+    --enter-index: 4;
+  }
+
+  :root[data-enter] main > :nth-child(4 of :not(script)) {
+    --enter-index: 4;
+  }
+
+  :root[data-enter] main:has(> :nth-child(4 of :not(script))) ~ .site-footer {
+    --enter-index: 5;
+  }
+
+  :root[data-enter] main > :nth-child(5 of :not(script)) {
+    --enter-index: 5;
+  }
+
+  :root[data-enter] main > :nth-child(n + 6 of :not(script)),
+  :root[data-enter] main:has(> :nth-child(5 of :not(script))) ~ .site-footer {
+    --enter-index: 6;
+  }
+}

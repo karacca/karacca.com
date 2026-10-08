@@ -1,0 +1,31 @@
+{
+  "ci": {
+    "collect": {
+      "startServerCommand": "pnpm preview:worker",
+      "startServerReadyPattern": "Ready on",
+      "startServerReadyTimeout": 60000,
+      "numberOfRuns": 3,
+      "url": [
+        "http://localhost:8788/",
+        "http://localhost:8788/about",
+        "http://localhost:8788/writing",
+        "http://localhost:8788/writing/how-this-site-is-built",
+        "http://localhost:8788/projects",
+        "http://localhost:8788/projects/nami",
+        "http://localhost:8788/bookmarks",
+        "http://localhost:8788/desk"
+      ],
+      "settings": {
+        "chromeFlags": "--no-sandbox"
+      }
+    },
+    "assert": {
+      "assertions": {
+        "categories:performance": ["error", { "minScore": 1 }],
+        "categories:accessibility": ["error", { "minScore": 1 }],
+        "categories:best-practices": ["error", { "minScore": 1 }],
+        "categories:seo": ["error", { "minScore": 1 }]
+      }
+    }
+  }
+}

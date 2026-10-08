@@ -1,0 +1,70 @@
+---
+import { render } from "astro:content";
+import Actions from "@/components/Actions.astro";
+import Chip from "@/components/Chip.astro";
+import ContributionsChart from "@/components/ContributionsChart.astro";
+import PostList from "@/components/PostList.astro";
+import ProjectList from "@/components/ProjectList.astro";
+import Prose from "@/components/Prose.astro";
+import Section from "@/components/Section.astro";
+import Base from "@/layouts/Base.astro";
+import { getPage, getPosts, getProjects, label } from "@/lib/content";
+import { getContributions } from "@/lib/github";
+
+const page = await getPage("home");
+const { Content } = await render(page);
+const contributions = await getContributions();
+const posts = (await getPosts()).slice(0, 5);
+const projects = await getProjects();
+const featured = projects.filter((project) => project.data.featured);
+const shown = featured.length > 0 ? featured : projects.slice(0, 5);
+---
+
+<Base title={page.data.title} description={page.data.description} isHome>
+  <Section as="header" title={page.data.heading ?? page.data.title}>
+    <Prose>
+      <Content components={{ Chip }} />
+    </Prose>
+    <Actions />
+  </Section>
+  {contributions.weeks.length > 0 && (
+    <Section label={label(page, "activity")}>
+      <div class="activity">
+        <ContributionsChart caption={label(page, "chartCaption")} />
+      </div>
+    </Section>
+  )}
+  {posts.length > 0 && (
+    <Section label={label(page, "writing")}>
+      <PostList posts={posts} />
+      <p class="more">
+        <a class="action-link" href="/writing">
+          {label(page, "allWriting")}
+        </a>
+      </p>
+    </Section>
+  )}
+  {shown.length > 0 && (
+    <Section label={label(page, "projects")}>
+      <ProjectList projects={shown} />
+      <p class="more">
+        <a class="action-link" href="/projects">
+          {label(page, "allProjects")}
+        </a>
+      </p>
+    </Section>
+  )}
+</Base>
+
+<style>
+  .more {
+    margin-block-start: var(--space-s);
+    font-size: var(--text-size-small);
+  }
+
+  @media (min-width: 52rem) {
+    :global(.section):has(> :global(.body) > .activity) {
+      align-items: start;
+    }
+  }
+</style>

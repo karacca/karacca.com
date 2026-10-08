@@ -1,0 +1,53 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R /Lang (en) >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+5 0 obj
+<< /Length 319 >>
+stream
+BT
+/F1 18 Tf
+1 0 0 1 72 720 Tm
+(\326mer Karaca) Tj
+/F1 11 Tf
+1 0 0 1 72 698 Tm
+(Android developer, Istanbul) Tj
+/F1 11 Tf
+1 0 0 1 72 654 Tm
+(This is a placeholder resume.) Tj
+/F1 11 Tf
+1 0 0 1 72 636 Tm
+(The real document will replace this file at public/resume.pdf.) Tj
+/F1 11 Tf
+1 0 0 1 72 592 Tm
+(karacca.com) Tj
+ET
+endstream
+endobj
+6 0 obj
+<< /Title (\326mer Karaca, placeholder resume) /Author (\326mer Karaca) >>
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000015 00000 n 
+0000000075 00000 n 
+0000000132 00000 n 
+0000000258 00000 n 
+0000000355 00000 n 
+0000000724 00000 n 
+trailer
+<< /Size 7 /Root 1 0 R /Info 6 0 R >>
+startxref
+814
+%%EOF

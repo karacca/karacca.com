@@ -1,0 +1,140 @@
+---
+import { Font } from "astro:assets";
+import Footer from "@/components/Footer.astro";
+import Header from "@/components/Header.astro";
+import { cleanPath, ogImagePath, pageTitle } from "@/lib/paths";
+import { site } from "@/site.config";
+import { og } from "@/styles/tokens/og";
+import "@/styles/global.css";
+
+interface Props {
+  title: string;
+  description: string;
+  isHome?: boolean;
+  type?: "website" | "article";
+  publishedTime?: Date;
+  ogImage?: boolean;
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  isHome = false,
+  type = "website",
+  publishedTime,
+  ogImage = true,
+  noindex = false,
+} = Astro.props;
+
+const path = cleanPath(Astro.url.pathname);
+const fullTitle = pageTitle(title, isHome);
+const canonical = new URL(path, Astro.site).href;
+const image = ogImage ? new URL(ogImagePath(path), Astro.site).href : undefined;
+const analyticsToken = site.analytics.cloudflareToken;
+---
+
+<!doctype html>
+<html lang={site.language}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="color-scheme" content="light dark" />
+    {noindex && <meta name="robots" content="noindex" />}
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title={site.name}
+      href={site.rss.href}
+    />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:type" content={type} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    {image && <meta property="og:image" content={image} />}
+    {image && (
+      <meta property="og:image:width" content={String(og.size.width)} />
+    )}
+    {image && (
+      <meta property="og:image:height" content={String(og.size.height)} />
+    )}
+    {publishedTime && (
+      <meta
+        property="article:published_time"
+        content={publishedTime.toISOString()}
+      />
+    )}
+    <meta
+      name="twitter:card"
+      content={image ? "summary_large_image" : "summary"}
+    />
+    <Font
+      cssVariable="--font-sans"
+      preload={[
+        { subset: "latin", style: "normal", weight: 400 },
+        { subset: "latin", style: "normal", weight: 600 },
+      ]}
+    />
+    <Font
+      cssVariable="--font-mono"
+      preload={[{ subset: "latin", style: "normal", weight: 400 }]}
+    />
+    <script is:inline>
+      try {
+        if (!localStorage.getItem("entered")) {
+          localStorage.setItem("entered", "1");
+          document.documentElement.dataset.enter = "";
+        }
+      } catch {}
+    </script>
+    {import.meta.env.PROD && analyticsToken && (
+      <script
+        is:inline
+        defer
+        src="https://static.cloudflareinsights.com/beacon.min.js"
+        data-cf-beacon={JSON.stringify({ token: analyticsToken })}
+      />
+    )}
+  </head>
+  <body>
+    <a class="skip-link" href="#main">
+      {site.labels.skipToContent}
+    </a>
+    <Header />
+    <main id="main" class="page">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<style>
+  .skip-link {
+    position: absolute;
+    inset-block-start: var(--space-xs);
+    inset-inline-start: var(--space-xs);
+    padding: var(--space-xs) var(--space-s);
+    border-radius: var(--radius-s);
+    background: var(--color-surface);
+    transform: translateY(-200%);
+  }
+
+  .skip-link:focus-visible {
+    transform: none;
+  }
+
+  main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-section);
+  }
+</style>

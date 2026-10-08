@@ -1,0 +1,110 @@
+---
+import { render } from "astro:content";
+import Prose from "@/components/Prose.astro";
+import Section from "@/components/Section.astro";
+import Base from "@/layouts/Base.astro";
+import { getBookmarks, getPage, type Bookmark } from "@/lib/content";
+import { domainOf, formatDate, isoDate } from "@/lib/format";
+
+const page = await getPage("bookmarks");
+const { Content } = await render(page);
+const bookmarks = await getBookmarks();
+
+const byDate = new Map<string, { date: Date; items: Bookmark[] }>();
+for (const bookmark of bookmarks) {
+  const key = isoDate(bookmark.data.date);
+  const group = byDate.get(key) ?? { date: bookmark.data.date, items: [] };
+  group.items.push(bookmark);
+  byDate.set(key, group);
+}
+const groups = [...byDate.entries()];
+---
+
+<Base title={page.data.title} description={page.data.description}>
+  <Section as="header" title={page.data.heading ?? page.data.title}>
+    <Prose>
+      <Content />
+    </Prose>
+  </Section>
+  {groups.map(([key, group]) => (
+    <Section>
+      <h2 slot="rail" class="meta date">
+        <time datetime={key}>{formatDate(group.date)}</time>
+      </h2>
+      <ul class="rows" role="list">
+        {group.items.map(({ data }) => (
+          <li class="row">
+            <div class="text">
+              <p class="title">
+                <a class="row-link" href={data.url} rel="noopener">
+                  {data.title}
+                </a>
+              </p>
+              {data.description && (
+                <p class="description muted">{data.description}</p>
+              )}
+            </div>
+            <span class="meta domain">{domainOf(data.url)}</span>
+          </li>
+        ))}
+      </ul>
+    </Section>
+  ))}
+</Base>
+
+<style>
+  .date {
+    font-weight: var(--text-weight-body);
+  }
+
+  .row {
+    flex-wrap: wrap;
+  }
+
+  .text {
+    flex: 1 1 100%;
+    min-width: 0;
+    max-width: var(--layout-measure);
+  }
+
+  .title {
+    padding-block: calc(
+      (var(--text-leading-body) - var(--text-leading-compact)) * 1em / 2
+    );
+    line-height: var(--text-leading-compact);
+  }
+
+  .description {
+    font-size: var(--text-size-small);
+    line-height: var(--text-leading-compact);
+  }
+
+  .domain {
+    flex: 1 1 100%;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    transition-property: color;
+    transition-duration: var(--motion-hover-duration);
+    transition-timing-function: var(--motion-hover-ease);
+  }
+
+  @media (min-width: 40rem) {
+    .row {
+      flex-wrap: nowrap;
+    }
+
+    .text {
+      flex: 1 1 0;
+    }
+
+    .domain {
+      flex: none;
+    }
+  }
+
+  @media (hover: hover) {
+    .row:hover .domain {
+      color: var(--color-text);
+    }
+  }
+</style>

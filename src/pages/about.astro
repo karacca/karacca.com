@@ -1,0 +1,29 @@
+---
+import { render } from "astro:content";
+import Chip from "@/components/Chip.astro";
+import Prose from "@/components/Prose.astro";
+import Section from "@/components/Section.astro";
+import Signature from "@/components/Signature.astro";
+import Base from "@/layouts/Base.astro";
+import { getPage } from "@/lib/content";
+
+const page = await getPage("about");
+const { Content } = await render(page);
+---
+
+<Base title={page.data.title} description={page.data.description}>
+  <Section as="div" title={page.data.heading ?? page.data.title}>
+    <Prose>
+      <Content components={{ Chip }} />
+    </Prose>
+    <div class="sign-off">
+      <Signature />
+    </div>
+  </Section>
+</Base>
+
+<style>
+  .sign-off {
+    margin-block-start: var(--space-xl);
+  }
+</style>

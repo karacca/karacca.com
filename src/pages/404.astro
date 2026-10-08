@@ -1,0 +1,26 @@
+---
+import { render } from "astro:content";
+import Prose from "@/components/Prose.astro";
+import Section from "@/components/Section.astro";
+import Base from "@/layouts/Base.astro";
+import { getPage, label } from "@/lib/content";
+
+const page = await getPage("404");
+const { Content } = await render(page);
+---
+
+<Base
+  title={page.data.title}
+  description={page.data.description}
+  ogImage={false}
+  noindex
+>
+  <Section as="div" title={page.data.heading ?? page.data.title}>
+    <span slot="rail" class="meta">
+      {label(page, "code")}
+    </span>
+    <Prose>
+      <Content />
+    </Prose>
+  </Section>
+</Base>

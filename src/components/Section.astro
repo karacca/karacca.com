@@ -1,0 +1,65 @@
+---
+interface Props {
+  label?: string;
+  title?: string;
+  as?: "section" | "header" | "article" | "div";
+}
+
+const { label, title, as: Tag = "section" } = Astro.props;
+---
+
+<Tag class="section rail-grid">
+  <div class="rail">
+    {label && <h2 class="meta label">{label}</h2>}
+    <slot name="rail" />
+  </div>
+  <div class="body">
+    {title && <h1 class="title">{title}</h1>}
+    <slot />
+  </div>
+</Tag>
+
+<style>
+  .rail {
+    line-height: calc(var(--text-size-body) * var(--text-leading-body));
+  }
+
+  .label {
+    font-weight: var(--text-weight-body);
+    line-height: inherit;
+  }
+
+  .rail :global(.meta) {
+    line-height: inherit;
+  }
+
+  .body {
+    min-width: 0;
+  }
+
+  .body:has(:global(.projects)) {
+    container-type: inline-size;
+  }
+
+  @media (width < 52rem) {
+    .rail:not(:has(:global(*))) {
+      display: none;
+    }
+  }
+
+  @media (min-width: 52rem) {
+    .section {
+      align-items: baseline;
+    }
+  }
+
+  .title {
+    max-width: var(--layout-measure);
+    font-size: var(--text-size-title);
+    line-height: calc(var(--text-size-body) * var(--text-leading-body));
+  }
+
+  .title + :global(*) {
+    margin-block-start: var(--space-m);
+  }
+</style>

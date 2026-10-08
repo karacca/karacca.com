@@ -1,0 +1,68 @@
+---
+import ResumeLink from "@/components/ResumeLink.astro";
+import { site } from "@/site.config";
+---
+
+<footer class="site-footer page rail-grid">
+  <p class="meta">{site.timezone.label}</p>
+  <nav aria-label={site.labels.footerLinks}>
+    <ul role="list">
+      <li>
+        <a class="quiet-link" href={site.bookCall.href}>
+          {site.bookCall.label}
+        </a>
+      </li>
+      <li>
+        <ResumeLink class="quiet-link" />
+      </li>
+    </ul>
+    <ul role="list">
+      {site.social.map((item) => (
+        <li>
+          <a class="quiet-link" href={item.href} rel="me">
+            {item.label}
+          </a>
+        </li>
+      ))}
+      <li>
+        <a class="quiet-link" href={site.rss.href} data-astro-prefetch="false">
+          {site.rss.label}
+        </a>
+      </li>
+    </ul>
+  </nav>
+</footer>
+
+<style>
+  .site-footer {
+    align-items: baseline;
+    margin-block-start: var(--layout-footer-space);
+    padding-block: var(--space-l) var(--space-2xl);
+    border-top: var(--border-width) solid var(--color-border);
+  }
+
+  .meta {
+    line-height: calc(var(--text-size-small) * var(--text-leading-body));
+  }
+
+  nav,
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 var(--space-l);
+  }
+
+  nav {
+    font-size: var(--text-size-small);
+  }
+
+  ul {
+    margin: 0;
+  }
+
+  nav :global(a) {
+    display: inline-block;
+    margin-inline: calc(var(--space-xs) * -1);
+    padding: var(--space-2xs) var(--space-xs);
+  }
+</style>

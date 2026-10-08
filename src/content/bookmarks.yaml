@@ -1,0 +1,49 @@
+- title: Thinking in Compose
+  url: https://developer.android.com/develop/ui/compose/mental-model
+  description: The mental model behind declarative UI on Android.
+  date: 2026-10-02
+
+- title: OKLCH Color Picker & Converter
+  url: https://oklch.com
+  description: A picker for building palettes in a perceptually uniform color space.
+  date: 2026-10-02
+
+- title: Butterick's Practical Typography
+  url: https://practicaltypography.com
+  description: A free online book on setting text well, starting with the body.
+  date: 2026-08-19
+
+- title: The Elements of Typographic Style Applied to the Web
+  url: https://webtypography.net
+  description: Bringhurst's principles translated into HTML and CSS, one rule at a time.
+  date: 2026-08-19
+
+- title: A Dao of Web Design
+  url: https://alistapart.com/article/dao/
+  description: John Allsopp's essay from 2000 on accepting the web's flexibility.
+  date: 2026-06-07
+
+- title: The Website Obesity Crisis
+  url: https://idlewords.com/talks/website_obesity.htm
+  description: Maciej Cegłowski's talk on why pages got heavy and how to keep them light.
+  date: 2026-06-07
+
+- title: Now in Android
+  url: https://github.com/android/nowinandroid
+  description: Google's sample app showing a modular, fully Kotlin and Compose codebase.
+  date: 2026-04-14
+
+- title: Guide to app architecture
+  url: https://developer.android.com/topic/architecture
+  description: The official recommendations for layering an Android app.
+  date: 2026-04-14
+
+- title: Coroutines guide
+  url: https://kotlinlang.org/docs/coroutines-guide.html
+  description: The Kotlin documentation's walkthrough of coroutines, flows and channels.
+  date: 2026-02-23
+
+- title: Inter
+  url: https://rsms.me/inter/
+  description: An open-source typeface designed for screens, with a thorough specimen page.
+  date: 2026-02-23

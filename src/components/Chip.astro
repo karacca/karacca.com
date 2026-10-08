@@ -1,0 +1,62 @@
+---
+import Icon from "@/components/Icon.astro";
+import { isExternal } from "@/lib/paths";
+
+interface Props {
+  icon?: string;
+  href?: string;
+}
+
+const { icon, href } = Astro.props;
+const Tag = href ? "a" : "span";
+const rel = href && isExternal(href) ? "noopener" : undefined;
+---
+
+<Tag class="chip" href={href} rel={rel}>
+  {icon && <Icon name={icon} class="chip-icon" />}
+  {<slot />}
+</Tag>
+
+<style>
+  .chip {
+    display: inline;
+    padding: var(--space-3xs) var(--space-xs);
+    border-radius: var(--radius-pill);
+    background: var(--color-surface);
+    box-shadow: inset 0 0 0 var(--border-width) var(--color-border);
+    font-size: var(--text-size-small);
+    font-weight: var(--text-weight-body);
+    line-height: var(--text-leading-compact);
+    text-decoration-line: none;
+    white-space: nowrap;
+    transition-property: background-color, box-shadow;
+    transition-duration: var(--motion-hover-duration);
+    transition-timing-function: var(--motion-hover-ease);
+  }
+
+  a.chip {
+    box-shadow: inset 0 0 0 var(--border-width) var(--color-border-strong);
+  }
+
+  .chip :global(.chip-icon) {
+    display: inline-block;
+    width: var(--icon-size-s);
+    height: var(--icon-size-s);
+    margin-inline-end: var(--space-2xs);
+    vertical-align: var(--icon-baseline-offset);
+    transition-property: transform;
+    transition-duration: var(--motion-hover-duration);
+    transition-timing-function: var(--motion-hover-ease);
+  }
+
+  @media (hover: hover) {
+    .chip:hover {
+      background: var(--color-surface-hover);
+      box-shadow: inset 0 0 0 var(--border-width) var(--color-border-strong);
+    }
+
+    .chip:hover :global(.chip-icon) {
+      transform: translateY(var(--motion-nudge-distance));
+    }
+  }
+</style>

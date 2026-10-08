@@ -1,0 +1,123 @@
+---
+title: How this site is built
+description: Notes on the stack behind this site. Astro, content in Markdown, design tokens, and almost no JavaScript.
+date: 2026-10-02
+---
+
+I wanted a personal site that is calm to read, quick to load, and easy for me to keep up. These are notes on how it is put together. They are mostly here so I remember the decisions later, and partly because a post like this is a good test page for headings, lists, quotes and code.
+
+## The stack
+
+The site is built with <Chip icon="astro" href="https://astro.build">Astro</Chip> and ships as plain static files. There is no server and no database.
+
+- Astro with static output, in strict TypeScript
+- Plain CSS: scoped styles in components, custom properties for every visual value
+- Markdown and MDX for all content
+- Syntax highlighting at build time
+- No UI framework and no CSS framework
+
+Two rules do most of the work. I keep them written down like this:
+
+> If a value has a unit, it belongs in a token file. If a sentence ends with a full stop, it belongs in a Markdown file.
+
+## Content lives in Markdown
+
+No page has its text written inside a component. Single pages such as the home page are one content entry each. Posts, projects and bookmarks are collections. Every collection has a typed schema, so a missing `title`, a misspelled key or a malformed `date` fails the build instead of reaching the page.
+
+```ts
+const date = z.union([z.date(), z.iso.date()]).pipe(z.coerce.date());
+
+const posts = defineCollection({
+  loader: glob({ pattern: "*.{md,mdx}", base: "./src/content/posts" }),
+  schema: z.strictObject({
+    title: z.string(),
+    description: z.string(),
+    date,
+    updated: date.optional(),
+    draft: z.boolean().default(false),
+  }),
+});
+```
+
+A post with `draft: true` shows up while I work locally and is never built for production. Writing a new post means adding one file to `src/content/posts` and pushing it.
+
+Most posts are plain `.md`. I switch to `.mdx` only when I need a component in the middle of a sentence, like the chip in the first section:
+
+```mdx
+The site is built with <Chip icon="astro" href="https://astro.build">Astro</Chip> and ships as plain static files.
+```
+
+The Astro docs on [content collections](https://docs.astro.build/en/guides/content-collections/) cover the details.
+
+## Design tokens
+
+Every color, size, font and duration is a CSS custom property in a small set of token files. The tokens come in two layers. Primitives hold raw values. Semantic tokens give those values a role, and components only ever use the semantic ones.
+
+```css
+:root {
+  --size-8: 1rem;
+  --size-12: 1.5rem;
+
+  --space-m: var(--size-8);
+  --space-l: var(--size-12);
+  --space-prose: var(--space-l);
+}
+```
+
+Light and dark mode live inside the color tokens. The site follows the system setting and has no toggle, so a component never needs to know which mode it is in.
+
+```css
+:root {
+  color-scheme: light dark;
+
+  --color-bg: light-dark(var(--tint-100), var(--tint-950));
+  --color-text: light-dark(var(--tint-900), var(--tint-150));
+}
+```
+
+Coming from Android, this felt familiar. It is the same idea as a Compose theme: raw values in one place, named roles on top, and UI code that only talks to the roles.
+
+```kotlin
+@Immutable
+data class Spacing(
+    val m: Dp = 16.dp,
+    val l: Dp = 24.dp,
+    val prose: Dp = l,
+)
+
+val LocalSpacing = staticCompositionLocalOf { Spacing() }
+
+@Composable
+fun Prose(modifier: Modifier = Modifier, content: @Composable ColumnScope.() -> Unit) {
+    Column(modifier = modifier.widthIn(max = 600.dp), verticalArrangement = Arrangement.spacedBy(LocalSpacing.current.prose), content = content)
+}
+```
+
+The last line of that snippet is long on purpose. Code blocks scroll sideways instead of wrapping, and I wanted one here to check that.
+
+## Code blocks
+
+Highlighting is done by [Shiki](https://shiki.style) while the site builds, with one light and one dark theme. Each token gets two CSS variables, and a single rule picks the right one for the current mode:
+
+```css
+.prose pre.astro-code,
+.prose pre.astro-code span {
+  color: light-dark(var(--shiki-light), var(--shiki-dark));
+}
+```
+
+Nothing runs in the browser for this. The colors are already in the HTML.
+
+## Almost no JavaScript
+
+A page like this one needs very little script. What it ships:
+
+1. A few inline lines that decide whether the entrance animation plays. It plays once, the first time you open the site in a browser.
+2. Astro's prefetch, so a link starts loading when you hover it.
+3. A small script behind the resume link.
+
+Everything else is HTML and CSS. The entrance animation is CSS only and turns off under `prefers-reduced-motion`. Apart from that, things move only when you hover or press them.
+
+## What I would keep
+
+If I started again, I would keep the two rules from the top. Tokens make it cheap to try a different look, and content in Markdown makes it cheap to fix a sentence. The rest is small enough to change later.

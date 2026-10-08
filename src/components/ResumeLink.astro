@@ -1,0 +1,59 @@
+---
+import { site } from "@/site.config";
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<a
+  class={className}
+  href={site.resume.href}
+  download={site.resume.filename}
+  data-resume
+  data-astro-prefetch="false"
+>
+  {site.resume.label}
+</a>
+
+<script>
+  import { chime } from "@/styles/tokens/sound";
+
+  function play() {
+    try {
+      const audio = new AudioContext();
+      const start = audio.currentTime;
+      const gain = audio.createGain();
+      gain.gain.setValueAtTime(0, start);
+      gain.gain.linearRampToValueAtTime(chime.gain, start + chime.attack);
+      gain.gain.exponentialRampToValueAtTime(
+        chime.silence,
+        start + chime.decay,
+      );
+      gain.connect(audio.destination);
+
+      chime.notes.forEach((frequency, index) => {
+        const oscillator = audio.createOscillator();
+        oscillator.type = chime.wave;
+        oscillator.frequency.setValueAtTime(
+          frequency,
+          start + index * chime.stagger,
+        );
+        oscillator.connect(gain);
+        oscillator.start(start + index * chime.stagger);
+        oscillator.stop(start + chime.release);
+        if (index === chime.notes.length - 1) {
+          oscillator.onended = () => void audio.close();
+        }
+      });
+    } catch {
+      return;
+    }
+  }
+
+  document
+    .querySelectorAll<HTMLAnchorElement>("[data-resume]")
+    .forEach((link) => link.addEventListener("click", play));
+</script>

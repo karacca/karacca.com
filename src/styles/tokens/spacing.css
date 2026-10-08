@@ -1,0 +1,28 @@
+:root {
+  --size-1: 0.125rem;
+  --size-2: 0.25rem;
+  --size-3: 0.375rem;
+  --size-4: 0.5rem;
+  --size-6: 0.75rem;
+  --size-8: 1rem;
+  --size-12: 1.5rem;
+  --size-16: 2rem;
+  --size-24: 3rem;
+  --size-32: 4rem;
+  --size-48: 6rem;
+
+  --space-3xs: var(--size-1);
+  --space-2xs: var(--size-2);
+  --space-xs: var(--size-4);
+  --space-s: var(--size-6);
+  --space-m: var(--size-8);
+  --space-l: var(--size-12);
+  --space-xl: var(--size-16);
+  --space-2xl: var(--size-24);
+  --space-3xl: var(--size-32);
+  --space-4xl: var(--size-48);
+
+  --space-section: var(--space-2xl);
+  --space-prose: var(--space-l);
+  --space-row: var(--space-s);
+}

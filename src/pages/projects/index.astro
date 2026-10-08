@@ -1,0 +1,24 @@
+---
+import { render } from "astro:content";
+import Chip from "@/components/Chip.astro";
+import ProjectList from "@/components/ProjectList.astro";
+import Prose from "@/components/Prose.astro";
+import Section from "@/components/Section.astro";
+import Base from "@/layouts/Base.astro";
+import { getPage, getProjects } from "@/lib/content";
+
+const page = await getPage("projects");
+const { Content } = await render(page);
+const projects = await getProjects();
+---
+
+<Base title={page.data.title} description={page.data.description}>
+  <Section as="header" title={page.data.heading ?? page.data.title}>
+    <Prose>
+      <Content components={{ Chip }} />
+    </Prose>
+  </Section>
+  <Section>
+    <ProjectList projects={projects} />
+  </Section>
+</Base>

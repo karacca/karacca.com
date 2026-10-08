@@ -1,0 +1,52 @@
+:root {
+  --font-size-100: 0.75rem;
+  --font-size-200: 0.8125rem;
+  --font-size-300: 0.875rem;
+  --font-size-400: 1rem;
+  --font-size-500: 1.125rem;
+  --font-size-600: 1.25rem;
+  --font-size-700: 1.5rem;
+
+  --font-weight-400: 400;
+  --font-weight-600: 600;
+
+  --line-height-100: 1.25;
+  --line-height-200: 1.45;
+  --line-height-300: 1.7;
+
+  --letter-spacing-tight: -0.011em;
+  --letter-spacing-none: 0;
+  --letter-spacing-wide: 0.02em;
+
+  --decoration-offset-1: 0.22em;
+  --decoration-thickness-1: 0.06em;
+
+  --font-body: var(--font-sans);
+  --font-heading: var(--font-sans);
+  --font-code: var(--font-mono);
+  --font-meta: var(--font-mono);
+
+  --text-size-body: var(--font-size-400);
+  --text-size-small: var(--font-size-300);
+  --text-size-meta: var(--font-size-200);
+  --text-size-code: var(--font-size-300);
+  --text-size-title: var(--font-size-600);
+  --text-size-heading: var(--font-size-500);
+  --text-size-subheading: var(--font-size-400);
+
+  --text-weight-body: var(--font-weight-400);
+  --text-weight-strong: var(--font-weight-600);
+  --text-weight-heading: var(--font-weight-600);
+  --text-weight-name: var(--font-weight-600);
+
+  --text-leading-body: var(--line-height-300);
+  --text-leading-heading: var(--line-height-100);
+  --text-leading-compact: var(--line-height-200);
+
+  --text-tracking-body: var(--letter-spacing-tight);
+  --text-tracking-heading: var(--letter-spacing-tight);
+  --text-tracking-meta: var(--letter-spacing-none);
+
+  --underline-offset: var(--decoration-offset-1);
+  --underline-thickness: var(--decoration-thickness-1);
+}

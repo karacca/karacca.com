@@ -1,0 +1,144 @@
+.prose {
+  display: flow-root;
+}
+
+.prose > * {
+  max-width: var(--layout-measure);
+}
+
+.prose > :is(pre, figure, table, .wide) {
+  max-width: var(--layout-wide);
+}
+
+.prose > * + * {
+  margin-block-start: var(--space-prose);
+}
+
+.prose :is(h2, h3, h4) {
+  margin-block-start: var(--space-2xl);
+  scroll-margin-block-start: var(--space-l);
+}
+
+.prose > :first-child {
+  margin-block-start: 0;
+}
+
+.prose :is(h2, h3, h4) + * {
+  margin-block-start: var(--space-s);
+}
+
+.prose h2 {
+  font-size: var(--text-size-heading);
+}
+
+.prose h3,
+.prose h4 {
+  font-size: var(--text-size-subheading);
+}
+
+.prose strong {
+  font-weight: var(--text-weight-strong);
+}
+
+.prose :is(ul, ol) {
+  padding-inline-start: var(--space-l);
+}
+
+.prose li + li {
+  margin-block-start: var(--space-xs);
+}
+
+.prose li > :is(ul, ol) {
+  margin-block-start: var(--space-xs);
+}
+
+.prose li::marker {
+  color: var(--color-text-faint);
+}
+
+.prose ol > li::marker {
+  color: var(--color-text-muted);
+}
+
+.prose blockquote {
+  padding-inline-start: var(--space-m);
+  border-inline-start: var(--border-width-strong) solid
+    var(--color-border-strong);
+  color: var(--color-text-muted);
+}
+
+.prose blockquote > * + * {
+  margin-block-start: var(--space-s);
+}
+
+.prose hr {
+  border: 0;
+  border-top: var(--border-width) solid var(--color-border);
+  margin-block: var(--space-2xl);
+}
+
+.prose img {
+  border-radius: var(--radius-m);
+}
+
+.prose figcaption {
+  margin-block-start: var(--space-xs);
+  font-family: var(--font-meta);
+  font-size: var(--text-size-meta);
+  color: var(--color-text-muted);
+}
+
+.prose :not(pre) > code {
+  padding: var(--space-3xs) var(--space-2xs);
+  border-radius: var(--radius-s);
+  background: var(--color-surface);
+  font-size: var(--text-size-code);
+  letter-spacing: var(--text-tracking-meta);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.prose pre {
+  padding: var(--space-m) var(--space-l);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-m);
+  background: var(--color-surface);
+  font-size: var(--text-size-code);
+  line-height: var(--text-leading-compact);
+  letter-spacing: var(--text-tracking-meta);
+  overflow-x: auto;
+  tab-size: 2;
+}
+
+.prose pre.astro-code,
+.prose pre.astro-code span {
+  color: light-dark(var(--shiki-light), var(--shiki-dark));
+}
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-size-small);
+}
+
+.prose :is(th, td) {
+  padding: var(--space-xs) var(--space-s);
+  border-bottom: var(--border-width) solid var(--color-border);
+  text-align: start;
+  vertical-align: top;
+}
+
+.prose th {
+  font-weight: var(--text-weight-strong);
+}
+
+.prose :is(th, td):first-child {
+  padding-inline-start: 0;
+}
+
+@media (width < 40rem) {
+  .prose > table {
+    display: block;
+    overflow-x: auto;
+  }
+}

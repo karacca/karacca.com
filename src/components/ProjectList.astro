@@ -1,0 +1,123 @@
+---
+import PlatformLinks from "@/components/PlatformLinks.astro";
+import type { Project } from "@/lib/content";
+import { site } from "@/site.config";
+
+interface Props {
+  projects: Project[];
+}
+
+const { projects } = Astro.props;
+---
+
+<ul class="rows projects" role="list">
+  {projects.map((project) => {
+    const { title, description, year, company, detail } = project.data;
+    return (
+      <li class="row">
+        <div class="main">
+          <p class="title">
+            {detail ? (
+              <a class="row-link" href={`/projects/${project.id}`}>
+                {title}
+              </a>
+            ) : (
+              title
+            )}
+          </p>
+          <p class="description muted">{description}</p>
+        </div>
+        <span class="when meta">
+          {[year, company].filter(Boolean).join(site.labels.metaSeparator)}
+        </span>
+        <PlatformLinks project={project} />
+      </li>
+    );
+  })}
+</ul>
+
+<style>
+  .row {
+    flex-wrap: wrap;
+  }
+
+  .main {
+    flex: 1 1 100%;
+    min-width: 0;
+  }
+
+  .title {
+    padding-block: calc(
+      (var(--text-leading-body) - var(--text-leading-compact)) * 1em / 2
+    );
+    line-height: var(--text-leading-compact);
+  }
+
+  .row-link {
+    text-decoration-color: var(--color-link-underline);
+  }
+
+  .description {
+    max-width: var(--layout-measure);
+    font-size: var(--text-size-small);
+    line-height: var(--text-leading-compact);
+  }
+
+  .when {
+    flex: 1 1 auto;
+    transition-property: color;
+    transition-duration: var(--motion-hover-duration);
+    transition-timing-function: var(--motion-hover-ease);
+  }
+
+  .row:focus-within {
+    --platform-color: var(--color-text-muted);
+  }
+
+  @media (hover: hover) {
+    .row:hover {
+      --platform-color: var(--color-text-muted);
+    }
+
+    .row-link:hover {
+      text-decoration-color: currentColor;
+    }
+
+    .row:has(.row-link):hover .when {
+      color: var(--color-text);
+    }
+  }
+
+  @container (min-width: 40rem) {
+    .row {
+      flex-wrap: nowrap;
+    }
+
+    .main {
+      flex: 1 1 0;
+    }
+
+    .when {
+      flex: none;
+      white-space: nowrap;
+    }
+
+    @supports (grid-template-columns: subgrid) {
+      .projects {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto auto;
+        column-gap: var(--space-l);
+      }
+
+      .row {
+        display: grid;
+        grid-column: 1 / -1;
+        grid-template-columns: subgrid;
+      }
+
+      .row > :global(:last-child) {
+        justify-self: end;
+      }
+    }
+  }
+</style>

@@ -1,0 +1,60 @@
+:root {
+  color-scheme: light dark;
+
+  --tint-hue: 65;
+  --tint-chroma: 0.014;
+  --accent-hue: 42;
+  --accent-chroma: 0.12;
+
+  --tint-50: oklch(0.975 calc(var(--tint-chroma) * 0.8) var(--tint-hue));
+  --tint-100: oklch(0.955 var(--tint-chroma) var(--tint-hue));
+  --tint-150: oklch(0.935 var(--tint-chroma) var(--tint-hue));
+  --tint-200: oklch(0.905 calc(var(--tint-chroma) * 1.1) var(--tint-hue));
+  --tint-300: oklch(0.85 calc(var(--tint-chroma) * 1.2) var(--tint-hue));
+  --tint-400: oklch(0.74 calc(var(--tint-chroma) * 1.4) var(--tint-hue));
+  --tint-450: oklch(0.66 calc(var(--tint-chroma) * 1.5) var(--tint-hue));
+  --tint-500: oklch(0.62 calc(var(--tint-chroma) * 1.5) var(--tint-hue));
+  --tint-550: oklch(0.52 calc(var(--tint-chroma) * 1.5) var(--tint-hue));
+  --tint-600: oklch(0.49 calc(var(--tint-chroma) * 1.5) var(--tint-hue));
+  --tint-700: oklch(0.38 calc(var(--tint-chroma) * 1.4) var(--tint-hue));
+  --tint-800: oklch(0.29 calc(var(--tint-chroma) * 1.1) var(--tint-hue));
+  --tint-850: oklch(0.235 var(--tint-chroma) var(--tint-hue));
+  --tint-900: oklch(0.2 var(--tint-chroma) var(--tint-hue));
+  --tint-950: oklch(0.165 calc(var(--tint-chroma) * 0.9) var(--tint-hue));
+
+  --accent-300: oklch(0.8 calc(var(--accent-chroma) * 0.85) var(--accent-hue));
+  --accent-400: oklch(0.72 var(--accent-chroma) var(--accent-hue));
+  --accent-600: oklch(0.52 var(--accent-chroma) var(--accent-hue));
+  --accent-700: oklch(0.44 var(--accent-chroma) var(--accent-hue));
+
+  --color-bg: light-dark(var(--tint-100), var(--tint-950));
+  --color-surface: light-dark(var(--tint-150), var(--tint-900));
+  --color-surface-hover: light-dark(var(--tint-200), var(--tint-850));
+  --color-border: light-dark(var(--tint-200), var(--tint-850));
+  --color-border-strong: light-dark(var(--tint-300), var(--tint-800));
+  --color-text: light-dark(var(--tint-900), var(--tint-150));
+  --color-text-muted: light-dark(var(--tint-600), var(--tint-450));
+  --color-text-faint: light-dark(var(--tint-500), var(--tint-550));
+  --color-link-underline: var(--color-text-faint);
+  --color-accent: light-dark(var(--accent-600), var(--accent-400));
+  --color-focus: var(--color-accent);
+  --color-selection: light-dark(var(--tint-300), var(--tint-800));
+
+  --color-chart-0: var(--color-surface-hover);
+  --color-chart-1: color-mix(
+    in oklch,
+    var(--color-accent) 30%,
+    var(--color-bg)
+  );
+  --color-chart-2: color-mix(
+    in oklch,
+    var(--color-accent) 52%,
+    var(--color-bg)
+  );
+  --color-chart-3: color-mix(
+    in oklch,
+    var(--color-accent) 76%,
+    var(--color-bg)
+  );
+  --color-chart-4: var(--color-accent);
+}

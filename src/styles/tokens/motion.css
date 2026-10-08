@@ -1,0 +1,35 @@
+:root {
+  --duration-50: 90ms;
+  --duration-100: 120ms;
+  --duration-200: 180ms;
+  --duration-500: 600ms;
+
+  --ease-out: cubic-bezier(0.2, 0, 0, 1);
+
+  --distance-0: 0px;
+  --distance-1: 1px;
+  --distance-8: 8px;
+  --blur-6: 6px;
+  --scale-96: 0.96;
+  --scale-100: 1;
+  --opacity-1: 0.01;
+
+  --motion-hover-duration: var(--duration-100);
+  --motion-hover-ease: var(--ease-out);
+  --motion-press-scale: var(--scale-96);
+  --motion-nudge-distance: calc(var(--distance-1) * -1);
+
+  --motion-enter-duration: var(--duration-500);
+  --motion-enter-ease: var(--ease-out);
+  --motion-enter-stagger: var(--duration-50);
+  --motion-enter-distance: var(--distance-8);
+  --motion-enter-blur: var(--blur-6);
+  --motion-enter-opacity: var(--opacity-1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-press-scale: var(--scale-100);
+    --motion-nudge-distance: var(--distance-0);
+  }
+}

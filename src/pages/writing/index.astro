@@ -1,0 +1,28 @@
+---
+import { render } from "astro:content";
+import Chip from "@/components/Chip.astro";
+import PostList from "@/components/PostList.astro";
+import Prose from "@/components/Prose.astro";
+import Section from "@/components/Section.astro";
+import Base from "@/layouts/Base.astro";
+import { getPage, getPosts, label } from "@/lib/content";
+
+const page = await getPage("writing");
+const { Content } = await render(page);
+const posts = await getPosts();
+---
+
+<Base title={page.data.title} description={page.data.description}>
+  <Section as="header" title={page.data.heading ?? page.data.title}>
+    <Prose>
+      <Content components={{ Chip }} />
+    </Prose>
+  </Section>
+  <Section>
+    {posts.length > 0 ? (
+      <PostList posts={posts} />
+    ) : (
+      <p class="muted">{label(page, "empty")}</p>
+    )}
+  </Section>
+</Base>

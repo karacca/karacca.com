@@ -1,0 +1,72 @@
+---
+import { render } from "astro:content";
+import Chip from "@/components/Chip.astro";
+import Prose from "@/components/Prose.astro";
+import Section from "@/components/Section.astro";
+import Base from "@/layouts/Base.astro";
+import { getPage, label } from "@/lib/content";
+
+const page = await getPage("desk");
+const { Content } = await render(page);
+---
+
+<Base title={page.data.title} description={page.data.description}>
+  <Section as="header" title={page.data.heading ?? page.data.title}>
+    <Prose>
+      <p>{label(page, "intro")}</p>
+    </Prose>
+  </Section>
+  <Section>
+    <div class="groups">
+      <Prose>
+        <Content components={{ Chip }} />
+      </Prose>
+    </div>
+  </Section>
+</Base>
+
+<style>
+  .groups {
+    position: relative;
+  }
+
+  .groups :global(.prose > h2) {
+    font-family: var(--font-meta);
+    font-size: var(--text-size-meta);
+    font-weight: var(--text-weight-body);
+    line-height: calc(var(--text-size-body) * var(--text-leading-body));
+    letter-spacing: var(--text-tracking-meta);
+    color: var(--color-text-muted);
+  }
+
+  .groups :global(.prose > h2:first-child) {
+    margin-block-start: 0;
+  }
+
+  .groups :global(.prose > h2 + *) {
+    margin-block-start: var(--space-xs);
+  }
+
+  @media (min-width: 52rem) {
+    .groups :global(.prose > h2) {
+      position: absolute;
+      inset-inline-start: calc(-1 * (var(--layout-rail) + var(--layout-gap)));
+      width: var(--layout-rail);
+    }
+
+    .groups :global(.prose > h2)::before {
+      content: "\200b";
+      content: "\200b" / "";
+      font-family: var(--font-body);
+      font-size: var(--text-size-body);
+    }
+
+    .groups :global(.prose > h2 + *) {
+      margin-block-start: var(--space-2xl);
+    }
+
+    .groups :global(.prose > h2:first-child + *) {
+      margin-block-start: 0;
+    }
+  }
+</style>

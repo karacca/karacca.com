@@ -1,0 +1,67 @@
+---
+title: Desk
+description: The apps, tools and dotfiles I work with.
+labels:
+  intro: The apps and settings I use to build Android apps and this site. Mostly defaults, with a few habits on top.
+---
+
+## editor
+
+- [Android Studio](https://developer.android.com/studio): where the Android work happens, close to the default setup.
+- [Visual Studio Code](https://code.visualstudio.com): everything that is not Kotlin, including this site.
+- [Xcode](https://developer.apple.com/xcode/): for the iOS side of cross-platform projects.
+
+## terminal
+
+- [Alacritty](https://alacritty.org): a fast terminal with its whole config in one file.
+- zsh: the macOS default shell, with a short list of aliases.
+- [Claude Code](https://claude.com/claude-code): for refactors, research and the boring parts.
+
+## apps
+
+- [Raycast](https://www.raycast.com): launcher, clipboard history and quick calculations.
+- [Rectangle](https://rectangleapp.com): moving windows around with the keyboard.
+- [Obsidian](https://obsidian.md): notes and drafts as plain Markdown files.
+- [Bruno](https://www.usebruno.com): an API client that keeps collections as files next to the code.
+- [Reeder](https://reederapp.com): RSS, still the calmest way to follow people.
+
+## dotfiles
+
+Nothing clever here. A few aliases and options in `~/.zshrc`:
+
+```zsh
+alias g="git"
+alias gs="git status --short --branch"
+alias gl="git log --oneline --graph --decorate -20"
+
+export EDITOR="code --wait"
+setopt AUTO_CD HIST_IGNORE_ALL_DUPS SHARE_HISTORY
+```
+
+Git, set up once in `~/.gitconfig`:
+
+```ini
+[init]
+  defaultBranch = main
+[pull]
+  rebase = true
+[push]
+  autoSetupRemote = true
+[rebase]
+  autoStash = true
+[alias]
+  st = status --short --branch
+  lg = log --oneline --graph --decorate
+```
+
+And the handful of settings I change in VS Code:
+
+```json
+{
+  "editor.formatOnSave": true,
+  "editor.minimap.enabled": false,
+  "editor.rulers": [100],
+  "files.insertFinalNewline": true,
+  "files.trimTrailingWhitespace": true
+}
+```

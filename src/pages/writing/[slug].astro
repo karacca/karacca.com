@@ -1,0 +1,70 @@
+---
+import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
+import { render } from "astro:content";
+import Chip from "@/components/Chip.astro";
+import Icon from "@/components/Icon.astro";
+import Prose from "@/components/Prose.astro";
+import Section from "@/components/Section.astro";
+import Base from "@/layouts/Base.astro";
+import { getPosts } from "@/lib/content";
+import { formatDate, isoDate } from "@/lib/format";
+import { site } from "@/site.config";
+
+export const getStaticPaths = (async () => {
+  const posts = await getPosts();
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}) satisfies GetStaticPaths;
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { post } = Astro.props;
+const { title, description, date, updated } = post.data;
+const { Content } = await render(post);
+---
+
+<Base
+  title={title}
+  description={description}
+  type="article"
+  publishedTime={date}
+>
+  <Section as="article" title={title}>
+    <div class="post-meta" slot="rail">
+      <a class="meta quiet-link back-link" href="/writing">
+        <Icon name="arrow-left" />
+        {site.labels.backToWriting}
+      </a>
+      <time class="meta" datetime={isoDate(date)}>
+        {formatDate(date)}
+      </time>
+      {updated && (
+        <span class="meta">
+          {site.labels.updated}{" "}
+          <time datetime={isoDate(updated)}>{formatDate(updated)}</time>
+        </span>
+      )}
+    </div>
+    <Prose>
+      <Content components={{ Chip }} />
+    </Prose>
+  </Section>
+</Base>
+
+<style>
+  .post-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0 var(--space-m);
+  }
+
+  @media (min-width: 52rem) {
+    .post-meta {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>

@@ -1,0 +1,124 @@
+---
+import Icon from "@/components/Icon.astro";
+import type { Project } from "@/lib/content";
+import { fill } from "@/lib/format";
+import { site } from "@/site.config";
+
+interface Props {
+  project: Project;
+  labelled?: boolean;
+}
+
+const { project, labelled = false } = Astro.props;
+const { title, links, status } = project.data;
+
+const platforms = [
+  { icon: "website", label: site.labels.website, href: links.website },
+  { icon: "app-store", label: site.labels.appStore, href: links.appStore },
+  {
+    icon: "google-play",
+    label: site.labels.googlePlay,
+    href: links.googlePlay,
+  },
+].flatMap(({ href, ...platform }) => (href ? [{ ...platform, href }] : []));
+---
+
+{platforms.length > 0 ? (
+  <ul
+    class:list={["platforms", "meta", labelled ? "labelled" : "icons"]}
+    role="list"
+  >
+    {platforms.map(({ icon, label, href }) => (
+      <li>
+        <a
+          class="platform-link"
+          href={href}
+          rel="noopener"
+          aria-label={
+            labelled
+              ? undefined
+              : fill(site.labels.platformLink, { label, title })
+          }
+        >
+          <Icon name={icon} class="platform-icon" />
+          {labelled && label}
+        </a>
+      </li>
+    ))}
+  </ul>
+) : (
+  <span class="status meta">{status ?? site.labels.notLive}</span>
+)}
+
+<style>
+  .platforms {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    margin: 0;
+  }
+
+  .labelled {
+    --platform-color: var(--color-text-muted);
+    flex-wrap: wrap;
+    gap: 0 var(--space-m);
+  }
+
+  li {
+    display: flex;
+  }
+
+  .platform-link {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    color: var(--platform-color, var(--color-text-faint));
+    text-decoration-line: none;
+    transition-property: color, transform;
+  }
+
+  .platform-link::before {
+    content: "\200b";
+    content: "\200b" / "";
+  }
+
+  .platform-link :global(.platform-icon) {
+    width: var(--icon-size-l);
+    height: var(--icon-size-l);
+  }
+
+  .platform-link:focus-visible {
+    color: var(--color-text);
+  }
+
+  .icons .platform-link {
+    margin: calc(var(--space-xs) * -1) calc(var(--space-2xs) * -1);
+    padding: var(--space-xs) var(--space-2xs);
+  }
+
+  .icons .platform-link:active {
+    transform: scale(var(--motion-press-scale));
+  }
+
+  .labelled :global(.platform-icon) {
+    margin-inline-end: var(--space-xs);
+  }
+
+  .status {
+    white-space: nowrap;
+  }
+
+  @media (hover: hover) {
+    .platform-link:hover {
+      color: var(--color-text);
+    }
+  }
+
+  @media (min-width: 52rem) {
+    .labelled {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>

@@ -1,0 +1,25 @@
+---
+import ResumeLink from "@/components/ResumeLink.astro";
+import { site } from "@/site.config";
+---
+
+<ul class="actions" role="list">
+  <li>
+    <a class="action-link" href={site.bookCall.href}>
+      {site.bookCall.label}
+    </a>
+  </li>
+  <li>
+    <ResumeLink class="action-link" />
+  </li>
+</ul>
+
+<style>
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 var(--space-l);
+    margin-block-start: var(--space-m);
+    font-size: var(--text-size-small);
+  }
+</style>

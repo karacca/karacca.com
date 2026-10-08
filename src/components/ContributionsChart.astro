@@ -1,0 +1,182 @@
+---
+import { fill, formatDate, formatMonth, formatNumber } from "@/lib/format";
+import { getContributions, toDate } from "@/lib/github";
+import { site } from "@/site.config";
+import { chart } from "@/styles/tokens/chart";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+const { total, from, to, weeks } = await getContributions();
+
+const { cell, gap, radius, labelSpan, tailSpan } = chart;
+const step = cell + gap;
+const levels = [0, 1, 2, 3, 4];
+
+const width = weeks.length * step - gap;
+const height = 7 * step - gap;
+const legendWidth = levels.length * step - gap;
+
+const text = fill(caption, {
+  count: formatNumber(total),
+  from: formatDate(from),
+  to: formatDate(to),
+});
+
+const months = weeks
+  .flatMap((week, index) => {
+    const first = week.at(0);
+    const previous = weeks[index - 1]?.at(0);
+    if (!first) {
+      return [];
+    }
+    const date = toDate(first.date);
+    if (
+      previous &&
+      toDate(previous.date).getUTCMonth() === date.getUTCMonth()
+    ) {
+      return [];
+    }
+    return [{ index, label: formatMonth(date) }];
+  })
+  .filter(
+    (month, position, all) =>
+      (all[position + 1]?.index ?? weeks.length) - month.index >= labelSpan,
+  )
+  .map((month) => ({
+    label: month.label,
+    offset: `${(((month.index * step) / width) * 100).toFixed(3)}%`,
+    tail: weeks.length - month.index < tailSpan,
+  }));
+---
+
+{weeks.length > 0 && (
+  <figure class="chart">
+    <div class="months meta" aria-hidden="true">
+      {months.map((month) => (
+        <span
+          class:list={{ tail: month.tail }}
+          style={`inset-inline-start: ${month.offset}`}
+        >
+          {month.label}
+        </span>
+      ))}
+    </div>
+    <svg class="cells" viewBox={`0 0 ${width} ${height}`} aria-hidden="true">
+      {weeks.map((week, index) => (
+        <g transform={`translate(${index * step})`}>
+          {week.map((day) => (
+            <rect
+              y={toDate(day.date).getUTCDay() * step}
+              width={cell}
+              height={cell}
+              rx={radius}
+              data-level={day.level}
+            />
+          ))}
+        </g>
+      ))}
+    </svg>
+    <p class="legend meta" aria-hidden="true">
+      <span>{site.labels.chartLess}</span>
+      <svg
+        viewBox={`0 0 ${legendWidth} ${cell}`}
+        style={`--legend-span: ${(legendWidth / width).toFixed(5)}`}
+      >
+        {levels.map((level) => (
+          <rect
+            x={level * step}
+            width={cell}
+            height={cell}
+            rx={radius}
+            data-level={level}
+          />
+        ))}
+      </svg>
+      <span>{site.labels.chartMore}</span>
+    </p>
+    <figcaption class="meta">{text}</figcaption>
+  </figure>
+)}
+
+<style>
+  .chart {
+    container-type: inline-size;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-2xs) var(--space-l);
+    max-inline-size: var(--layout-wide);
+  }
+
+  .months {
+    position: relative;
+    flex: none;
+    inline-size: 100%;
+    block-size: calc(var(--text-size-body) * var(--text-leading-body));
+    margin-block-end: calc(var(--space-2xs) * -1);
+    line-height: calc(var(--text-size-body) * var(--text-leading-body));
+  }
+
+  .months span {
+    position: absolute;
+    inset-block-start: 0;
+    white-space: nowrap;
+  }
+
+  .cells {
+    flex: none;
+    inline-size: 100%;
+    block-size: auto;
+    margin-block-end: var(--space-xs);
+    overflow: visible;
+  }
+
+  rect[data-level="0"] {
+    fill: var(--color-chart-0);
+  }
+
+  rect[data-level="1"] {
+    fill: var(--color-chart-1);
+  }
+
+  rect[data-level="2"] {
+    fill: var(--color-chart-2);
+  }
+
+  rect[data-level="3"] {
+    fill: var(--color-chart-3);
+  }
+
+  rect[data-level="4"] {
+    fill: var(--color-chart-4);
+  }
+
+  .legend {
+    order: 1;
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    margin-inline-start: auto;
+    line-height: var(--text-leading-compact);
+  }
+
+  .legend svg {
+    flex: none;
+    inline-size: calc(100cqi * var(--legend-span));
+  }
+
+  figcaption {
+    line-height: var(--text-leading-compact);
+  }
+
+  @container (max-width: 32rem) {
+    .months span:nth-child(even),
+    .months .tail {
+      display: none;
+    }
+  }
+</style>

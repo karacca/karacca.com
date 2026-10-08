@@ -1,0 +1,48 @@
+:root {
+  --measure-prose: 34rem;
+  --width-page: 84rem;
+  --width-rail: 13rem;
+  --measure-wide: calc(var(--width-page) - var(--width-rail) - var(--size-16));
+  --gutter-min: 1.25rem;
+  --gutter-fluid: calc(20vw - 9rem);
+  --gutter-max: 12vw;
+
+  --radius-1: 0.25rem;
+  --radius-2: 0.5rem;
+  --radius-full: 999px;
+
+  --stroke-1: 1px;
+  --stroke-2: 2px;
+
+  --icon-1: 0.875em;
+  --icon-2: 1em;
+  --icon-3: 1.125rem;
+  --icon-shift-1: -0.075em;
+
+  --layout-page-max: var(--width-page);
+  --layout-gutter: clamp(
+    var(--gutter-min),
+    var(--gutter-fluid),
+    var(--gutter-max)
+  );
+  --layout-rail: var(--width-rail);
+  --layout-gap: var(--space-xl);
+  --layout-measure: var(--measure-prose);
+  --layout-wide: var(--measure-wide);
+  --layout-header-space: var(--space-2xl);
+  --layout-footer-space: var(--space-3xl);
+
+  --radius-s: var(--radius-1);
+  --radius-m: var(--radius-2);
+  --radius-pill: var(--radius-full);
+
+  --border-width: var(--stroke-1);
+  --border-width-strong: var(--stroke-2);
+  --focus-width: var(--stroke-2);
+  --focus-offset: var(--stroke-2);
+
+  --icon-size-s: var(--icon-1);
+  --icon-size-m: var(--icon-2);
+  --icon-size-l: var(--icon-3);
+  --icon-baseline-offset: var(--icon-shift-1);
+}

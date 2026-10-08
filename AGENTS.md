@@ -21,7 +21,7 @@
 ## Performance
 
 - Must be very fast; near-zero JS on content pages
-- Lighthouse 100, checked in CI
+- Lighthouse 100, checked locally with `pnpm lighthouse`
 - Astro built-in prefetch for instant navigation
 - No page-transition animations
 - Shiki highlighting at build time with dual light/dark themes
@@ -91,7 +91,7 @@
 
 - Public GitHub repo
 - Cloudflare Workers static assets; auto-deploy on push to `main`, preview deploys for branches
-- Daily rebuild via scheduled GitHub Action + deploy hook (for the GitHub chart)
+- No GitHub Actions workflows; the GitHub chart refreshes on each deploy
 - Fully static, no backend
 - Cloudflare Web Analytics (cookieless, no consent banner)
 - Commit directly to `main` with conventional commits (`feat:`, `fix:`, `content:`, `style:`, `chore:`)

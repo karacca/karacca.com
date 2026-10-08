@@ -1,0 +1,31 @@
+---
+import type { SvgComponent } from "astro/types";
+
+interface Props {
+  name: string;
+  class?: string;
+}
+
+const icons = import.meta.glob<{ default: SvgComponent }>("../icons/*.svg", {
+  eager: true,
+});
+
+const { name, class: className } = Astro.props;
+const icon = icons[`../icons/${name}.svg`]?.default;
+
+if (!icon) {
+  throw new Error(`Missing icon: src/icons/${name}.svg`);
+}
+
+const Svg = icon;
+---
+
+<Svg class:list={["icon", className]} aria-hidden="true" />
+
+<style>
+  .icon {
+    flex: none;
+    width: var(--icon-size-m);
+    height: var(--icon-size-m);
+  }
+</style>
