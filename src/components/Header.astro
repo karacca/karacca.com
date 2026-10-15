@@ -6,7 +6,7 @@ const { pathname } = Astro.url;
 ---
 
 <header class="site-header page rail-grid">
-  <a class="name" href="/">
+  <a class="name" href="/" aria-current={currentState("/", pathname)}>
     {site.name}
   </a>
   <nav aria-label={site.labels.mainMenu}>

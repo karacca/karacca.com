@@ -2,7 +2,7 @@ export const site = {
   url: "https://karacca.com",
   name: "Ömer Karaca",
   language: "en",
-  dateLocale: "en-GB",
+  numberLocale: "en-GB",
   monthLocale: "en-US",
   titleTemplate: "%s — Ömer Karaca",
   menu: [

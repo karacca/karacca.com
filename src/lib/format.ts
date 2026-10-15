@@ -5,7 +5,7 @@ const monthFormat = new Intl.DateTimeFormat(site.monthLocale, {
   timeZone: "UTC",
 });
 
-const numberFormat = new Intl.NumberFormat(site.dateLocale);
+const numberFormat = new Intl.NumberFormat(site.numberLocale);
 
 export function formatMonth(date: Date): string {
   return monthFormat.format(date);
