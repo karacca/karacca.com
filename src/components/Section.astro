@@ -2,10 +2,11 @@
 interface Props {
   label?: string;
   title?: string;
+  hideTitle?: boolean;
   as?: "section" | "header" | "article" | "div";
 }
 
-const { label, title, as: Tag = "section" } = Astro.props;
+const { label, title, hideTitle = false, as: Tag = "section" } = Astro.props;
 ---
 
 <Tag class="section rail-grid">
@@ -14,7 +15,9 @@ const { label, title, as: Tag = "section" } = Astro.props;
     <slot name="rail" />
   </div>
   <div class="body">
-    {title && <h1 class="title">{title}</h1>}
+    {title && (
+      <h1 class:list={["title", { "visually-hidden": hideTitle }]}>{title}</h1>
+    )}
     <slot />
   </div>
 </Tag>
@@ -59,7 +62,7 @@ const { label, title, as: Tag = "section" } = Astro.props;
     line-height: calc(var(--text-size-body) * var(--text-leading-body));
   }
 
-  .title + :global(*) {
+  .title:not(.visually-hidden) + :global(*) {
     margin-block-start: var(--space-m);
   }
 </style>

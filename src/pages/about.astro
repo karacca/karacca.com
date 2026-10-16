@@ -12,7 +12,7 @@ const { Content } = await render(page);
 ---
 
 <Base title={page.data.title} description={page.data.description}>
-  <Section as="div" title={page.data.heading ?? page.data.title}>
+  <Section as="div" title={page.data.title} hideTitle>
     <Prose>
       <Content components={{ Chip }} />
     </Prose>

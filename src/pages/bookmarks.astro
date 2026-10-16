@@ -21,7 +21,7 @@ const groups = [...byDate.entries()];
 ---
 
 <Base title={page.data.title} description={page.data.description}>
-  <Section as="header" title={page.data.heading ?? page.data.title}>
+  <Section as="header" title={page.data.title} hideTitle>
     <Prose>
       <Content />
     </Prose>
