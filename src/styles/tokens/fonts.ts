@@ -1,7 +1,12 @@
-import { fontProviders } from "astro/config";
 import type { AstroUserConfig } from "astro";
+import { fontsource } from "../../lib/fontsource";
 
-const provider = fontProviders.fontsource();
+const provider = fontsource({
+  turkish: {
+    from: "latin-ext",
+    unicodeRange: ["U+011E-011F", "U+0130", "U+015E-015F"],
+  },
+});
 
 export const fonts: NonNullable<AstroUserConfig["fonts"]> = [
   {
@@ -10,7 +15,7 @@ export const fonts: NonNullable<AstroUserConfig["fonts"]> = [
     cssVariable: "--font-sans",
     weights: [400, 600],
     styles: ["normal", "italic"],
-    subsets: ["latin", "latin-ext"],
+    subsets: ["latin", "turkish", "latin-ext"],
     fallbacks: ["system-ui", "sans-serif"],
   },
   {
@@ -19,7 +24,7 @@ export const fonts: NonNullable<AstroUserConfig["fonts"]> = [
     cssVariable: "--font-mono",
     weights: [400],
     styles: ["normal"],
-    subsets: ["latin", "latin-ext"],
+    subsets: ["latin", "turkish", "latin-ext"],
     fallbacks: ["ui-monospace", "monospace"],
   },
 ];
