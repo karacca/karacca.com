@@ -73,8 +73,11 @@
 
 - One plain list, no type labels or filters
 - Short intro line: projects I worked on or contributed to, not all solely mine
-- Row shows year + company/client
+- Row shows year range (`start`, optional `end` or `present`) + company/client
+- Sort toggle on the projects page: by time (default) or by `impact` (1–5); CSS-only radio control, no JS
 - Some projects have a detail page, some don't
+- Detail pages read like a use case: screenshots with explanations; images live beside the entry in `src/content/projects/<slug>/`
+- Optional `cover` image (`src` + `alt`) shown at the top of the detail page
 - Platform icons (website / App Store / Google Play) always visible but faint, brighter on hover
 - Projects that aren't live get a quiet label instead of icons
 - Stretched-link pattern: row opens detail page, icons link out directly

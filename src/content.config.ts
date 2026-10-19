@@ -28,24 +28,32 @@ const posts = defineCollection({
 });
 
 const projects = defineCollection({
-  loader: glob({ pattern: "*.{md,mdx}", base: "./src/content/projects" }),
-  schema: z.strictObject({
-    title: z.string(),
-    description: z.string(),
-    year: z.number().int(),
-    company: z.string().optional(),
-    links: z
-      .strictObject({
-        website: z.url().optional(),
-        appStore: z.url().optional(),
-        googlePlay: z.url().optional(),
-      })
-      .default({}),
-    status: z.string().optional(),
-    detail: z.boolean().default(false),
-    featured: z.boolean().default(false),
-    order: z.number().default(0),
-  }),
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/projects" }),
+  schema: ({ image }) =>
+    z.strictObject({
+      title: z.string(),
+      description: z.string(),
+      start: z.number().int(),
+      end: z.union([z.number().int(), z.literal("present")]).optional(),
+      company: z.string().optional(),
+      links: z
+        .strictObject({
+          website: z.url().optional(),
+          appStore: z.url().optional(),
+          googlePlay: z.url().optional(),
+        })
+        .default({}),
+      status: z.string().optional(),
+      detail: z.boolean().default(false),
+      featured: z.boolean().default(false),
+      impact: z.number().int().min(1).max(5).default(1),
+      cover: z
+        .strictObject({
+          src: image(),
+          alt: z.string(),
+        })
+        .optional(),
+    }),
 });
 
 const bookmarks = defineCollection({

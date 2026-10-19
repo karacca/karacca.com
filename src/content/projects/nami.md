@@ -1,12 +1,13 @@
 ---
 title: Nami
 description: A unified AI chat app for Android, built in the open as the project behind the Advanced Android course.
-year: 2026
+start: 2026
+end: present
 links:
   website: https://nami.chat
 detail: true
 featured: true
-order: 1
+impact: 5
 ---
 
 Nami is a unified AI chat app: one place to talk to the major LLMs instead of a separate app for each.

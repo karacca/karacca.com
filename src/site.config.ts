@@ -47,6 +47,7 @@ export const site = {
     appStore: "App Store",
     googlePlay: "Google Play",
     notLive: "not live",
+    present: "present",
     platformLink: "{label}: {title}",
     metaSeparator: " · ",
     chartLess: "Less",

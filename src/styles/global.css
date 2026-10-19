@@ -218,15 +218,12 @@ a.back-link > .icon {
   max-width: var(--layout-wide);
   margin: 0;
   padding: 0;
+  border-bottom: var(--border-width) solid var(--color-border);
 }
 
 .rows > li {
   position: relative;
   border-top: var(--border-width) solid var(--color-border);
-}
-
-.rows > li:last-child {
-  border-bottom: var(--border-width) solid var(--color-border);
 }
 
 .row {

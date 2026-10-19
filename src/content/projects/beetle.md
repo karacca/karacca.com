@@ -1,12 +1,12 @@
 ---
 title: Beetle
 description: Collect feedback and bug reports from your Android apps into GitHub Issues.
-year: 2019
+start: 2019
 links:
   website: https://github.com/karacca/beetle
 detail: true
 featured: true
-order: 2
+impact: 3
 ---
 
 Beetle is an Android library that lets people send feedback from inside an app. The report is created as an issue in your GitHub repository, so feedback ends up where the work already happens.

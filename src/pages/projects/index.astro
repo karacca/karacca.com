@@ -5,11 +5,15 @@ import ProjectList from "@/components/ProjectList.astro";
 import Prose from "@/components/Prose.astro";
 import Section from "@/components/Section.astro";
 import Base from "@/layouts/Base.astro";
-import { getPage, getProjects } from "@/lib/content";
+import { getPage, getProjects, label } from "@/lib/content";
 
 const page = await getPage("projects");
 const { Content } = await render(page);
 const projects = await getProjects();
+const sorts = [
+  { id: "time", label: label(page, "byTime") },
+  { id: "impact", label: label(page, "byImpact") },
+];
 ---
 
 <Base title={page.data.title} description={page.data.description}>
@@ -19,6 +23,77 @@ const projects = await getProjects();
     </Prose>
   </Section>
   <Section>
+    <fieldset class="sort" slot="rail">
+      <legend class="meta">{label(page, "sortBy")}</legend>
+      {sorts.map(({ id, label }, index) => (
+        <label class="meta option">
+          <input
+            class="visually-hidden"
+            type="radio"
+            name="sort"
+            value={id}
+            checked={index === 0}
+          />
+          {label}
+        </label>
+      ))}
+    </fieldset>
     <ProjectList projects={projects} />
   </Section>
 </Base>
+
+<style>
+  .sort {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 var(--space-m);
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  legend {
+    float: left;
+    padding: 0;
+  }
+
+  .option {
+    cursor: pointer;
+    transition-property: color;
+    transition-duration: var(--motion-hover-duration);
+    transition-timing-function: var(--motion-hover-ease);
+  }
+
+  .option:has(:checked) {
+    color: var(--color-text);
+    text-decoration-line: underline;
+    text-decoration-color: var(--color-text-muted);
+  }
+
+  .option:has(:focus-visible) {
+    outline: var(--focus-width) solid var(--color-focus);
+    outline-offset: var(--focus-offset);
+    border-radius: var(--radius-s);
+  }
+
+  @media (hover: hover) {
+    .option:hover {
+      color: var(--color-text);
+    }
+  }
+
+  :global(.section):has(.sort [value="impact"]:checked)
+    :global(.projects > li) {
+    order: var(--rank-impact);
+  }
+
+  @media (min-width: 52rem) {
+    .sort {
+      flex-direction: column;
+    }
+
+    legend {
+      float: none;
+    }
+  }
+</style>

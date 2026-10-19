@@ -35,3 +35,11 @@ export function fill(
     key in values ? String(values[key]) : match,
   );
 }
+
+export function formatYears(start: number, end?: number | "present"): string {
+  if (end === undefined || end === start) {
+    return String(start);
+  }
+  const last = end === "present" ? site.labels.present : String(end);
+  return `${start}–${last}`;
+}

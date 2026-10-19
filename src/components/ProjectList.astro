@@ -1,6 +1,7 @@
 ---
 import PlatformLinks from "@/components/PlatformLinks.astro";
-import type { Project } from "@/lib/content";
+import { impactRanks, type Project } from "@/lib/content";
+import { formatYears } from "@/lib/format";
 import { site } from "@/site.config";
 
 interface Props {
@@ -8,13 +9,14 @@ interface Props {
 }
 
 const { projects } = Astro.props;
+const ranks = impactRanks(projects);
 ---
 
 <ul class="rows projects" role="list">
   {projects.map((project) => {
-    const { title, description, year, company, detail } = project.data;
+    const { title, description, start, end, company, detail } = project.data;
     return (
-      <li class="row">
+      <li class="row" style={`--rank-impact: ${ranks.get(project.id)}`}>
         <div class="main">
           <p class="title">
             {detail ? (
@@ -28,7 +30,9 @@ const { projects } = Astro.props;
           <p class="description muted">{description}</p>
         </div>
         <span class="when meta">
-          {[year, company].filter(Boolean).join(site.labels.metaSeparator)}
+          {[formatYears(start, end), company]
+            .filter(Boolean)
+            .join(site.labels.metaSeparator)}
         </span>
         <PlatformLinks project={project} />
       </li>
@@ -37,6 +41,11 @@ const { projects } = Astro.props;
 </ul>
 
 <style>
+  .projects {
+    display: flex;
+    flex-direction: column;
+  }
+
   .row {
     flex-wrap: wrap;
   }

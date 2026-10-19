@@ -29,13 +29,34 @@ export async function getPosts(): Promise<Post[]> {
   return posts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 }
 
+function latestYear({ data }: Project): number {
+  if (data.end === "present") {
+    return Number.POSITIVE_INFINITY;
+  }
+  return data.end ?? data.start;
+}
+
+function byTime(a: Project, b: Project): number {
+  return (
+    latestYear(b) - latestYear(a) ||
+    b.data.start - a.data.start ||
+    b.data.impact - a.data.impact ||
+    a.data.title.localeCompare(b.data.title)
+  );
+}
+
+function byImpact(a: Project, b: Project): number {
+  return b.data.impact - a.data.impact || byTime(a, b);
+}
+
 export async function getProjects(): Promise<Project[]> {
   const projects = await getCollection("projects");
-  return projects.sort(
-    (a, b) =>
-      b.data.year - a.data.year ||
-      b.data.order - a.data.order ||
-      a.data.title.localeCompare(b.data.title),
+  return projects.sort(byTime);
+}
+
+export function impactRanks(projects: Project[]): Map<string, number> {
+  return new Map(
+    [...projects].sort(byImpact).map((project, index) => [project.id, index]),
   );
 }
 

@@ -1,12 +1,12 @@
 ---
 title: Moodstone
 description: Animated, procedurally generated agent avatars for React Native.
-year: 2026
+start: 2026
 links:
   website: https://moodstone.expo.app
 detail: true
 featured: true
-order: 2
+impact: 4
 ---
 
 Moodstone is a React Native library that draws avatars for AI agents. Every avatar is generated procedurally, and you give it a mood so the face shows what the agent is doing: idle, thinking, working, done, failed and so on.

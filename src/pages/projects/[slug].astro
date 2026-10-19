@@ -1,5 +1,6 @@
 ---
 import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
+import { Image } from "astro:assets";
 import { render } from "astro:content";
 import Chip from "@/components/Chip.astro";
 import Icon from "@/components/Icon.astro";
@@ -8,6 +9,7 @@ import Prose from "@/components/Prose.astro";
 import Section from "@/components/Section.astro";
 import Base from "@/layouts/Base.astro";
 import { getProjects } from "@/lib/content";
+import { formatYears } from "@/lib/format";
 import { site } from "@/site.config";
 
 export const getStaticPaths = (async () => {
@@ -23,7 +25,7 @@ export const getStaticPaths = (async () => {
 type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
 const { project } = Astro.props;
-const { title, description, year, company } = project.data;
+const { title, description, start, end, company, cover } = project.data;
 const { Content } = await render(project);
 ---
 
@@ -35,11 +37,23 @@ const { Content } = await render(project);
         {site.labels.backToProjects}
       </a>
       <span class="meta">
-        {[year, company].filter(Boolean).join(site.labels.metaSeparator)}
+        {[formatYears(start, end), company]
+          .filter(Boolean)
+          .join(site.labels.metaSeparator)}
       </span>
       <PlatformLinks project={project} labelled />
     </div>
     <p class="description muted">{description}</p>
+    {cover && (
+      <Image
+        class="cover"
+        src={cover.src}
+        alt={cover.alt}
+        widths={[640, 960, 1280, 1600]}
+        sizes="(min-width: 52rem) 60vw, 100vw"
+        loading="eager"
+      />
+    )}
     <div class="content">
       <Prose>
         <Content components={{ Chip }} />
@@ -58,6 +72,15 @@ const { Content } = await render(project);
 
   .description {
     max-width: var(--layout-measure);
+  }
+
+  .cover {
+    display: block;
+    width: 100%;
+    max-width: var(--layout-wide);
+    height: auto;
+    margin-block-start: var(--space-prose);
+    border-radius: var(--radius-m);
   }
 
   .content {
