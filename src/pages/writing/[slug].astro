@@ -21,7 +21,7 @@ export const getStaticPaths = (async () => {
 type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
 const { post } = Astro.props;
-const { title, description, date, updated } = post.data;
+const { title, description, date, updated, lang } = post.data;
 const { Content } = await render(post);
 ---
 
@@ -31,7 +31,7 @@ const { Content } = await render(post);
   type="article"
   publishedTime={date}
 >
-  <Section as="article" title={title}>
+  <Section as="article" title={title} lang={lang}>
     <div class="post-meta" slot="rail">
       <a class="meta quiet-link back-link" href="/writing">
         <Icon name="arrow-left" />

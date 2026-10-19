@@ -49,7 +49,7 @@ public/               files copied as-is (resume, favicons, _headers)
 All copy lives in `src/content/`. Components and `.astro` pages contain no text.
 
 - **Pages**: one file per page in `src/content/pages/`. Frontmatter holds `title`, `description`, an optional `heading`, and a `labels` map for every small string that page needs.
-- **Posts**: `src/content/posts/<slug>.md` with `title`, `description`, `date`, optional `updated`. The file name is the URL: `/writing/<slug>`.
+- **Posts**: `src/content/posts/<slug>.md` with `title`, `description`, `date`, optional `updated` and `lang`. The file name is the URL: `/writing/<slug>`. Set `lang` (for example `tr`) on a post that is not in English; it marks the post's title and text with that language. Images and videos for a post go in a folder named after the post, next to it.
 - **Projects**: `src/content/projects/<slug>.md` with `title`, `description`, `year`, optional `company`, `links` (`website`, `appStore`, `googlePlay`), `status`, `detail`, `featured`, `order`. Set `detail: true` to give a project its own page.
 - **Bookmarks**: entries in `src/content/bookmarks.yaml` with `title`, `url`, `date`, optional `description`.
 

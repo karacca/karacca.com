@@ -1,5 +1,6 @@
 :root {
   --measure-prose: 34rem;
+  --measure-portrait: 18rem;
   --width-page: 84rem;
   --width-rail: 13rem;
   --measure-wide: calc(var(--width-page) - var(--width-rail) - var(--size-16));
@@ -29,6 +30,7 @@
   --layout-gap: var(--space-xl);
   --layout-measure: var(--measure-prose);
   --layout-wide: var(--measure-wide);
+  --layout-portrait: var(--measure-portrait);
   --layout-header-space: var(--space-2xl);
   --layout-footer-space: var(--space-3xl);
 

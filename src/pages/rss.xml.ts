@@ -12,7 +12,7 @@ const iconPattern = /<svg\b[^>]*aria-hidden="true"[^>]*>[\s\S]*?<\/svg>/gi;
 const tagPattern = /<[a-z][^>]*>/gi;
 const attributePattern = /\s([\w:-]+)(?:="[^"]*")?/g;
 const noisePattern = /^(?:data-astro-|style$|tabindex$)/;
-const urlPattern = /\s(href|src)="(\/(?!\/)[^"]*|#[^"]*)"/g;
+const urlPattern = /\s(href|src|poster)="(\/(?!\/)[^"]*|#[^"]*)"/g;
 
 function feedHtml(html: string, base: URL): string {
   return html

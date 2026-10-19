@@ -4,9 +4,16 @@ interface Props {
   title?: string;
   hideTitle?: boolean;
   as?: "section" | "header" | "article" | "div";
+  lang?: string;
 }
 
-const { label, title, hideTitle = false, as: Tag = "section" } = Astro.props;
+const {
+  label,
+  title,
+  hideTitle = false,
+  as: Tag = "section",
+  lang,
+} = Astro.props;
 ---
 
 <Tag class="section rail-grid">
@@ -14,7 +21,7 @@ const { label, title, hideTitle = false, as: Tag = "section" } = Astro.props;
     {label && <h2 class="meta label">{label}</h2>}
     <slot name="rail" />
   </div>
-  <div class="body">
+  <div class="body" lang={lang}>
     {title && (
       <h1 class:list={["title", { "visually-hidden": hideTitle }]}>{title}</h1>
     )}

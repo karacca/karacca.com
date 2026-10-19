@@ -16,7 +16,7 @@
 - Content collections with typed schemas
 - MDX for components like `<Chip>`
 - Unfinished posts use `draft: true` and are never built
-- English only, no i18n
+- English only, no i18n; a post may be in another language when its frontmatter sets `lang`
 
 ## Performance
 

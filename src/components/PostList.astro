@@ -12,7 +12,7 @@ const { posts } = Astro.props;
 <ul class="rows" role="list">
   {posts.map((post) => (
     <li class="row">
-      <a class="row-link" href={`/writing/${post.id}`}>
+      <a class="row-link" href={`/writing/${post.id}`} lang={post.data.lang}>
         {post.data.title}
       </a>
       <time class="meta" datetime={isoDate(post.data.date)}>

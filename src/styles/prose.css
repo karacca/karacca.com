@@ -81,6 +81,14 @@
   border-radius: var(--radius-m);
 }
 
+.prose video {
+  display: block;
+  inline-size: 100%;
+  max-inline-size: var(--layout-portrait);
+  block-size: auto;
+  border-radius: var(--radius-m);
+}
+
 .prose figcaption {
   margin-block-start: var(--space-xs);
   font-family: var(--font-meta);

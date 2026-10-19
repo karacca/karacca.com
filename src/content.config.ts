@@ -22,6 +22,7 @@ const posts = defineCollection({
     description: z.string(),
     date,
     updated: date.optional(),
+    lang: z.string().optional(),
     draft: z.boolean().default(false),
   }),
 });
