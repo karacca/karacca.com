@@ -8,10 +8,10 @@
       "port": 4321
     },
     {
-      "name": "karacca.com (worker)",
+      "name": "karacca.com (preview)",
       "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["preview:worker"],
-      "port": 8788
+      "runtimeArgs": ["preview", "--port", "4322", "--ignore-lock"],
+      "port": 4322
     }
   ]
 }

@@ -1,6 +1,5 @@
 dist/
 .astro/
-.wrangler/
 .lighthouseci/
 .agents/
 .claude/

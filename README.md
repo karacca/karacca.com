@@ -9,20 +9,18 @@ Personal site of Ömer Karaca. A fully static [Astro](https://astro.build) site:
 
 ## Commands
 
-| Command                     | What it does                                                             |
-| --------------------------- | ------------------------------------------------------------------------ |
-| `pnpm install`              | Install dependencies                                                     |
-| `pnpm dev`                  | Dev server at `http://localhost:4321`, drafts included                   |
-| `pnpm build`                | Production build into `dist/`                                            |
-| `pnpm preview`              | Serve `dist/` with Astro's preview server                                |
-| `pnpm preview:worker`       | Serve `dist/` at `http://localhost:8788` exactly as Cloudflare serves it |
-| `pnpm check`                | Type check (`astro check`)                                               |
-| `pnpm lint`                 | ESLint                                                                   |
-| `pnpm format`               | Prettier, write                                                          |
-| `pnpm format:check`         | Prettier, check only                                                     |
-| `pnpm lighthouse`           | Lighthouse against `dist/` (run `pnpm build` first)                      |
-| `pnpm contributions:update` | Refresh the committed GitHub contributions snapshot                      |
-| `pnpm deploy`               | Build and deploy by hand with Wrangler                                   |
+| Command                     | What it does                                           |
+| --------------------------- | ------------------------------------------------------ |
+| `pnpm install`              | Install dependencies                                   |
+| `pnpm dev`                  | Dev server at `http://localhost:4321`, drafts included |
+| `pnpm build`                | Production build into `dist/`                          |
+| `pnpm preview`              | Serve `dist/` with Astro's preview server              |
+| `pnpm check`                | Type check (`astro check`)                             |
+| `pnpm lint`                 | ESLint                                                 |
+| `pnpm format`               | Prettier, write                                        |
+| `pnpm format:check`         | Prettier, check only                                   |
+| `pnpm lighthouse`           | Lighthouse against `dist/` (run `pnpm build` first)    |
+| `pnpm contributions:update` | Refresh the committed GitHub contributions snapshot    |
 
 ## Where things live
 
@@ -119,22 +117,15 @@ The site is served by Cloudflare Workers static assets. There is no Worker scrip
 2. Name the Worker `karacca-com`. It has to match `name` in `wrangler.jsonc`.
 3. Build settings:
    - Build command: `pnpm build`
-   - Deploy command: `pnpm exec wrangler deploy`
-   - Non-production branch deploy command: `pnpm exec wrangler versions upload`
+   - Deploy command: `npx wrangler deploy`
+   - Non-production branch deploy command: `npx wrangler versions upload`
    - Root directory: `/`
    - Production branch: `master`
 4. Enable builds for non-production branches. Every pushed branch then gets a preview URL on `workers.dev`.
 5. Build variables and secrets: add `GITHUB_TOKEN` as a secret (optional, see the chart section above). The Node version is read from `.nvmrc`. If the build image picks a different pnpm than the one in `packageManager`, set `PNPM_VERSION` as a build variable.
 6. Worker → Settings → Domains & Routes → add `karacca.com` as a custom domain.
 
-After that, every push to `master` builds and deploys production.
-
-### Manual deploy
-
-```sh
-pnpm exec wrangler login
-pnpm deploy
-```
+After that, every push to `master` builds and deploys production. Wrangler is not a dependency of this repo; Cloudflare's build fetches it for the deploy step.
 
 ### Analytics
 
@@ -156,7 +147,7 @@ There is no CI. Before pushing, run:
 4. `pnpm build`
 5. `pnpm lighthouse`
 
-`pnpm lighthouse` uses the config in `lighthouserc.json`. It starts `pnpm preview:worker`, audits the main routes, one post and one project detail page three times each, and fails unless performance, accessibility, best practices and SEO all score 100. The post URL in that file has to point at a post that exists and is not a draft, and the project URL (`/projects/nami`) at a project with `detail: true`. Update both when those entries are renamed or removed. Reports are written to `.lighthouseci/`, which is git-ignored.
+`pnpm lighthouse` uses the config in `lighthouserc.json`. It starts Astro's preview server on port 4322, audits the main routes, one post and one project detail page three times each, and fails unless performance, accessibility, best practices and SEO all score 100. The post URL in that file has to point at a post that exists and is not a draft, and the project URL (`/projects/nami`) at a project with `detail: true`. Update both when those entries are renamed or removed. Reports are written to `.lighthouseci/`, which is git-ignored.
 
 ## Conventions
 

@@ -11,8 +11,6 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "preview:worker": "wrangler dev --port 8788",
-    "deploy": "astro build && wrangler deploy",
     "lighthouse": "pnpm dlx @lhci/cli@0.15.x autorun",
     "check": "astro check",
     "lint": "eslint .",
@@ -43,7 +41,6 @@
     "subset-font": "^2.9.0",
     "typescript": "~6.0.3",
     "typescript-eslint": "^8.71.0",
-    "wrangler": "^4.145.0",
     "yaml": "^2.9.1"
   }
 }

@@ -6,14 +6,7 @@ import tseslint from "typescript-eslint";
 
 export default defineConfig(
   {
-    ignores: [
-      "dist/",
-      ".astro/",
-      ".wrangler/",
-      ".lighthouseci/",
-      ".agents/",
-      ".claude/",
-    ],
+    ignores: ["dist/", ".astro/", ".lighthouseci/", ".agents/", ".claude/"],
   },
   js.configs.recommended,
   ...tseslint.configs.strict,
