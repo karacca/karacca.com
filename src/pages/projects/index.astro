@@ -5,14 +5,14 @@ import ProjectList from "@/components/ProjectList.astro";
 import Prose from "@/components/Prose.astro";
 import Section from "@/components/Section.astro";
 import Base from "@/layouts/Base.astro";
-import { getPage, getProjects, label } from "@/lib/content";
+import { getPage, getProjectsByImpact, label } from "@/lib/content";
 
 const page = await getPage("projects");
 const { Content } = await render(page);
-const projects = await getProjects();
+const projects = await getProjectsByImpact();
 const sorts = [
-  { id: "time", label: label(page, "byTime") },
   { id: "impact", label: label(page, "byImpact") },
+  { id: "year", label: label(page, "byYear") },
 ];
 ---
 
@@ -82,9 +82,9 @@ const sorts = [
     }
   }
 
-  :global(.section):has(.sort [value="impact"]:checked)
+  :global(.section):has(.sort [value="year"]:checked)
     :global(.projects > li) {
-    order: var(--rank-impact);
+    order: var(--rank-time);
   }
 
   @media (min-width: 52rem) {

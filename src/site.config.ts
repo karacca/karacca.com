@@ -1,6 +1,7 @@
 export const site = {
   url: "https://karacca.com",
   name: "Ömer Karaca",
+  monogram: "ÖK",
   language: "en",
   numberLocale: "en-GB",
   monthLocale: "en-US",
@@ -50,8 +51,6 @@ export const site = {
     notLive: "not live",
     platformLink: "{label}: {title}",
     metaSeparator: " · ",
-    chartLess: "Less",
-    chartMore: "More",
     updated: "Updated",
     backToWriting: "writing",
     backToProjects: "projects",

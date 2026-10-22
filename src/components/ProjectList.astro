@@ -1,7 +1,7 @@
 ---
 import PlatformLinks from "@/components/PlatformLinks.astro";
 import ThemedImage from "@/components/ThemedImage.astro";
-import { impactRanks, type Project } from "@/lib/content";
+import { timeRanks, type Project } from "@/lib/content";
 import { site } from "@/site.config";
 import { image } from "@/styles/tokens/image";
 
@@ -10,7 +10,7 @@ interface Props {
 }
 
 const { projects } = Astro.props;
-const ranks = impactRanks(projects);
+const ranks = timeRanks(projects);
 const hasIcons = projects.some((project) => project.data.icon);
 ---
 
@@ -18,7 +18,7 @@ const hasIcons = projects.some((project) => project.data.icon);
   {projects.map((project) => {
     const { title, description, year, company, detail, icon } = project.data;
     return (
-      <li class="row" style={`--rank-impact: ${ranks.get(project.id)}`}>
+      <li class="row" style={`--rank-time: ${ranks.get(project.id)}`}>
         {hasIcons &&
           (icon ? (
             <ThemedImage

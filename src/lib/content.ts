@@ -51,9 +51,9 @@ export async function getProjectsByImpact(): Promise<Project[]> {
   return projects.sort(byImpact);
 }
 
-export function impactRanks(projects: Project[]): Map<string, number> {
+export function timeRanks(projects: Project[]): Map<string, number> {
   return new Map(
-    [...projects].sort(byImpact).map((project, index) => [project.id, index]),
+    [...projects].sort(byTime).map((project, index) => [project.id, index]),
   );
 }
 

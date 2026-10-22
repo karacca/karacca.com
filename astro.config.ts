@@ -62,20 +62,6 @@ const drafts: AstroIntegration = {
   },
 };
 
-const devPages: AstroIntegration = {
-  name: "dev-pages",
-  hooks: {
-    "astro:config:setup": ({ command, injectRoute }) => {
-      if (command === "dev") {
-        injectRoute({
-          pattern: "/components",
-          entrypoint: "./src/dev/components.astro",
-        });
-      }
-    },
-  },
-};
-
 export default defineConfig({
   site: site.url,
   output: "static",
@@ -99,5 +85,5 @@ export default defineConfig({
       transformers: [codeContrast],
     },
   },
-  integrations: [mdx(), sitemap(), markdownLinks, drafts, devPages],
+  integrations: [mdx(), sitemap(), markdownLinks, drafts],
 });

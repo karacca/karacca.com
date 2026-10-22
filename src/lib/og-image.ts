@@ -2,25 +2,41 @@ import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { Resvg } from "@resvg/resvg-js";
 import satori, { type Font } from "satori";
+import sharp from "sharp";
+import { iconSvg } from "@/lib/favicon";
 import { domainOf } from "@/lib/format";
+import { toDate, type ContributionDay } from "@/lib/github";
 import { site } from "@/site.config";
+import { chart } from "@/styles/tokens/chart";
 import { og } from "@/styles/tokens/og";
 
 export interface OgImage {
   title: string;
   description?: string;
   meta?: string[];
+  icon?: string;
+  chart?: ContributionDay[][];
 }
 
 type Style = Record<string, string | number>;
 
-interface Node {
-  type: "div";
-  props: {
-    style: Style;
-    children: Node[] | string;
-  };
-}
+type Node =
+  | {
+      type: "div";
+      props: {
+        style: Style;
+        children: Node[] | string;
+      };
+    }
+  | {
+      type: "img";
+      props: {
+        src: string;
+        width: number;
+        height: number;
+        style?: Style;
+      };
+    };
 
 interface TextToken {
   size: number;
@@ -37,6 +53,22 @@ const wordGapPattern = /\s/;
 
 let fontCache: Promise<Font[]> | undefined;
 let coverageCache: Promise<Map<string, Range[]>> | undefined;
+let markCache: Promise<string> | undefined;
+
+function dataUri(type: string, data: Buffer | string): string {
+  return `data:${type};base64,${Buffer.from(data).toString("base64")}`;
+}
+
+function loadMark(): Promise<string> {
+  markCache ??= iconSvg(og.scheme).then((svg) => dataUri("image/svg+xml", svg));
+  return markCache;
+}
+
+async function loadIcon(file: string): Promise<string> {
+  const size = og.icon.size * 2;
+  const png = await sharp(file).resize(size, size).png().toBuffer();
+  return dataUri("image/png", png);
+}
 
 function loadFonts(): Promise<Font[]> {
   fontCache ??= Promise.all(
@@ -142,17 +174,60 @@ function text(
   };
 }
 
-function layout({ title, description, meta = [] }: OgImage): Node {
+function picture(
+  src: string,
+  width: number,
+  height: number,
+  style: Style = {},
+): Node {
+  return { type: "img", props: { src, width, height, style } };
+}
+
+function contributions(weeks: ContributionDay[][], width: number): Node {
+  const step = chart.cell + chart.gap;
+  const viewWidth = weeks.length * step - chart.gap;
+  const viewHeight = 7 * step - chart.gap;
+  const cells = weeks.flatMap((week, index) =>
+    week.map(
+      (day) =>
+        `<rect x="${index * step}" y="${toDate(day.date).getUTCDay() * step}" width="${chart.cell}" height="${chart.cell}" rx="${chart.radius}" fill="${og.color.chart[day.level] ?? ""}"/>`,
+    ),
+  );
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${viewWidth} ${viewHeight}">${cells.join("")}</svg>`;
+  return picture(
+    dataUri("image/svg+xml", svg),
+    width,
+    Math.round((width * viewHeight) / viewWidth),
+    { marginTop: og.space.chartBefore },
+  );
+}
+
+function layout(
+  { title, description, meta = [], chart: weeks }: OgImage,
+  mark: string,
+  icon: string | undefined,
+): Node {
   const { color, family, measure, space } = og;
   const titleToken =
     title.length > og.titleLongFrom ? og.text.titleLong : og.text.title;
 
   const top = box({ justifyContent: "space-between", alignItems: "center" }, [
-    text(site.name, family.sans, color.text, og.text.name),
+    box({ alignItems: "center", gap: space.markGap }, [
+      picture(mark, og.mark.size, og.mark.size),
+      text(site.name, family.sans, color.text, og.text.name),
+    ]),
     text(domainOf(site.url), family.mono, color.textMuted, og.text.meta),
   ]);
 
   const bottom = box({ flexDirection: "column", gap: space.stack }, [
+    ...(icon
+      ? [
+          picture(icon, og.icon.size, og.icon.size, {
+            borderRadius: og.icon.radius,
+            marginBottom: space.iconAfter,
+          }),
+        ]
+      : []),
     ...(meta.length > 0
       ? [
           box(
@@ -172,6 +247,9 @@ function layout({ title, description, meta = [] }: OgImage): Node {
             maxWidth: measure.description,
           }),
         ]
+      : []),
+    ...(weeks && weeks.length > 0
+      ? [contributions(weeks, og.size.width - space.padding * 2)]
       : []),
   ]);
 
@@ -193,7 +271,12 @@ export async function renderOgImage(
   entry: string,
 ): Promise<Uint8Array<ArrayBuffer>> {
   await assertCovered(image, entry);
-  const svg = await satori(layout(image) as Parameters<typeof satori>[0], {
+  const [mark, icon] = await Promise.all([
+    loadMark(),
+    image.icon ? loadIcon(image.icon) : undefined,
+  ]);
+  const node = layout(image, mark, icon);
+  const svg = await satori(node as Parameters<typeof satori>[0], {
     width: og.size.width,
     height: og.size.height,
     fonts: await loadFonts(),

@@ -1,8 +1,9 @@
 import { palette } from "../../lib/palette";
 
-const scheme = "dark";
+const scheme = "light";
 
 export const og = {
+  scheme,
   size: {
     width: 1200,
     height: 630,
@@ -11,11 +12,24 @@ export const og = {
     bg: palette("--color-bg", scheme),
     text: palette("--color-text", scheme),
     textMuted: palette("--color-text-muted", scheme),
+    chart: [0, 1, 2, 3, 4].map((level) =>
+      palette(`--color-chart-${level}`, scheme),
+    ),
   },
   space: {
     padding: 80,
     stack: 20,
     metaGap: 28,
+    markGap: 16,
+    iconAfter: 8,
+    chartBefore: 28,
+  },
+  mark: {
+    size: 44,
+  },
+  icon: {
+    size: 88,
+    radius: 20,
   },
   measure: {
     title: 960,

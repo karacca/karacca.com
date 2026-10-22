@@ -4,6 +4,7 @@
   --width-thumb: var(--size-24);
   --width-icon: var(--size-32);
   --width-stat: 9rem;
+  --width-signature: 17rem;
   --ratio-wide: 16 / 9;
   --ratio-square: 1;
   --ratio-screen-corner: 0.045;
@@ -45,6 +46,7 @@
   --layout-icon: var(--width-icon);
   --layout-icon-ratio: var(--ratio-square);
   --layout-stat: var(--width-stat);
+  --layout-signature: var(--width-signature);
   --layout-stat-columns: 4;
   --layout-stat-gap: var(--space-l);
   --layout-slide-ratio: var(--ratio-wide);

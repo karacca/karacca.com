@@ -2,18 +2,15 @@
 import { render } from "astro:content";
 import Actions from "@/components/Actions.astro";
 import Chip from "@/components/Chip.astro";
-import ContributionsChart from "@/components/ContributionsChart.astro";
 import PostList from "@/components/PostList.astro";
 import ProjectList from "@/components/ProjectList.astro";
 import Prose from "@/components/Prose.astro";
 import Section from "@/components/Section.astro";
 import Base from "@/layouts/Base.astro";
 import { getPage, getPosts, getProjectsByImpact, label } from "@/lib/content";
-import { getContributions } from "@/lib/github";
 
 const page = await getPage("home");
 const { Content } = await render(page);
-const contributions = await getContributions();
 const posts = (await getPosts()).slice(0, 5);
 const projects = (await getProjectsByImpact()).slice(0, 3);
 ---
@@ -25,13 +22,6 @@ const projects = (await getProjectsByImpact()).slice(0, 3);
     </Prose>
     <Actions />
   </Section>
-  {contributions.weeks.length > 0 && (
-    <Section label={label(page, "activity")}>
-      <div class="activity">
-        <ContributionsChart caption={label(page, "chartCaption")} />
-      </div>
-    </Section>
-  )}
   {posts.length > 0 && (
     <Section label={label(page, "writing")}>
       <PostList posts={posts} />
@@ -58,11 +48,5 @@ const projects = (await getProjectsByImpact()).slice(0, 3);
   .more {
     margin-block-start: var(--space-s);
     font-size: var(--text-size-small);
-  }
-
-  @media (min-width: 52rem) {
-    :global(.section):has(> :global(.body) > .activity) {
-      align-items: start;
-    }
   }
 </style>

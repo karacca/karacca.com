@@ -61,7 +61,7 @@
 - Social links: X, LinkedIn, GitHub as plain text links
 - Resume: native `download` link to the PDF, with a subtle Web Audio sound
 - Sound is used only for the resume download, nowhere else
-- GitHub contributions chart on the home page, rendered at build time, in site palette (no GitHub green), figure-style caption
+- GitHub contributions chart only in the home page's OG image, not on the page itself; rendered at build time, in site palette (no GitHub green)
 - Inline chips: icon + name pill in prose, gentle CSS hover, local SVG icons
 - Chips link where useful (company → site, project → detail page); otherwise plain
 - Handwritten signature as static SVG at the end of about/intro; follows light/dark
@@ -74,7 +74,7 @@
 - One plain list, no type labels or filters
 - Short intro line: projects I worked on or contributed to
 - Row shows one `year` (the year it finished, or launched if still running) + company/client
-- Sort toggle on the projects page: by time (default) or by `impact` (1–5); CSS-only radio control, no JS
+- Sort toggle on the projects page: by `impact` (1–5, default) or by year; CSS-only radio control, no JS
 - Some projects have a detail page, some don't
 - Detail pages read like a use case: screenshots with explanations; images live beside the entry in `src/content/projects/<slug>/`
 - Optional `icon` (square app icon or logo, `src` + optional `dark`) shown above the title on the detail page and as a small thumbnail in list rows

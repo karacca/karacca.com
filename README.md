@@ -41,7 +41,7 @@ src/
   lib/                content, formatting and build-time helpers
   pages/              routes
 scripts/              maintenance scripts
-public/               files copied as-is (resume, favicons, _headers)
+public/               files copied as-is (resume, _headers)
 ```
 
 ### Content
@@ -65,7 +65,7 @@ Add `draft: true` to a post's frontmatter. Drafts show up in `pnpm dev` only. Ev
 
 ### Site config
 
-`src/site.config.ts` holds everything that is not page content: site URL and name, menu, social links, GitHub username, book-a-call link, resume file, timezone label, the analytics token, and shared labels.
+`src/site.config.ts` holds everything that is not page content: site URL and name, the monogram drawn as the favicon, menu, social links, GitHub username, book-a-call link, resume file, timezone label, the analytics token, and shared labels.
 
 ### Design tokens
 
@@ -74,11 +74,12 @@ Every visual value is a CSS custom property in `src/styles/tokens/`:
 - `color.css`, `typography.css`, `spacing.css`, `layout.css`, `motion.css`
 - Each file has two layers: primitives first, then semantic tokens (`--color-text`, `--space-m`). Components only use the semantic layer.
 - `og.ts` holds the same kind of values for the generated Open Graph images.
+- `favicon.ts` holds the font, letter spacing, fit and corner radius of the favicon. `favicon.svg` (light and dark), `favicon.ico` and `apple-touch-icon.png` are drawn from the monogram in `src/site.config.ts` at build time, and the same icon sits next to the name on the Open Graph images.
 - `code.ts` names the two Shiki themes for code blocks, plus the code block surface colors and the minimum contrast that token colors are adjusted to at build time.
-- `chart.ts` holds the cell size, gap, corner radius and label spans of the contributions chart, which is drawn as an SVG at build time.
+- `chart.ts` holds the cell size, gap and corner radius of the contributions chart drawn into the home page's Open Graph image.
 - `sound.ts` holds the notes, level and timing of the resume download sound.
 
-`color.css` is the only place colors are defined. `og.ts` and `code.ts` do not contain hex values: they ask `src/lib/palette.ts` for a token such as `--color-surface` in the light or dark scheme. That helper reads `color.css` at build time, follows `var()` and `light-dark()` to the `oklch()` primitive, converts it to sRGB hex, and fails the build if a token cannot be resolved. A change to the palette therefore reaches the OG images and the code contrast check on the next build. In `pnpm dev`, restart the server after a palette change to see it in those two places. `public/favicon.svg` is a static file and is not derived.
+`color.css` is the only place colors are defined. `og.ts`, `favicon.ts` and `code.ts` do not contain hex values: they ask `src/lib/palette.ts` for a token such as `--color-surface` in the light or dark scheme. That helper reads `color.css` at build time, follows `var()`, `light-dark()` and `color-mix(in oklch, …)` to the `oklch()` primitive, converts it to sRGB hex, and fails the build if a token cannot be resolved. A change to the palette therefore reaches the OG images, the favicons and the code contrast check on the next build. In `pnpm dev`, restart the server after a palette change to see it in those places.
 
 ### Fonts
 
@@ -92,7 +93,7 @@ Fonts are self-hosted through Astro's fonts API and Fontsource. `fontsource()` i
 
 ## GitHub contributions chart
 
-The chart on the home page is rendered at build time, so the page ships no chart JavaScript. The build looks for data in this order:
+The chart appears only in the home page's Open Graph image, not on the page itself, and is drawn at build time. The build looks for data in this order:
 
 1. With `GITHUB_TOKEN` set, the contribution calendar of `site.github.username` from the GitHub GraphQL API.
 2. Without a token, or if that request fails, the public contributions page on github.com.

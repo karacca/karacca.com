@@ -2,7 +2,7 @@ import { site } from "../site.config.ts";
 
 type ContributionLevel = 0 | 1 | 2 | 3 | 4;
 
-interface ContributionDay {
+export interface ContributionDay {
   date: string;
   count: number;
   level: ContributionLevel;
@@ -11,11 +11,6 @@ interface ContributionDay {
 interface ContributionSnapshot {
   total: number;
   weeks: ContributionDay[][];
-}
-
-interface Contributions extends ContributionSnapshot {
-  from: Date;
-  to: Date;
 }
 
 interface CalendarResponse {
@@ -96,16 +91,6 @@ function toSnapshot(days: ContributionDay[]): ContributionSnapshot {
     total += day.count;
   }
   return { total, weeks };
-}
-
-function withRange(snapshot: ContributionSnapshot): Contributions {
-  const first = snapshot.weeks.at(0)?.at(0);
-  const last = snapshot.weeks.at(-1)?.at(-1);
-  return {
-    ...snapshot,
-    from: first ? toDate(first.date) : new Date(),
-    to: last ? toDate(last.date) : new Date(),
-  };
 }
 
 function attribute(tag: string, name: string): string {
@@ -221,22 +206,23 @@ async function readSnapshot(): Promise<ContributionSnapshot> {
   }
 }
 
-async function loadContributions(): Promise<Contributions> {
+async function loadContributions(): Promise<ContributionSnapshot> {
   try {
-    return withRange(
-      await fetchContributions(site.github.username, process.env.GITHUB_TOKEN),
+    return await fetchContributions(
+      site.github.username,
+      process.env.GITHUB_TOKEN,
     );
   } catch (error) {
     console.warn(
       `[github] contributions fall back to the committed snapshot: ${reason(error)}`,
     );
-    return withRange(await readSnapshot());
+    return readSnapshot();
   }
 }
 
-let contributions: Promise<Contributions> | undefined;
+let contributions: Promise<ContributionSnapshot> | undefined;
 
-export function getContributions(): Promise<Contributions> {
+export function getContributions(): Promise<ContributionSnapshot> {
   contributions ??= loadContributions();
   return contributions;
 }

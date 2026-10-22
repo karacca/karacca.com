@@ -7,7 +7,7 @@ const monthFormat = new Intl.DateTimeFormat(site.monthLocale, {
 
 const numberFormat = new Intl.NumberFormat(site.numberLocale);
 
-export function formatMonth(date: Date): string {
+function formatMonth(date: Date): string {
   return monthFormat.format(date);
 }
 

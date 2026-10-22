@@ -73,6 +73,39 @@ function number(expression: string, token: string): number {
     : fail(token, `"${value}" is not a number`);
 }
 
+function weight(part: string, token: string): [string, number | undefined] {
+  const [color, percentage, ...rest] = split(part, /\s/);
+  if (color === undefined || rest.length > 0) {
+    return fail(token, `"${part}" is not a color stop`);
+  }
+  if (percentage === undefined) {
+    return [color, undefined];
+  }
+  return percentage.endsWith("%")
+    ? [color, number(percentage.slice(0, -1), token) / 100]
+    : fail(token, `"${percentage}" is not a percentage`);
+}
+
+function mix(value: string, scheme: Scheme | undefined, token: string): Oklch {
+  const [space, first = "", second = "", ...rest] = split(value, /,/);
+  if (space !== "in oklch" || rest.length > 0) {
+    return fail(token, `"${value}" must mix two colors in oklch`);
+  }
+  const [colorA, weightA] = weight(first, token);
+  const [colorB, weightB] = weight(second, token);
+  const a = weightA ?? (weightB === undefined ? 0.5 : 1 - weightB);
+  const b = weightB ?? 1 - a;
+  const total = a + b;
+  const [lightnessA, chromaA, hueA] = oklch(colorA, scheme, token);
+  const [lightnessB, chromaB, hueB] = oklch(colorB, scheme, token);
+  const delta = ((((hueB - hueA) % 360) + 540) % 360) - 180;
+  return [
+    (lightnessA * a + lightnessB * b) / total,
+    (chromaA * a + chromaB * b) / total,
+    (hueA + (delta * b) / total + 360) % 360,
+  ];
+}
+
 function oklch(
   value: string,
   scheme: Scheme | undefined,
@@ -81,6 +114,10 @@ function oklch(
   const reference = unwrap(value, "var");
   if (reference !== undefined) {
     return oklch(lookup(reference, token), scheme, token);
+  }
+  const mixture = unwrap(value, "color-mix");
+  if (mixture !== undefined) {
+    return mix(mixture, scheme, token);
   }
   const schemes = unwrap(value, "light-dark");
   if (schemes !== undefined) {
