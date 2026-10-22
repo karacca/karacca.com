@@ -1,0 +1,66 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import { formatNumber } from "@/lib/format";
+
+interface Highlight {
+  value: string | number;
+  label: string;
+}
+
+interface Props extends HTMLAttributes<"dl"> {
+  items: Highlight[];
+}
+
+const { items, class: className, ...attributes } = Astro.props;
+---
+
+<dl {...attributes} class:list={["highlights", className]}>
+  {items.map(({ value, label }) => (
+    <div class="highlight">
+      <dt class="label">{label}</dt>
+      <dd class="value">
+        {typeof value === "number" ? formatNumber(value) : value}
+      </dd>
+    </div>
+  ))}
+</dl>
+
+<style>
+  .highlights {
+    display: grid;
+    grid-template-columns: repeat(
+      auto-fill,
+      minmax(
+        max(
+          var(--layout-stat),
+          (100% - (var(--layout-stat-columns) - 1) * var(--layout-stat-gap)) /
+            var(--layout-stat-columns)
+        ),
+        1fr
+      )
+    );
+    gap: var(--space-m) var(--layout-stat-gap);
+    max-width: var(--layout-wide);
+  }
+
+  .highlight {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+    gap: var(--space-3xs);
+    padding-block-start: var(--space-xs);
+    border-top: var(--border-width) solid var(--color-border);
+  }
+
+  .value {
+    font-size: var(--text-size-title);
+    line-height: var(--text-leading-heading);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .label {
+    font-size: var(--text-size-small);
+    line-height: var(--text-leading-compact);
+    color: var(--color-text-muted);
+  }
+</style>

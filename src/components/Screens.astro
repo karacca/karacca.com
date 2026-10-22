@@ -1,0 +1,263 @@
+---
+import type { ImageMetadata } from "astro";
+import type { HTMLAttributes } from "astro/types";
+import StepButton from "@/components/StepButton.astro";
+import ThemedImage from "@/components/ThemedImage.astro";
+import { fill } from "@/lib/format";
+import { site } from "@/site.config";
+import { image } from "@/styles/tokens/image";
+
+interface Screen {
+  src: ImageMetadata;
+  dark?: ImageMetadata | undefined;
+  alt: string;
+  caption?: string | undefined;
+}
+
+interface Props extends HTMLAttributes<"section"> {
+  screens: Screen[];
+  title: string;
+  eager?: boolean;
+}
+
+const {
+  screens,
+  title,
+  eager = false,
+  class: className,
+  ...attributes
+} = Astro.props;
+
+const ratios = screens.map(({ src }) => src.width / src.height);
+const total = ratios.reduce((sum, ratio) => sum + ratio, 0);
+const { height, wideHeight, wideMedia } = image.screen;
+const sizes = (ratio: number) =>
+  `${wideMedia} ${(wideHeight * ratio).toFixed(2)}rem, ${(height * ratio).toFixed(2)}rem`;
+---
+
+<section
+  {...attributes}
+  class:list={["screens", "wide", className]}
+  aria-label={fill(site.labels.screensLabel, { title })}
+  style={`--count: ${screens.length}; --ratio-sum: ${total}`}
+  data-screens
+>
+  <div class="track" tabindex={screens.length > 1 ? 0 : undefined} data-track>
+    {screens.map((screen, index) => {
+      const ratio = ratios[index] ?? 1;
+      return (
+        <figure class="screen" style={`--ratio: ${ratio}`}>
+          <ThemedImage
+            class="image"
+            src={screen.src}
+            dark={screen.dark}
+            alt={screen.alt}
+            widths={[...image.screen.widths]}
+            sizes={sizes(ratio)}
+            quality={image.screen.quality}
+            loading={eager && index < image.screen.eager ? "eager" : "lazy"}
+            fetchpriority={eager && index === 0 ? "high" : undefined}
+          />
+          {screen.caption && (
+            <figcaption class="caption">{screen.caption}</figcaption>
+          )}
+        </figure>
+      );
+    })}
+  </div>
+  <div class="bar" data-controls hidden>
+    <StepButton label={site.labels.previousScreens} step={-1} />
+    <StepButton label={site.labels.nextScreens} step={1} />
+  </div>
+</section>
+
+<script>
+  import { onArrowKeys, onSwipe } from "@/lib/swipe";
+
+  const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
+
+  document.querySelectorAll<HTMLElement>("[data-screens]").forEach((root) => {
+    const track = root.querySelector<HTMLElement>("[data-track]");
+    const controls = root.querySelector<HTMLElement>("[data-controls]");
+    if (!track || !controls) {
+      return;
+    }
+
+    const screens = [...track.children].filter(
+      (child): child is HTMLElement => child instanceof HTMLElement,
+    );
+    const buttons = [
+      ...controls.querySelectorAll<HTMLButtonElement>("[data-step]"),
+    ];
+
+    const inset = (): number =>
+      parseFloat(getComputedStyle(track).scrollPaddingInlineStart) || 0;
+    const end = (): number => track.scrollWidth - track.clientWidth;
+
+    const blocked = (direction: number): boolean =>
+      direction > 0 ? track.scrollLeft >= end() - 1 : track.scrollLeft <= 1;
+
+    const render = () => {
+      buttons.forEach((button) =>
+        button.setAttribute(
+          "aria-disabled",
+          String(blocked(Number(button.dataset.step))),
+        ),
+      );
+    };
+
+    const page = (direction: number) => {
+      if (blocked(direction)) {
+        return;
+      }
+      const start = inset();
+      const left = track.scrollLeft;
+      const view = track.clientWidth - 2 * start;
+      const target =
+        direction > 0
+          ? screens.find(
+              (screen) =>
+                screen.offsetLeft + screen.offsetWidth - start >
+                left + view + 1,
+            )
+          : screens.find(
+              (screen) => screen.offsetLeft - start >= left - view - 1,
+            );
+      if (!target) {
+        return;
+      }
+      track.scrollTo({
+        left: Math.min(Math.max(target.offsetLeft - start, 0), end()),
+        behavior: reducedMotion.matches ? "instant" : "smooth",
+      });
+    };
+
+    buttons.forEach((button) =>
+      button.addEventListener("click", () => page(Number(button.dataset.step))),
+    );
+
+    onSwipe(track, page, () => !controls.hidden);
+    onArrowKeys(track, page);
+
+    let size = "";
+
+    const fit = () => {
+      const next = `${track.clientWidth}:${innerHeight}`;
+      if (next === size) {
+        return;
+      }
+      size = next;
+      root.removeAttribute("data-scroll");
+      const overflowing = end() > 1;
+      root.toggleAttribute("data-scroll", overflowing);
+      controls.hidden = !overflowing;
+      if (overflowing) {
+        track.tabIndex = 0;
+      } else {
+        track.removeAttribute("tabindex");
+      }
+      render();
+    };
+
+    track.addEventListener("scroll", render, { passive: true });
+    new ResizeObserver(fit).observe(track);
+    root.dataset.ready = "";
+    fit();
+  });
+</script>
+
+<style>
+  .screens {
+    container-type: inline-size;
+  }
+
+  .track {
+    --gap: var(--layout-screen-gap);
+    --height: clamp(
+      var(--layout-screen-height-min),
+      (100cqi - (var(--count) - 1) * var(--gap)) / var(--ratio-sum),
+      var(--layout-screen-height)
+    );
+    position: relative;
+    display: flex;
+    align-items: start;
+    gap: var(--gap);
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+  }
+
+  .screens[data-scroll] .track {
+    --height: var(--layout-screen-height);
+  }
+
+  .screens[data-ready] .track {
+    scrollbar-width: none;
+  }
+
+  .screens[data-ready] .track::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .screens[data-ready] .track {
+      overflow-x: hidden;
+    }
+  }
+
+  .track:focus-visible {
+    outline: var(--focus-width) solid var(--color-focus);
+    outline-offset: var(--focus-offset);
+  }
+
+  .screen {
+    flex: none;
+    width: calc(var(--height) * var(--ratio));
+    scroll-snap-align: start;
+  }
+
+  .image {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: calc(var(--height) * var(--layout-screen-corner));
+    outline: var(--border-width) solid var(--color-border);
+    outline-offset: calc(-1 * var(--border-width));
+    background: var(--color-surface);
+  }
+
+  .caption {
+    margin-block-start: var(--space-xs);
+    font-family: var(--font-meta);
+    font-size: var(--text-size-meta);
+    letter-spacing: var(--text-tracking-meta);
+    color: var(--color-text-muted);
+  }
+
+  .bar {
+    display: flex;
+    gap: var(--space-xs);
+    margin-block-start: var(--space-xs);
+  }
+
+  .bar[hidden] {
+    display: none;
+  }
+
+  @media (width < 52rem) {
+    .screens {
+      margin-inline: calc(-1 * var(--layout-gutter));
+    }
+
+    .track {
+      --height: var(--layout-screen-height);
+      padding-inline: var(--layout-gutter);
+      scroll-padding-inline: var(--layout-gutter);
+    }
+
+    .bar {
+      padding-inline: var(--layout-gutter);
+    }
+  }
+</style>

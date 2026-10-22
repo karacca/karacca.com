@@ -1,7 +1,7 @@
 import type { APIRoute, GetStaticPaths } from "astro";
 import { getCollection } from "astro:content";
 import { getPosts, getProjects } from "@/lib/content";
-import { formatDate, formatYears } from "@/lib/format";
+import { formatDate } from "@/lib/format";
 import { renderOgImage, type OgImage } from "@/lib/og-image";
 import { site } from "@/site.config";
 
@@ -42,10 +42,7 @@ export const getStaticPaths = (async () => {
         params: { slug: `projects/${id}` },
         props: {
           ...titled(data.title, data.description),
-          meta: [
-            formatYears(data.start, data.end),
-            ...(data.company ? [data.company] : []),
-          ],
+          meta: [String(data.year), ...(data.company ? [data.company] : [])],
         },
       })),
   ];

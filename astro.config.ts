@@ -1,11 +1,12 @@
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 import type { AstroIntegration } from "astro";
-import { defineConfig } from "astro/config";
+import { defineConfig, sharpImageService } from "astro/config";
 import { codeContrast } from "./src/lib/code-contrast";
 import { site } from "./src/site.config";
 import { code } from "./src/styles/tokens/code";
 import { fonts } from "./src/styles/tokens/fonts";
+import { image } from "./src/styles/tokens/image";
 
 interface Anchor {
   properties: Record<string, unknown>;
@@ -61,6 +62,20 @@ const drafts: AstroIntegration = {
   },
 };
 
+const devPages: AstroIntegration = {
+  name: "dev-pages",
+  hooks: {
+    "astro:config:setup": ({ command, injectRoute }) => {
+      if (command === "dev") {
+        injectRoute({
+          pattern: "/components",
+          entrypoint: "./src/dev/components.astro",
+        });
+      }
+    },
+  },
+};
+
 export default defineConfig({
   site: site.url,
   output: "static",
@@ -74,6 +89,9 @@ export default defineConfig({
     defaultStrategy: "hover",
   },
   fonts,
+  image: {
+    service: sharpImageService({ webp: { ...image.webp } }),
+  },
   markdown: {
     shikiConfig: {
       themes: code.themes,
@@ -81,5 +99,5 @@ export default defineConfig({
       transformers: [codeContrast],
     },
   },
-  integrations: [mdx(), sitemap(), markdownLinks, drafts],
+  integrations: [mdx(), sitemap(), markdownLinks, drafts, devPages],
 });

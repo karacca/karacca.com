@@ -1,4 +1,5 @@
 :root {
+  --font-size-root: clamp(1rem, 0.625rem + 0.42vw, 1.25rem);
   --font-size-100: 0.75rem;
   --font-size-200: 0.8125rem;
   --font-size-300: 0.875rem;
@@ -26,6 +27,7 @@
   --font-code: var(--font-mono);
   --font-meta: var(--font-mono);
 
+  --text-size-root: var(--font-size-root);
   --text-size-body: var(--font-size-400);
   --text-size-small: var(--font-size-300);
   --text-size-meta: var(--font-size-200);
@@ -42,6 +44,7 @@
   --text-leading-body: var(--line-height-300);
   --text-leading-heading: var(--line-height-100);
   --text-leading-compact: var(--line-height-200);
+  --text-leading-chip: var(--line-height-100);
 
   --text-tracking-body: var(--letter-spacing-tight);
   --text-tracking-heading: var(--letter-spacing-tight);

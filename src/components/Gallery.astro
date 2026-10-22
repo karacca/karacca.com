@@ -1,0 +1,290 @@
+---
+import type { ImageMetadata } from "astro";
+import type { HTMLAttributes } from "astro/types";
+import StepButton from "@/components/StepButton.astro";
+import ThemedImage from "@/components/ThemedImage.astro";
+import { fill } from "@/lib/format";
+import { site } from "@/site.config";
+import { image } from "@/styles/tokens/image";
+
+interface Slide {
+  src: ImageMetadata;
+  dark?: ImageMetadata | undefined;
+  alt: string;
+  caption?: string;
+}
+
+interface Props extends HTMLAttributes<"section"> {
+  slides: Slide[];
+  title: string;
+}
+
+const { slides, title, class: className, ...attributes } = Astro.props;
+const total = slides.length;
+const single = total === 1;
+---
+
+<section
+  {...attributes}
+  class:list={["gallery", className]}
+  aria-roledescription={single ? undefined : site.labels.gallery}
+  aria-label={fill(site.labels.galleryLabel, { title })}
+  data-gallery={single ? undefined : site.labels.slideCounter}
+>
+  <div class="track" tabindex={single ? undefined : 0} data-track>
+    {slides.map((slide, index) => (
+      <div
+        class="slide"
+        role={single ? undefined : "group"}
+        aria-roledescription={single ? undefined : site.labels.slide}
+        aria-label={
+          single
+            ? undefined
+            : fill(site.labels.slidePosition, { index: index + 1, total })
+        }
+      >
+        <figure>
+          <div class="frame">
+            <ThemedImage
+              class="image"
+              src={slide.src}
+              dark={slide.dark}
+              alt={slide.alt}
+              widths={[...image.cover.widths]}
+              sizes={image.cover.sizes}
+              loading={index === 0 ? "eager" : "lazy"}
+            />
+          </div>
+          {slide.caption && (
+            <figcaption class="caption">{slide.caption}</figcaption>
+          )}
+        </figure>
+      </div>
+    ))}
+  </div>
+  {!single && (
+    <div class="bar" data-controls hidden>
+      <div class="controls">
+        <StepButton label={site.labels.previousSlide} step={-1} />
+        <span class="meta" aria-hidden="true" data-count>
+          {fill(site.labels.slideCounter, { index: 1, total })}
+        </span>
+        <StepButton label={site.labels.nextSlide} step={1} />
+      </div>
+      {slides.some((slide) => slide.caption) && (
+        <div class="captions" aria-hidden="true" data-captions>
+          {slides.map((slide) => (
+            <p class="caption">{slide.caption}</p>
+          ))}
+        </div>
+      )}
+    </div>
+  )}
+</section>
+
+<script>
+  import { onArrowKeys, onSwipe } from "@/lib/swipe";
+
+  const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
+
+  function counter(template: string, index: number, total: number): string {
+    return template
+      .replace("{index}", String(index + 1))
+      .replace("{total}", String(total));
+  }
+
+  document
+    .querySelectorAll<HTMLElement>("[data-gallery]")
+    .forEach((gallery) => {
+      const track = gallery.querySelector<HTMLElement>("[data-track]");
+      const controls = gallery.querySelector<HTMLElement>("[data-controls]");
+      const captions = gallery.querySelector<HTMLElement>("[data-captions]");
+      const count = gallery.querySelector<HTMLElement>("[data-count]");
+      const buttons = [
+        ...gallery.querySelectorAll<HTMLButtonElement>("[data-step]"),
+      ];
+      if (!track || !controls || !count) {
+        return;
+      }
+
+      const slides = [...track.children].filter(
+        (child): child is HTMLElement => child instanceof HTMLElement,
+      );
+      const template = gallery.dataset.gallery ?? "";
+      let current = 0;
+
+      const render = () => {
+        count.textContent = counter(template, current, slides.length);
+        [...(captions?.children ?? [])].forEach((caption, index) =>
+          caption.toggleAttribute("data-current", index === current),
+        );
+        buttons.forEach((button) => {
+          const target = current + Number(button.dataset.step);
+          button.setAttribute(
+            "aria-disabled",
+            String(target < 0 || target >= slides.length),
+          );
+        });
+      };
+
+      const nearest = (): number => {
+        const left = track.scrollLeft;
+        return slides.reduce(
+          (best, slide, index) =>
+            Math.abs(slide.offsetLeft - left) <
+            Math.abs((slides[best]?.offsetLeft ?? 0) - left)
+              ? index
+              : best,
+          0,
+        );
+      };
+
+      let pending: number | undefined;
+
+      const sync = () => {
+        const index = nearest();
+        if (pending !== undefined && index !== pending) {
+          return;
+        }
+        pending = undefined;
+        current = index;
+        render();
+      };
+
+      const release = () => {
+        pending = undefined;
+        sync();
+      };
+
+      const step = (delta: number) => {
+        const index = current + delta;
+        const target = slides[index];
+        if (!target) {
+          return;
+        }
+        pending = index;
+        current = index;
+        render();
+        track.scrollTo({
+          left: target.offsetLeft,
+          behavior: reducedMotion.matches ? "instant" : "smooth",
+        });
+      };
+
+      buttons.forEach((button) =>
+        button.addEventListener("click", () =>
+          step(Number(button.dataset.step)),
+        ),
+      );
+
+      onSwipe(track, step);
+      onArrowKeys(track, step);
+
+      track.addEventListener("scroll", sync, { passive: true });
+      track.addEventListener("scrollend", release);
+      track.addEventListener("pointerdown", release);
+
+      slides.forEach((slide) =>
+        slide.querySelector("figcaption")?.classList.add("visually-hidden"),
+      );
+      controls.hidden = false;
+      gallery.dataset.ready = "";
+      render();
+    });
+</script>
+
+<style>
+  .track {
+    position: relative;
+    display: flex;
+    gap: var(--space-s);
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    border-radius: var(--radius-m);
+  }
+
+  .gallery[data-ready] .track {
+    scrollbar-width: none;
+  }
+
+  .gallery[data-ready] .track::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .gallery[data-ready] .track {
+      overflow-x: hidden;
+    }
+  }
+
+  .track:focus-visible {
+    outline: var(--focus-width) solid var(--color-focus);
+    outline-offset: var(--focus-offset);
+  }
+
+  .slide {
+    flex: 0 0 100%;
+    min-width: 0;
+    scroll-snap-align: start;
+  }
+
+  .frame {
+    aspect-ratio: var(--layout-slide-ratio);
+    overflow: hidden;
+    border-radius: var(--radius-m);
+    background: var(--color-surface);
+  }
+
+  .image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .caption {
+    max-width: var(--layout-measure);
+    margin-block-start: var(--space-xs);
+    font-family: var(--font-meta);
+    font-size: var(--text-size-meta);
+    letter-spacing: var(--text-tracking-meta);
+    color: var(--color-text-muted);
+  }
+
+  .bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-m);
+    margin-block-start: var(--space-xs);
+  }
+
+  .bar[hidden] {
+    display: none;
+  }
+
+  .controls {
+    display: flex;
+    flex: none;
+    align-items: center;
+    gap: var(--space-xs);
+  }
+
+  .captions {
+    display: grid;
+    justify-items: end;
+    text-align: end;
+  }
+
+  .captions > .caption {
+    grid-area: 1 / 1;
+    align-self: center;
+    margin-block-start: 0;
+    visibility: hidden;
+  }
+
+  .captions > [data-current] {
+    visibility: visible;
+  }
+</style>

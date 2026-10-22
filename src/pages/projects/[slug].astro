@@ -1,16 +1,20 @@
 ---
 import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
-import { Image } from "astro:assets";
 import { render } from "astro:content";
 import Chip from "@/components/Chip.astro";
+import Gallery from "@/components/Gallery.astro";
+import Highlights from "@/components/Highlights.astro";
 import Icon from "@/components/Icon.astro";
 import PlatformLinks from "@/components/PlatformLinks.astro";
 import Prose from "@/components/Prose.astro";
+import Screens from "@/components/Screens.astro";
+import Screenshot from "@/components/Screenshot.astro";
 import Section from "@/components/Section.astro";
+import ThemedImage from "@/components/ThemedImage.astro";
 import Base from "@/layouts/Base.astro";
 import { getProjects } from "@/lib/content";
-import { formatYears } from "@/lib/format";
 import { site } from "@/site.config";
+import { image } from "@/styles/tokens/image";
 
 export const getStaticPaths = (async () => {
   const projects = await getProjects();
@@ -25,38 +29,62 @@ export const getStaticPaths = (async () => {
 type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
 const { project } = Astro.props;
-const { title, description, start, end, company, cover } = project.data;
+const {
+  title,
+  description,
+  year,
+  company,
+  role,
+  highlights,
+  icon,
+  gallery,
+  screens,
+} = project.data;
 const { Content } = await render(project);
 ---
 
 <Base title={title} description={description} type="article">
   <Section as="article" title={title}>
+    {icon && (
+      <Fragment slot="lead">
+        <ThemedImage
+          class="app-icon"
+          src={icon.src}
+          dark={icon.dark}
+          alt=""
+          widths={[...image.icon.widths]}
+          sizes={image.icon.sizes}
+          loading="eager"
+        />
+      </Fragment>
+    )}
     <div class="project-meta" slot="rail">
       <a class="meta quiet-link back-link" href="/projects">
         <Icon name="arrow-left" />
         {site.labels.backToProjects}
       </a>
       <span class="meta">
-        {[formatYears(start, end), company]
-          .filter(Boolean)
-          .join(site.labels.metaSeparator)}
+        {[year, company].filter(Boolean).join(site.labels.metaSeparator)}
       </span>
+      {role && <span class="meta">{role}</span>}
       <PlatformLinks project={project} labelled />
     </div>
     <p class="description muted">{description}</p>
-    {cover && (
-      <Image
-        class="cover"
-        src={cover.src}
-        alt={cover.alt}
-        widths={[640, 960, 1280, 1600]}
-        sizes="(min-width: 52rem) 60vw, 100vw"
-        loading="eager"
+    {highlights.length > 0 && <Highlights class="summary" items={highlights} />}
+    {gallery.length > 0 && (
+      <Gallery class="media" slides={gallery} title={title} />
+    )}
+    {screens.length > 0 && (
+      <Screens
+        class="media"
+        screens={screens}
+        title={title}
+        eager={gallery.length === 0}
       />
     )}
     <div class="content">
       <Prose>
-        <Content components={{ Chip }} />
+        <Content components={{ Chip, Screens, Screenshot }} />
       </Prose>
     </div>
   </Section>
@@ -70,17 +98,25 @@ const { Content } = await render(project);
     gap: 0 var(--space-m);
   }
 
+  .app-icon {
+    display: block;
+    width: var(--layout-icon);
+    height: auto;
+    margin-block-end: var(--space-m);
+    border-radius: var(--radius-icon);
+  }
+
   .description {
     max-width: var(--layout-measure);
   }
 
-  .cover {
-    display: block;
-    width: 100%;
-    max-width: var(--layout-wide);
-    height: auto;
+  .summary,
+  .media {
     margin-block-start: var(--space-prose);
-    border-radius: var(--radius-m);
+  }
+
+  .media {
+    max-width: var(--layout-wide);
   }
 
   .content {

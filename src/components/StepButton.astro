@@ -1,0 +1,51 @@
+---
+import Icon from "@/components/Icon.astro";
+
+interface Props {
+  label: string;
+  step: -1 | 1;
+}
+
+const { label, step } = Astro.props;
+---
+
+<button class="control" type="button" aria-label={label} data-step={step}>
+  <Icon name={step < 0 ? "arrow-left" : "arrow-right"} />
+</button>
+
+<style>
+  .control {
+    display: grid;
+    place-items: center;
+    padding: var(--space-2xs);
+    border: 0;
+    border-radius: var(--radius-s);
+    background: none;
+    color: var(--color-text-muted);
+    font: inherit;
+    cursor: pointer;
+    transition-property: color, transform;
+    transition-duration: var(--motion-hover-duration);
+    transition-timing-function: var(--motion-hover-ease);
+  }
+
+  .control:active:not([aria-disabled="true"]) {
+    transform: scale(var(--motion-press-scale));
+  }
+
+  .control:focus-visible {
+    outline: var(--focus-width) solid var(--color-focus);
+    outline-offset: var(--focus-offset);
+  }
+
+  .control[aria-disabled="true"] {
+    color: var(--color-text-faint);
+    cursor: default;
+  }
+
+  @media (hover: hover) {
+    .control:not([aria-disabled="true"]):hover {
+      color: var(--color-text);
+    }
+  }
+</style>

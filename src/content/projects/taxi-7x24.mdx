@@ -1,0 +1,60 @@
+---
+title: Taxi 7x24
+description: A taxi service in Istanbul with an app to call a cab and two tablets in every taxi, a taximeter up front and entertainment in the back.
+year: 2018
+company: Bulut Yazılım
+status: discontinued
+detail: true
+impact: 2
+icon:
+  src: ./taxi-7x24/icon.png
+screens:
+  - src: ./taxi-7x24/2019-1.webp
+    alt: Taxi 7x24 App Store screenshot from 2019 in Turkish, with a Mapbox map around Kozyatağı showing the passenger's location, nearby taxi-stand icons and a yellow Taksi Çağır button.
+  - src: ./taxi-7x24/2019-2.webp
+    alt: Taxi 7x24 App Store screenshot from 2019 in Turkish, with the Ücret Hesaplama screen drawing a route between Kozyatağı and Çınar and comparing the shortest and fastest options at 15 and 16 TL.
+  - src: ./taxi-7x24/2019-3.webp
+    alt: Taxi 7x24 App Store screenshot from 2019 in Turkish, with the Yolculuklarım list of past rides in Adapazarı showing fares and star ratings for the driver and the car.
+---
+
+import launchCall from "./taxi-7x24/2018-1.webp";
+import launchRoutes from "./taxi-7x24/2018-3.webp";
+import launchSignIn from "./taxi-7x24/2018-2.webp";
+
+Taxi 7x24 was a taxi service in Istanbul, launched with Turkcell in May 2018. It put two tablets in every taxi. The driver's tablet took calls, showed the way and was the taximeter itself, updated over the air. The passenger's tablet, on the back of the front seat, had 4.5G internet, Turkcell's music, TV and magazine apps, news and deals for the ride. Riders called a taxi from the app or from BiP and paid by card, in cash or with Paycell on their phone bill.
+
+## What I did
+
+At Bulut Yazılım I worked on Taxi 7x24's passenger app and its kiosk apps, the ones on the back-seat tablets, building features, fixing bugs and making them faster. I also designed and built an advertising SDK for Android in Kotlin. The kiosk apps used it to show targeted ads during the ride and bring in more revenue.
+
+## The passenger app
+
+- **Calling a taxi.** A map with your location and the taxi stands nearby, and one button to call.
+- **Fares.** An estimate before the ride, comparing the shortest, fastest and cheapest routes.
+- **Taxi types.** A choice between the yellow, turquoise and black taxis of Istanbul.
+- **History.** Past rides with their fares, and ratings for the driver and the car.
+
+<Screens
+  title="At launch, on Android"
+  screens={[
+    {
+      src: launchSignIn,
+      alt: "Taxi 7x24 Android screenshot from 2018 in Turkish, with the sign-in screen asking for a +90 phone number under the 7x24 app icon and a yellow city skyline.",
+      caption: "Phone sign-in.",
+    },
+    {
+      src: launchCall,
+      alt: "Taxi 7x24 Android screenshot from 2018 in Turkish, with a dark Google map of the old city around Beyazıt, a pickup pin on Yeniçeriler Caddesi and a yellow Taksi Çağır button.",
+      caption: "Calling a taxi.",
+    },
+    {
+      src: launchRoutes,
+      alt: "Taxi 7x24 Android screenshot from 2018 in Turkish, with a dark map from Eminönü to Kadıköy dotted with taxi stands and three routes priced as En Kısa, En Hızlı and En Hesaplı.",
+      caption: "Three routes, three fares.",
+    },
+  ]}
+/>
+
+## Since then
+
+The passenger app was redesigned in February 2019, as I was leaving Bulut Yazılım, and again in May 2020, its last update. A relaunched Taksi 7x24 put out new apps in 2026.

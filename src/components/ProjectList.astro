@@ -1,8 +1,9 @@
 ---
 import PlatformLinks from "@/components/PlatformLinks.astro";
+import ThemedImage from "@/components/ThemedImage.astro";
 import { impactRanks, type Project } from "@/lib/content";
-import { formatYears } from "@/lib/format";
 import { site } from "@/site.config";
+import { image } from "@/styles/tokens/image";
 
 interface Props {
   projects: Project[];
@@ -10,13 +11,27 @@ interface Props {
 
 const { projects } = Astro.props;
 const ranks = impactRanks(projects);
+const hasIcons = projects.some((project) => project.data.icon);
 ---
 
-<ul class="rows projects" role="list">
+<ul class:list={["rows", "projects", { "has-icons": hasIcons }]} role="list">
   {projects.map((project) => {
-    const { title, description, start, end, company, detail } = project.data;
+    const { title, description, year, company, detail, icon } = project.data;
     return (
       <li class="row" style={`--rank-impact: ${ranks.get(project.id)}`}>
+        {hasIcons &&
+          (icon ? (
+            <ThemedImage
+              class="thumb"
+              src={icon.src}
+              dark={icon.dark}
+              alt=""
+              widths={[...image.thumb.widths]}
+              sizes={image.thumb.sizes}
+            />
+          ) : (
+            <span class="thumb" aria-hidden="true" />
+          ))}
         <div class="main">
           <p class="title">
             {detail ? (
@@ -30,9 +45,7 @@ const ranks = impactRanks(projects);
           <p class="description muted">{description}</p>
         </div>
         <span class="when meta">
-          {[formatYears(start, end), company]
-            .filter(Boolean)
-            .join(site.labels.metaSeparator)}
+          {[year, company].filter(Boolean).join(site.labels.metaSeparator)}
         </span>
         <PlatformLinks project={project} />
       </li>
@@ -53,6 +66,40 @@ const ranks = impactRanks(projects);
   .main {
     flex: 1 1 100%;
     min-width: 0;
+  }
+
+  .thumb {
+    display: block;
+    grid-area: thumb;
+    align-self: start;
+    width: var(--layout-thumb);
+    height: auto;
+    aspect-ratio: var(--layout-icon-ratio);
+    object-fit: cover;
+    border-radius: var(--radius-icon);
+    background: var(--color-surface);
+  }
+
+  .has-icons .row {
+    display: grid;
+    grid-template-columns: var(--layout-thumb) minmax(0, 1fr) auto;
+    grid-template-areas:
+      "thumb main main"
+      "thumb when platforms";
+    column-gap: var(--space-m);
+  }
+
+  .has-icons .main {
+    grid-area: main;
+  }
+
+  .has-icons .when {
+    grid-area: when;
+  }
+
+  .has-icons .row > :global(:last-child) {
+    grid-area: platforms;
+    justify-self: end;
   }
 
   .title {
@@ -111,6 +158,12 @@ const ranks = impactRanks(projects);
       white-space: nowrap;
     }
 
+    .has-icons .row {
+      grid-template-columns: var(--layout-thumb) minmax(0, 1fr) auto auto;
+      grid-template-areas: "thumb main when platforms";
+      column-gap: var(--space-l);
+    }
+
     @supports (grid-template-columns: subgrid) {
       .projects {
         display: grid;
@@ -126,6 +179,14 @@ const ranks = impactRanks(projects);
 
       .row > :global(:last-child) {
         justify-self: end;
+      }
+
+      .projects.has-icons {
+        grid-template-columns: var(--layout-thumb) minmax(0, 1fr) auto auto;
+      }
+
+      .has-icons .row {
+        grid-template-columns: subgrid;
       }
     }
   }

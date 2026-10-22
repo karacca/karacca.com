@@ -1,0 +1,67 @@
+---
+title: PawsApp
+description: On-demand dog walks in Central London, with vetted walkers, live GPS tracking and a report card after every walk.
+year: 2022
+company: Mobillium
+links:
+  website: https://www.pawsapp.co
+  appStore: https://apps.apple.com/gb/app/id1560320621
+  googlePlay: https://play.google.com/store/apps/details?id=com.mobillium.pawsapp.android.owner
+detail: true
+impact: 2
+icon:
+  src: ./pawsapp/icon.png
+screens:
+  - src: ./pawsapp/store-1.webp
+    alt: PawsApp Play Store screenshot about booking on-demand dog walks with a walker at your door in 60 minutes, with the home screen asking what Alfie needs today and buttons for ASAP, scheduled and monthly walks.
+  - src: ./pawsapp/store-2.webp
+    alt: PawsApp Play Store screenshot about trusted walkers who are vetted, insured, tested and reviewed, with the profile of a walker named Olivia and a review from an owner.
+  - src: ./pawsapp/store-3.webp
+    alt: PawsApp Play Store screenshot about tracking your dog's walk live, with the route on a map, a notification that Alfie just pooped and a button to contact the walker.
+  - src: ./pawsapp/store-4.webp
+    alt: PawsApp Play Store screenshot about the walkies report card, with the walk's time and distance, pee and poo checks, the walker's note and a star rating.
+---
+
+import carerBookings from "./pawsapp/carer-2.webp";
+import carerRequest from "./pawsapp/carer-3.webp";
+import carerWalk from "./pawsapp/carer-1.webp";
+
+PawsApp is a dog walking service in Central London. Owners book a walk in the app, a vetted walker from the neighbourhood comes to the door, and they follow the walk live on a map. A report card arrives when the dog is back home. Walkers have an app of their own for taking requests, walking and getting paid. PawsApp says it has tracked more than 50,000 walks.
+
+## What I did
+
+At Mobillium I built PawsApp from zero for its London team: the app for dog owners and the app for walkers, with booking in real time, scheduling, profiles and payments. Both apps reached the App Store in November 2021.
+
+## The app
+
+- **Walks.** An ASAP walk, with a walker at the door within 60 minutes, a scheduled walk, or monthly walks. A free meet and greet with a local walker can come first.
+- **Matching.** The app matches a dog with a walker who is free, so there is no back and forth with walkers who are busy.
+- **Walkers.** Each walker is interviewed in person, trained online and background-checked. Fewer than one in five applicants gets in, and every walk is insured.
+- **Live walks.** The route on a map, the time and distance so far, and a notification when the dog pees or poops. The owner can contact the walker from the same screen.
+- **Report card.** After the walk: how long it took, how far they went, whether the dog peed and pooped, and a note from the walker. The owner rates the walker.
+- **Payments.** Card payments inside the app.
+
+## The carer app
+
+Walkers, whom the app calls carers, go online to receive walk requests nearby. They see what a walk pays before they confirm it, keep their bookings on a calendar, and report toilet breaks while they walk. Earnings and tips are paid to their bank account.
+
+<Screens
+  title="The carer app"
+  screens={[
+    {
+      src: carerWalk,
+      alt: "PawsApp carer App Store screenshot about spending time with dogs, with a walk in progress on a map and buttons to contact the owner, finish the walk and report a toilet break.",
+      caption: "A walk in progress.",
+    },
+    {
+      src: carerBookings,
+      alt: "PawsApp carer App Store screenshot about being your own boss, with the bookings calendar for October 2021 and a switch to go online.",
+      caption: "Bookings.",
+    },
+    {
+      src: carerRequest,
+      alt: "PawsApp carer App Store screenshot about getting paid, with the summary of a 30-minute ASAP walk request, its earnings of £11.20 and buttons to decline or confirm.",
+      caption: "A walk request.",
+    },
+  ]}
+/>

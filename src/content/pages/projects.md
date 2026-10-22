@@ -7,4 +7,4 @@ labels:
   byImpact: impact
 ---
 
-A list of projects I worked on or contributed to. Not all of them are solely mine.
+Things I've had a hand in. Some are dead, most are alive, and one is probably in your pocket.

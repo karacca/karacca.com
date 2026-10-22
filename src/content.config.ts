@@ -1,9 +1,18 @@
-import { defineCollection } from "astro:content";
+import { defineCollection, type SchemaContext } from "astro:content";
 import { file, glob } from "astro/loaders";
 import { z } from "astro/zod";
 import { parse } from "yaml";
 
 const date = z.union([z.date(), z.iso.date()]).pipe(z.coerce.date());
+
+function shot(image: SchemaContext["image"]) {
+  return z.strictObject({
+    src: image(),
+    dark: image().optional(),
+    alt: z.string(),
+    caption: z.string().optional(),
+  });
+}
 
 const pages = defineCollection({
   loader: glob({ pattern: "*.{md,mdx}", base: "./src/content/pages" }),
@@ -28,31 +37,39 @@ const posts = defineCollection({
 });
 
 const projects = defineCollection({
-  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/projects" }),
+  loader: glob({ pattern: "*.{md,mdx}", base: "./src/content/projects" }),
   schema: ({ image }) =>
     z.strictObject({
       title: z.string(),
       description: z.string(),
-      start: z.number().int(),
-      end: z.union([z.number().int(), z.literal("present")]).optional(),
+      year: z.number().int(),
       company: z.string().optional(),
+      role: z.string().optional(),
+      highlights: z
+        .array(
+          z.strictObject({
+            value: z.union([z.string(), z.number()]),
+            label: z.string(),
+          }),
+        )
+        .max(4)
+        .default([]),
       links: z
         .strictObject({
           website: z.url().optional(),
           appStore: z.url().optional(),
           googlePlay: z.url().optional(),
+          github: z.url().optional(),
         })
         .default({}),
       status: z.string().optional(),
       detail: z.boolean().default(false),
-      featured: z.boolean().default(false),
       impact: z.number().int().min(1).max(5).default(1),
-      cover: z
-        .strictObject({
-          src: image(),
-          alt: z.string(),
-        })
+      icon: z
+        .strictObject({ src: image(), dark: image().optional() })
         .optional(),
+      gallery: z.array(shot(image)).default([]),
+      screens: z.array(shot(image)).default([]),
     }),
 });
 

@@ -8,16 +8,14 @@ import ProjectList from "@/components/ProjectList.astro";
 import Prose from "@/components/Prose.astro";
 import Section from "@/components/Section.astro";
 import Base from "@/layouts/Base.astro";
-import { getPage, getPosts, getProjects, label } from "@/lib/content";
+import { getPage, getPosts, getProjectsByImpact, label } from "@/lib/content";
 import { getContributions } from "@/lib/github";
 
 const page = await getPage("home");
 const { Content } = await render(page);
 const contributions = await getContributions();
 const posts = (await getPosts()).slice(0, 5);
-const projects = await getProjects();
-const featured = projects.filter((project) => project.data.featured);
-const shown = featured.length > 0 ? featured : projects.slice(0, 5);
+const projects = (await getProjectsByImpact()).slice(0, 3);
 ---
 
 <Base title={page.data.title} description={page.data.description} isHome>
@@ -44,9 +42,9 @@ const shown = featured.length > 0 ? featured : projects.slice(0, 5);
       </p>
     </Section>
   )}
-  {shown.length > 0 && (
+  {projects.length > 0 && (
     <Section label={label(page, "projects")}>
-      <ProjectList projects={shown} />
+      <ProjectList projects={projects} />
       <p class="more">
         <a class="action-link" href="/projects">
           {label(page, "allProjects")}

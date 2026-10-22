@@ -1,0 +1,35 @@
+---
+import type { ImageMetadata } from "astro";
+import ThemedImage from "@/components/ThemedImage.astro";
+import { image } from "@/styles/tokens/image";
+
+interface Props {
+  src: ImageMetadata;
+  dark?: ImageMetadata;
+  alt: string;
+  caption?: string;
+}
+
+const { src, dark, alt, caption } = Astro.props;
+---
+
+<figure>
+  <ThemedImage
+    class="image"
+    src={src}
+    dark={dark}
+    alt={alt}
+    widths={[...image.cover.widths]}
+    sizes={image.cover.sizes}
+  />
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>
+
+<style>
+  .image {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-m);
+  }
+</style>

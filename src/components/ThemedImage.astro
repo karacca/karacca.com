@@ -1,0 +1,56 @@
+---
+import type { ImageMetadata } from "astro";
+import type { HTMLAttributes } from "astro/types";
+import { getImage } from "astro:assets";
+
+interface Props extends Omit<HTMLAttributes<"img">, "src" | "srcset"> {
+  src: ImageMetadata;
+  dark?: ImageMetadata | undefined;
+  alt: string;
+  widths: number[];
+  sizes: string;
+  quality?: number | undefined;
+}
+
+const {
+  src,
+  dark,
+  alt,
+  widths,
+  sizes,
+  quality,
+  loading = "lazy",
+  ...attributes
+} = Astro.props;
+
+const options = { widths, sizes, ...(quality && { quality }) };
+const light = await getImage({ src, ...options });
+const night = dark ? await getImage({ src: dark, ...options }) : undefined;
+---
+
+<picture>
+  {night && (
+    <source
+      media="(prefers-color-scheme: dark)"
+      srcset={night.srcSet.attribute}
+      sizes={sizes}
+    />
+  )}
+  <img
+    {...attributes}
+    src={light.src}
+    srcset={light.srcSet.attribute}
+    sizes={sizes}
+    width={src.width}
+    height={src.height}
+    alt={alt}
+    loading={loading}
+    decoding="async"
+  />
+</picture>
+
+<style>
+  picture {
+    display: contents;
+  }
+</style>

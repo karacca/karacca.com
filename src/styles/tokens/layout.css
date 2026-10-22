@@ -1,6 +1,15 @@
 :root {
   --measure-prose: 34rem;
   --measure-portrait: 18rem;
+  --width-thumb: var(--size-24);
+  --width-icon: var(--size-32);
+  --width-stat: 9rem;
+  --ratio-wide: 16 / 9;
+  --ratio-square: 1;
+  --ratio-screen-corner: 0.045;
+  --height-screen: 32rem;
+  --height-screen-min: 22rem;
+  --height-screen-viewport: 75svh;
   --width-page: 84rem;
   --width-rail: 13rem;
   --measure-wide: calc(var(--width-page) - var(--width-rail) - var(--size-16));
@@ -11,6 +20,7 @@
   --radius-1: 0.25rem;
   --radius-2: 0.5rem;
   --radius-full: 999px;
+  --radius-squircle: 22.5%;
 
   --stroke-1: 1px;
   --stroke-2: 2px;
@@ -31,12 +41,30 @@
   --layout-measure: var(--measure-prose);
   --layout-wide: var(--measure-wide);
   --layout-portrait: var(--measure-portrait);
+  --layout-thumb: var(--width-thumb);
+  --layout-icon: var(--width-icon);
+  --layout-icon-ratio: var(--ratio-square);
+  --layout-stat: var(--width-stat);
+  --layout-stat-columns: 4;
+  --layout-stat-gap: var(--space-l);
+  --layout-slide-ratio: var(--ratio-wide);
+  --layout-screen-height: min(
+    var(--height-screen),
+    var(--height-screen-viewport)
+  );
+  --layout-screen-height-min: min(
+    var(--height-screen-min),
+    var(--height-screen-viewport)
+  );
+  --layout-screen-corner: var(--ratio-screen-corner);
+  --layout-screen-gap: var(--space-m);
   --layout-header-space: var(--space-2xl);
   --layout-footer-space: var(--space-3xl);
 
   --radius-s: var(--radius-1);
   --radius-m: var(--radius-2);
   --radius-pill: var(--radius-full);
+  --radius-icon: var(--radius-squircle);
 
   --border-width: var(--stroke-1);
   --border-width-strong: var(--stroke-2);

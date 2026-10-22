@@ -20,7 +20,10 @@ const platforms = [
     label: site.labels.googlePlay,
     href: links.googlePlay,
   },
+  { icon: "github", label: site.labels.github, href: links.github },
 ].flatMap(({ href, ...platform }) => (href ? [{ ...platform, href }] : []));
+
+const statusLabel = status ?? site.labels.notLive;
 ---
 
 {platforms.length > 0 ? (
@@ -47,7 +50,13 @@ const platforms = [
     ))}
   </ul>
 ) : (
-  <span class="status meta">{status ?? site.labels.notLive}</span>
+  <span
+    class:list={["status", "meta", { "status-labelled": labelled }]}
+    title={labelled ? undefined : statusLabel}
+  >
+    <Icon name="archive" class="platform-icon" />
+    <span class:list={{ "visually-hidden": !labelled }}>{statusLabel}</span>
+  </span>
 )}
 
 <style>
@@ -78,12 +87,14 @@ const platforms = [
     transition-property: color, transform;
   }
 
-  .platform-link::before {
+  .platform-link::before,
+  .status::before {
     content: "\200b";
     content: "\200b" / "";
   }
 
-  .platform-link :global(.platform-icon) {
+  .platform-link :global(.platform-icon),
+  .status :global(.platform-icon) {
     width: var(--icon-size-l);
     height: var(--icon-size-l);
   }
@@ -101,12 +112,22 @@ const platforms = [
     transform: scale(var(--motion-press-scale));
   }
 
-  .labelled :global(.platform-icon) {
+  .labelled :global(.platform-icon),
+  .status-labelled :global(.platform-icon) {
     margin-inline-end: var(--space-xs);
   }
 
   .status {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    color: var(--platform-color, var(--color-text-faint));
     white-space: nowrap;
+  }
+
+  .status-labelled {
+    color: var(--color-text-muted);
   }
 
   @media (hover: hover) {

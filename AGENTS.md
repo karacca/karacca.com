@@ -40,7 +40,7 @@
 - No loud hero text
 - No dock / tab-bar / icon navigation; plain text links with real URLs in the header
 - No cursor-following effects, custom cursors, or mouse-reactive backgrounds
-- No carousels, marquees, or anything that moves on its own
+- No auto-advancing carousels, marquees, or anything that moves on its own; the project image slider moves only on swipe or click
 - No scroll-jacking, smooth-scroll libraries, snap sections, or scroll-triggered reveals
 
 ## Motion
@@ -72,14 +72,17 @@
 ## Projects
 
 - One plain list, no type labels or filters
-- Short intro line: projects I worked on or contributed to, not all solely mine
-- Row shows year range (`start`, optional `end` or `present`) + company/client
+- Short intro line: projects I worked on or contributed to
+- Row shows one `year` (the year it finished, or launched if still running) + company/client
 - Sort toggle on the projects page: by time (default) or by `impact` (1–5); CSS-only radio control, no JS
 - Some projects have a detail page, some don't
 - Detail pages read like a use case: screenshots with explanations; images live beside the entry in `src/content/projects/<slug>/`
-- Optional `cover` image (`src` + `alt`) shown at the top of the detail page
+- Optional `icon` (square app icon or logo, `src` + optional `dark`) shown above the title on the detail page and as a small thumbnail in list rows
+- Optional `role` (what I did, like "Android lead") shown in the detail page's rail under the year and company
+- Optional `highlights` (up to four `value` + `label`, like downloads, rating or crash-free rate) as a quiet row under the description on the detail page; numbers describe the product while `role` says what I did; left out when there's nothing strong
+- Optional `gallery` (`src`, `alt`, optional `caption`) forms a manual slider at the top of the detail page (scroll-snap; native swipe on touch; with mouse or trackpad the strip never scrolls natively, so vertical page scrolling is never caught, and a small script handles buttons, arrow keys and horizontal swipes); inline Markdown images in the body also work
 - Platform icons (website / App Store / Google Play) always visible but faint, brighter on hover
-- Projects that aren't live get a quiet label instead of icons
+- Projects that aren't live get a faint archive icon instead of platform icons, with the `status` (default "not live") as its tooltip in list rows and as its label on the detail page
 - Stretched-link pattern: row opens detail page, icons link out directly
 
 ## Writing, bookmarks, desk

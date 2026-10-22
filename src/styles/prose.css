@@ -6,7 +6,7 @@
   max-width: var(--layout-measure);
 }
 
-.prose > :is(pre, figure, table, .wide) {
+.prose > :is(pre, figure, table, .wide, p:has(> img:only-child)) {
   max-width: var(--layout-wide);
 }
 
@@ -75,6 +75,7 @@
   border: 0;
   border-top: var(--border-width) solid var(--color-border);
   margin-block: var(--space-2xl);
+  margin-inline: 0;
 }
 
 .prose img {

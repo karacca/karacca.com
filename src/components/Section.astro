@@ -22,6 +22,7 @@ const {
     <slot name="rail" />
   </div>
   <div class="body" lang={lang}>
+    <slot name="lead" />
     {title && (
       <h1 class:list={["title", { "visually-hidden": hideTitle }]}>{title}</h1>
     )}
