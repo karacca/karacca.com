@@ -60,7 +60,9 @@ function dataUri(type: string, data: Buffer | string): string {
 }
 
 function loadMark(): Promise<string> {
-  markCache ??= iconSvg(og.scheme).then((svg) => dataUri("image/svg+xml", svg));
+  markCache ??= iconSvg(og.mark.scheme).then((svg) =>
+    dataUri("image/svg+xml", svg),
+  );
   return markCache;
 }
 

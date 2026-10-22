@@ -3,7 +3,6 @@ import { palette } from "../../lib/palette";
 const scheme = "light";
 
 export const og = {
-  scheme,
   size: {
     width: 1200,
     height: 630,
@@ -26,6 +25,7 @@ export const og = {
   },
   mark: {
     size: 44,
+    scheme: "dark",
   },
   icon: {
     size: 88,
