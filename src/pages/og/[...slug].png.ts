@@ -5,7 +5,7 @@ import { formatDate } from "@/lib/format";
 import { renderOgImage, type OgImage } from "@/lib/og-image";
 import { site } from "@/site.config";
 
-const excludedPages = new Set(["404"]);
+const excludedPages = new Set(["404", "bookmarks", "desk"]);
 
 function titled(title: string, description: string) {
   return description === title ? { title } : { title, description };
@@ -44,16 +44,14 @@ export const getStaticPaths = (async () => {
         meta: [formatDate(data.date)],
       },
     })),
-    ...projects
-      .filter(({ data }) => data.detail)
-      .map(({ id, data }) => ({
-        params: { slug: `projects/${id}` },
-        props: {
-          ...titled(data.title, data.description),
-          meta: [String(data.year), ...(data.company ? [data.company] : [])],
-          ...(data.icon ? { icon: filePath(data.icon.src) } : {}),
-        },
-      })),
+    ...projects.map(({ id, data }) => ({
+      params: { slug: `projects/${id}` },
+      props: {
+        ...titled(data.title, data.description),
+        meta: [String(data.year), ...(data.company ? [data.company] : [])],
+        ...(data.icon ? { icon: filePath(data.icon.src) } : {}),
+      },
+    })),
   ];
 }) satisfies GetStaticPaths;
 

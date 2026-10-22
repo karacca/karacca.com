@@ -3,11 +3,10 @@ title: Vakitler
 description: Prayer times for Android with a live countdown, qibla compass, reminders and home screen widgets.
 year: 2024
 company: Wite
-role: Developer and maintainer
+role: Developer and Maintainer
 links:
   googlePlay: https://play.google.com/store/apps/details?id=com.tr.wite.vakitler
-detail: true
-impact: 3
+impact: 4
 highlights:
   - value: 5K+
     label: downloads on Google Play
@@ -30,16 +29,6 @@ screens:
 
 import home from "./vakitler/home.png";
 import homeDark from "./vakitler/home-dark.png";
-import locations from "./vakitler/locations.png";
-import locationsDark from "./vakitler/locations-dark.png";
-import onboardingCountdown from "./vakitler/onboarding-countdown.png";
-import onboardingCountdownDark from "./vakitler/onboarding-countdown-dark.png";
-import onboardingLocation from "./vakitler/onboarding-location.png";
-import onboardingLocationDark from "./vakitler/onboarding-location-dark.png";
-import onboardingReminders from "./vakitler/onboarding-reminders.png";
-import onboardingRemindersDark from "./vakitler/onboarding-reminders-dark.png";
-import onboardingTimes from "./vakitler/onboarding-times.png";
-import onboardingTimesDark from "./vakitler/onboarding-times-dark.png";
 import prayerAsr from "./vakitler/prayer-asr.png";
 import prayerDhuhr from "./vakitler/prayer-dhuhr.png";
 import prayerFajr from "./vakitler/prayer-fajr.png";
@@ -49,47 +38,21 @@ import prayerSunrise from "./vakitler/prayer-sunrise.png";
 import reminders from "./vakitler/reminders.png";
 import remindersDark from "./vakitler/reminders-dark.png";
 
-Vakitler is a prayer times app for Android. It shows the day's times from Diyanet, Turkey's Presidency of Religious Affairs, counts down to the next prayer, finds the qibla, and reminds you before the prayers you choose. It is free, has no ads, and works in Turkish and English.
+Vakitler takes its times from Diyanet, Türkiye's Presidency of Religious Affairs. It is free, has no ads, and works in Turkish and English.
 
-I started it at Wite in December 2024 and still maintain it.
+## What I did
 
-## First launch
+I started Vakitler at Wite in December 2024 and still maintain it.
 
-Onboarding takes four pages, one feature each: the day's times, the countdown, location and reminders. Location can come from the device or from a list, and reminders can wait until later.
+- **1.0**, December 2024: prayer times for a place picked from a list.
+- **2.0**, February 2026: automatic location, the iftar countdown, the Hijri date and a more reliable widget.
+- **3.0**, August 2026: reminders, several saved locations, light and dark themes and new widgets.
 
-<Screens
-  title="Vakitler onboarding"
-  screens={[
-    {
-      src: onboardingTimes,
-      dark: onboardingTimesDark,
-      alt: "The first onboarding page, Every prayer, on time, above the first three prayer times.",
-      caption: "The day's times.",
-    },
-    {
-      src: onboardingCountdown,
-      dark: onboardingCountdownDark,
-      alt: "The onboarding page Keep the next prayer in sight, with a countdown of two hours and 23 minutes.",
-      caption: "The countdown.",
-    },
-    {
-      src: onboardingLocation,
-      dark: onboardingLocationDark,
-      alt: "The onboarding page Where are you praying, with a compass and buttons to use the device location or choose from the list.",
-      caption: "Location.",
-    },
-    {
-      src: onboardingReminders,
-      dark: onboardingRemindersDark,
-      alt: "The onboarding page A gentle heads-up, with alarm toggles on the evening prayers and a button to turn on reminders.",
-      caption: "Reminders.",
-    },
-  ]}
-/>
+Every screen is covered by screenshot tests, and the screenshots below come from them.
 
-## Home screen
+## The app
 
-The home screen answers one question: how long until the next prayer. A large countdown sits in the middle, with the Hijri date above it and, during Ramadan, a second counter until iftar. Below are the six times of the day. Past ones fade, the next one is outlined, and the whole screen takes that prayer's color, from blue at Fajr to indigo at Isha.
+The home screen answers one question: how long until the next prayer. A large countdown sits in the middle with the six times of the day below it, and the whole screen takes the color of the next prayer, from blue at Fajr to indigo at Isha. During Ramadan a second counter runs until iftar.
 
 <Screens
   title="Vakitler prayer colors"
@@ -127,11 +90,10 @@ The home screen answers one question: how long until the next prayer. A large co
   ]}
 />
 
-Each row has an alarm toggle, so a reminder is one tap away. The location chip at the top switches between saved places, and the small dial beside it is a qibla compass whose arrow shows which way to turn.
-
-## Reminders
-
-You pick which prayers to be reminded of and how early, separately for each one, from two hours before to the moment the time begins. Reminders are exact alarms. The minutes in the notification are worked out when it is shown, not when it was scheduled, because some phones deliver alarms late. I wrote about [how a Xiaomi phone sat on one for an hour](/writing/never-trust-the-delivery-time).
+- **Reminders.** For each prayer, choose whether and how early, from two hours before to the moment it begins. I wrote about [why the minutes are worked out when the notification shows](/writing/never-trust-the-delivery-time).
+- **Locations.** Follow the device, or save places from a list and switch between them from the home screen.
+- **Qibla.** A small compass on the home screen shows which way to turn.
+- **Widgets.** The day's times and the countdown on the home screen.
 
 <Screens
   title="Vakitler reminders"
@@ -150,34 +112,3 @@ You pick which prayers to be reminded of and how early, separately for each one,
     },
   ]}
 />
-
-## Locations
-
-Vakitler can follow the device location and update the times when you travel. You can also pick a country, city and district from the list, save several places, and switch between them from the home screen.
-
-<Screens
-  title="Vakitler locations"
-  screens={[
-    {
-      src: locations,
-      dark: locationsDark,
-      alt: "The saved locations sheet over the home screen, listing Cankaya, Kadikoy and Basaksehir, with a button to add a location.",
-      caption: "Saved places, from the home screen.",
-    },
-  ]}
-/>
-
-## Widgets
-
-Home screen widgets show the day's times and the countdown to the next prayer. They are built with Glance and update without waking the device.
-
-## How it is built
-
-The app is written in Kotlin with Jetpack Compose, split into data, domain and presentation layers. Every screen has screenshot tests in light and dark, Turkish and English, portrait and landscape, with the date and clock pinned so the images never drift. Apart from the store set at the top, the screenshots on this page are those test images.
-
-## Releases
-
-- **1.0**, December 2024: prayer times for a place picked from the list.
-- **2.0**, February 2026: automatic location, the iftar countdown, the Hijri date and a more reliable widget.
-- **3.0**, August 2026: reminders, multiple saved locations, light and dark themes, in-app language and new widgets.
-- **3.1**, September 2026: reminders right when a prayer begins.

@@ -17,6 +17,7 @@ interface AnchorContext {
 }
 
 const filePattern = /\.(?:xml|pdf)$/i;
+const externalPattern = /^https?:\/\//;
 
 const filePrefetch = {
   name: "file-prefetch",
@@ -26,6 +27,20 @@ const filePrefetch = {
       const { href } = node.properties;
       if (typeof href === "string" && filePattern.test(href)) {
         context.setProperty(node, "data-astro-prefetch", "false");
+      }
+    },
+  },
+};
+
+const externalLinks = {
+  name: "external-links",
+  element: {
+    filter: ["a"],
+    visit(node: Anchor, context: AnchorContext) {
+      const { href } = node.properties;
+      if (typeof href === "string" && externalPattern.test(href)) {
+        context.setProperty(node, "target", "_blank");
+        context.setProperty(node, "rel", "noopener");
       }
     },
   },
@@ -42,7 +57,7 @@ const markdownLinks: AstroIntegration = {
           `The "${name}" Markdown processor does not accept hast plugins`,
         );
       }
-      plugins.push(filePrefetch);
+      plugins.push(filePrefetch, externalLinks);
     },
   },
 };

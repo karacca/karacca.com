@@ -3,11 +3,10 @@ title: Vesika
 description: An AI assistant for lawyers in Türkiye that finds case law, drafts petitions and checks every citation against the real decision.
 year: 2025
 company: Wite
-role: Project lead
+role: Project Lead
 links:
   website: https://vesika.ai
-detail: true
-impact: 4
+impact: 6
 highlights:
   - value: 11.5M+
     label: decisions and laws, in full text
@@ -27,25 +26,18 @@ gallery:
     caption: The decision reader, with the full citation one click away.
 ---
 
-Vesika is an AI assistant for lawyers, built for Turkish law. You describe a case in your own words, and it finds the decisions and legislation that apply, drafts a petition or a contract around them, or reviews a document you upload. Every citation is matched against the real decision before the answer reaches you, and one that doesn't match never makes it into the answer.
+Vesika is an AI assistant built for Turkish law. You describe a case in your own words, and it finds the decisions and legislation that apply, drafts a petition around them, or reviews a document you upload.
 
-We build it at Wite, and I lead the project. The app is in Turkish.
+## What I did
 
-## The assistant
+We build Vesika at Wite, and I lead the project. It started in 2025 and grew into a research assistant over its own archive of Turkish decisions and legislation in 2026.
 
-- **Research.** Search by what a case means, not by its keywords. The archive holds more than 11.5 million decisions and laws in full text, from 126 sources: the Court of Cassation, the Council of State, the Constitutional Court, regulatory boards, the Court of Accounts and legislation. You can add your own files and work in the context of a case.
-- **Citations.** Each one is checked against the decision's docket number, decision number, chamber and date. Click it to read the reasoning yourself.
-- **Readers.** Laws and decisions open in a reader with their sections, search inside the text, a citation to copy and a PDF export.
-- **Drafting.** Petitions, contracts and formal notices, written with the relevant precedent. The competent court, the deadline, court fees and attorney fees are checked in the same place.
-- **Review.** Upload a contract, the other side's petition or a notice, and missing elements and risky clauses are listed with the reasoning.
-- **Formats.** UDF for UYAP, Türkiye's court filing system, and Word or PDF for clients, with the firm's letterhead set up once.
+## The app
 
-Pulling case files from UYAP and court notices from UETS, the national e-notification system, is coming next.
+- **Research.** Search by what a case means, not by its keywords, across more than 11.5 million decisions and laws from 126 courts, boards and other sources.
+- **Citations.** Each one is matched against the real decision's docket number, chamber and date before the answer reaches you, and opens in a reader with one click.
+- **Drafting.** Petitions, contracts and formal notices, written with the relevant precedent.
+- **Review.** Upload a contract or the other side's petition, and missing elements and risky clauses are listed with the reasoning.
+- **Formats.** UDF for UYAP, Türkiye's court filing system, and Word or PDF for clients.
 
-## Cloud or on premises
-
-Most lawyers start in the cloud, where an account opens the same day. Large firms and companies can run the assistant, the database and the model on their own servers, so documents stay in-house, and sign in through LDAP, Active Directory or SAML SSO. Other software, like Copilot or case and contract management tools, can call Vesika over MCP.
-
-## How it got here
-
-Vesika started in September 2025 as a tool for a law firm's own documents. You signed in with Microsoft, picked folders from OneDrive, and built tables whose columns an AI filled in from every file, like the position and start date in each employment contract. A chat answered questions from the files and tables you selected. Over the next months it gained semantic and hybrid search, shared workspaces for teams, and previews of UDF files. In 2026 it grew into the research assistant it is now, built on its own archive of Turkish decisions and legislation.
+Most lawyers use it in the cloud. Large firms can run it on their own servers, so their documents stay in-house. The app is in Turkish.

@@ -15,7 +15,7 @@ const { class: className } = Astro.props;
   data-resume
   data-astro-prefetch="false"
 >
-  {site.resume.label}
+  <slot>{site.resume.label}</slot>
 </a>
 
 <script>

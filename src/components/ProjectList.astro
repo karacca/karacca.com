@@ -16,7 +16,7 @@ const hasIcons = projects.some((project) => project.data.icon);
 
 <ul class:list={["rows", "projects", { "has-icons": hasIcons }]} role="list">
   {projects.map((project) => {
-    const { title, description, year, company, detail, icon } = project.data;
+    const { title, description, year, company, icon } = project.data;
     return (
       <li class="row" style={`--rank-time: ${ranks.get(project.id)}`}>
         {hasIcons &&
@@ -34,13 +34,9 @@ const hasIcons = projects.some((project) => project.data.icon);
           ))}
         <div class="main">
           <p class="title">
-            {detail ? (
-              <a class="row-link" href={`/projects/${project.id}`}>
-                {title}
-              </a>
-            ) : (
-              title
-            )}
+            <a class="row-link" href={`/projects/${project.id}`}>
+              {title}
+            </a>
           </p>
           <p class="description muted">{description}</p>
         </div>

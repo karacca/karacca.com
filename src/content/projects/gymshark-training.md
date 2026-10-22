@@ -3,10 +3,9 @@ title: Gymshark Training
 description: Gymshark's workout app, with plans from its athletes and trainers, custom routines and a log of every set.
 year: 2023
 company: RE Partners
-role: Android developer
+role: Android Developer
 status: discontinued
-detail: true
-impact: 2
+impact: 5
 highlights:
   - value: 100K+
     label: downloads on Google Play
@@ -27,14 +26,19 @@ screens:
     alt: Gymshark Training store screenshot about workouts for small spaces with no equipment, with the home workouts collection.
 ---
 
-Gymshark Training was the workout app of Gymshark, the UK fitness clothing brand. It had a library of gym and home workouts and multi-week plans led by Gymshark athletes and personal trainers, and it let you build your own routines and log every set. It had more than 100,000 downloads on Google Play.
+Gymshark Training was the workout app of Gymshark, the UK fitness clothing brand, for training at the gym or at home.
 
-I worked on the Android app from December 2022 to June 2023, through RE Partners, before moving to [Gymshark Shop](/projects/gymshark-shop). Gymshark has since stopped updating the app, and it is no longer in the stores.
+## What I did
+
+I worked on the Android app through RE Partners from December 2022 to June 2023, before moving to [Gymshark Shop](/projects/gymshark-shop).
 
 ## The app
 
-- **Explore.** Featured workouts, the top ten of the day, and collections like home workouts.
-- **Workouts and plans.** Filters by type, duration, equipment and body part, or by the athlete or trainer behind a workout. Plans run for several weeks, a few days each week.
-- **Training.** Exercises in sets and reps, by time, or both, each with a video of the move, and a timer that runs through the session.
+- **Workouts and plans.** Filters by type, duration, equipment and body part, and plans that run for several weeks.
+- **Training.** Each exercise with a video of the move, and a timer that runs through the session.
 - **Create.** Your own workouts and plans, built from an A–Z exercise library.
-- **Progress.** Every set and rep logged, personal bests, and plans that pick up where you left off.
+- **Progress.** Every set and rep logged, with personal bests.
+
+## Since then
+
+Gymshark has stopped updating the app, and it is no longer in the stores.

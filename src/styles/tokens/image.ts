@@ -23,4 +23,8 @@ export const image = {
     widths: [64, 128, 192, 256],
     sizes: "(min-width: 90rem) 5rem, 4rem",
   },
+  chip: {
+    widths: [16, 32, 48],
+    sizes: "1rem",
+  },
 } as const;

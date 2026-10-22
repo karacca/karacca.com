@@ -4,11 +4,15 @@ import { site } from "@/site.config";
 ---
 
 <footer class="site-footer page rail-grid">
-  <p class="meta">{site.timezone.label}</p>
   <nav aria-label={site.labels.footerLinks}>
     <ul role="list">
       <li>
-        <a class="quiet-link" href={site.bookCall.href}>
+        <a
+          class="quiet-link"
+          href={site.bookCall.href}
+          target="_blank"
+          rel="noopener"
+        >
           {site.bookCall.label}
         </a>
       </li>
@@ -19,7 +23,12 @@ import { site } from "@/site.config";
     <ul role="list">
       {site.social.map((item) => (
         <li>
-          <a class="quiet-link" href={item.href} rel="me">
+          <a
+            class="quiet-link"
+            href={item.href}
+            target="_blank"
+            rel="me noopener"
+          >
             {item.label}
           </a>
         </li>
@@ -41,10 +50,6 @@ import { site } from "@/site.config";
     border-top: var(--border-width) solid var(--color-border);
   }
 
-  .meta {
-    line-height: calc(var(--text-size-small) * var(--text-leading-body));
-  }
-
   nav,
   ul {
     display: flex;
@@ -64,5 +69,11 @@ import { site } from "@/site.config";
     display: inline-block;
     margin-inline: calc(var(--space-xs) * -1);
     padding: var(--space-2xs) var(--space-xs);
+  }
+
+  @media (min-width: 52rem) {
+    nav {
+      grid-column: 2;
+    }
   }
 </style>

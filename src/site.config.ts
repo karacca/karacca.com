@@ -10,8 +10,6 @@ export const site = {
     { label: "about", href: "/about" },
     { label: "writing", href: "/writing" },
     { label: "projects", href: "/projects" },
-    { label: "bookmarks", href: "/bookmarks" },
-    { label: "desk", href: "/desk" },
   ],
   social: [
     { label: "X", href: "https://x.com/karacca" },
@@ -30,9 +28,6 @@ export const site = {
   rss: {
     label: "RSS",
     href: "/rss.xml",
-  },
-  timezone: {
-    label: "Based in Istanbul, GMT+3",
   },
   analytics: {
     cloudflareToken: "",

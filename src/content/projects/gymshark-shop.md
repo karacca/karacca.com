@@ -3,12 +3,11 @@ title: Gymshark Shop
 description: Gymshark's shopping app, with new drops first, app-only collections, a wishlist and bookings at its stores.
 year: 2024
 company: RE Partners
-role: Android developer
+role: Android Developer
 links:
   appStore: https://apps.apple.com/app/id1139155460
   googlePlay: https://play.google.com/store/apps/details?id=com.gymshark.store
-detail: true
-impact: 4
+impact: 8
 highlights:
   - value: 1M+
     label: downloads on Google Play
@@ -35,21 +34,20 @@ screens:
     alt: Gymshark Shop Play Store screenshot about staying connected, with sale and workout messages in the inbox.
 ---
 
-Gymshark Shop is the shopping app of Gymshark, the UK fitness clothing brand. New drops land in the app first, some collections are sold only there, and you can keep a wishlist, read offers and news in an inbox, and book events at Gymshark's stores. It has more than a million downloads on Google Play.
+Gymshark is a fitness clothing brand from the UK, and this is its shopping app.
 
 ## What I did
 
-I joined the Android team in June 2023, through RE Partners, after six months on [Gymshark Training](/projects/gymshark-training), and stayed until late 2024, when I moved to [Qoluna](/projects/qoluna). The team was spread across time zones, and we worked closely with QA, product and design on every feature.
+I joined the Android team through RE Partners in June 2023, after six months on [Gymshark Training](/projects/gymshark-training), and stayed until late 2024, when I moved to [Qoluna](/projects/qoluna). The team was spread across time zones and worked closely with QA, product and design.
 
-- **Product lists.** Star ratings on product cards, a banner to switch between grid and list views and open the filters, a gender filter on collections, and info tiles at the top of a collection, set up in Contentful, some with a discount code to copy.
-- **Product page.** For the redesigned product page I built the size selector, with sold-out sizes and the size guide, the sheets for an item added to the bag, back-in-stock alerts and quantity limits, the feature facts, and the Klarna and Afterpay options. I also added the lowest price of the last 30 days.
-- **Bag.** A progress bar toward free standard and then free express delivery, and product recommendations that save straight to the wishlist.
-- **Inbox.** The inbox icon on the home screen, with a badge for unread messages.
-- **Upkeep.** Moving the ViewModels of about ten modules to the team's new pattern, raising test coverage, fixing crashes, double taps and a memory leak, upgrading Kotlin, Compose and other libraries, and a script that pulls translations from Lokalise.
+- **Product lists.** Ratings on product cards, a switch between grid and list views, a gender filter, and promo tiles at the top of a collection.
+- **Product page.** For the redesign, the size selector with sold-out sizes and the size guide, back-in-stock alerts, quantity limits, and the Klarna and Afterpay options.
+- **Bag.** A progress bar toward free delivery, and recommendations that save straight to the wishlist.
+- **Upkeep.** Moving about ten modules to the team's new pattern, raising test coverage, fixing crashes and a memory leak, and keeping the libraries up to date.
 
-## How it is built
+## The app
 
-- Kotlin, in about a hundred Gradle modules. Most features are a pair: a `-component` module with the data and domain layers, and a `-ui` module with the screens.
-- Screens are fragments with the Navigation component, and newer ones are written in Jetpack Compose on a shared design system. Dependency injection is Hilt.
-- Shopify runs the store: products, accounts, the bag and checkout. Algolia powers search and product lists, Contentful the editorial content, Braze the inbox, and Intercom the support chat.
-- Every module is held at 100% unit test coverage with Kover, builds and Google Play releases run on Bitrise, and crash-free users stay above 99.8%.
+- **Drops.** New releases land in the app first, and some collections are sold only there.
+- **Wishlist.** Saved items, with an alert when a sold-out size is back.
+- **Inbox.** Offers and news from Gymshark.
+- **Stores.** Bookings for events at Gymshark's stores.

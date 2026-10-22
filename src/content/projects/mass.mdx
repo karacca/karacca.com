@@ -3,16 +3,17 @@ title: MASS
 description: Türkiye's national electricity app. Usage, outages and complaints from all 21 distribution companies in one place.
 year: 2026
 company: Wite
-role: Project and mobile lead
+role: Project and Mobile Lead
 links:
   website: https://massportal.com.tr
   appStore: https://apps.apple.com/tr/app/mass/id6744158894
   googlePlay: https://play.google.com/store/apps/details?id=tr.com.massportal
-detail: true
-impact: 5
+impact: 10
 highlights:
   - value: 100K+
     label: downloads on Google Play
+  - value: e-Devlet
+    label: sign-in through Türkiye's government gateway
   - value: 300+
     label: unit and widget tests
 icon:
@@ -35,19 +36,26 @@ import subscriptionsAlert from "./mass/subscriptions-alert.png";
 import subscriptionsList from "./mass/subscriptions-list.png";
 import subscriptionsQuery from "./mass/subscriptions-query.png";
 
-MASS, short for Milli Akıllı Sayaç Sistemi (National Smart Meter System), is EPİAŞ's platform for electricity consumers. Türkiye has 21 distribution companies, each with its own systems, website and call center. MASS puts all of them behind one app. You sign in with e-Devlet, add your subscriptions, and see your usage, outages and compensation in one place. You also get alerts and can file complaints without needing to know which company serves which address.
+MASS, short for Milli Akıllı Sayaç Sistemi (National Smart Meter System), is EPİAŞ's platform for electricity consumers. Each distribution company has its own systems, website and call center. MASS lets you sign in once with e-Devlet and deal with all of them, without needing to know which company serves which address.
 
-We built it at Wite: an iOS and Android app, a web app, an admin panel for EPİAŞ, and the backend that connects to every distribution company. I led the project on our side, running the sprints, the demos and the acceptance testing with EPİAŞ. I also led the mobile app: I built its first version and developed it with one other developer.
+## What I did
+
+We built MASS at Wite: the iOS and Android app, a web app, an admin panel for EPİAŞ, and the backend behind them. I led the project on our side and the mobile app.
+
+- **Project.** Running the sprints, the demos and the acceptance testing with EPİAŞ.
+- **Mobile app.** I built its first version in Flutter, then developed it with one other developer.
+- **Launch.** Before the public pilot I audited the app end to end and fixed how it behaved on slow networks, with push notifications and on older Android phones.
+- **Quality.** More than 300 unit and widget tests, and separate production and staging builds.
 
 ## The app
 
-The app is a single Flutter codebase for iOS and Android, available in Turkish and English.
+The app is in Turkish and English.
 
-- **Subscriptions.** Add a consumption or production subscription, personal or corporate, by its installation number. Its details come live from the distribution company.
-- **Usage.** Hourly, daily, monthly and yearly readings with the day, peak and night split. You can compare them with your own past usage and with similar consumers in your city and district. Every query exports to PDF, Excel or CSV.
+- **Subscriptions.** Add a home or business subscription by its installation number, and its details come live from the distribution company.
+- **Usage.** Hourly to yearly readings, compared with your own past usage and with similar consumers nearby, and exported to PDF, Excel or CSV.
 - **Outages and compensation.** Past outages for each subscription, and the compensation owed for long or frequent ones.
-- **Complaints.** Requests go straight to the distribution company, with attachments, and the status and replies come back into the app.
-- **Notifications.** Push alerts for outages, complaint updates, a usage limit you set yourself, and unexpected spikes on smart meters.
+- **Complaints.** Requests go straight to the distribution company, and the replies come back into the app.
+- **Notifications.** Alerts for outages, complaint updates, a usage limit you set yourself, and unexpected spikes.
 
 <Screens
   title="MASS subscriptions"
@@ -93,17 +101,8 @@ The app is a single Flutter codebase for iOS and Android, available in Turkish a
 
 ## Twenty-one systems behind one screen
 
-Every distribution company implemented the shared API its own way, so the same request could come back in a different shape, slowly, or not at all. On the mobile side, that meant never trusting a response:
+Every distribution company answers through its own systems, so the same request can come back in a different shape, slowly, or not at all. The app is built to stay useful when that happens: a missing value never empties a screen, a failed load offers a retry, and each feature can be switched on once the companies behind it are ready.
 
-- Unknown values degrade gracefully instead of emptying a screen.
-- Failed loads offer a retry instead of spinning forever.
-- Error messages come from the server, so they can be fixed without a store release.
-- Features sit behind flags in the admin panel. The app could pass store review early and switch each part on once the companies behind it were ready.
+## Where it stands
 
-## Getting to launch
-
-The app reached the stores at the start of 2026. It opened to the public in September with a pilot of six distribution companies, and the rest joined in October, when they started texting their customers about it.
-
-Before the pilot I audited the app end to end. Most fixes were about how it behaves when the network or the backend doesn't. The app now starts even when the backend is slow, and logging out always clears the session. Push notifications now arrive on newer Android versions and on the first iOS launch. Older Android phones didn't trust the servers' new certificate root and reported no connection, so the app now ships that root itself.
-
-I also added a suite of more than 300 unit and widget tests, separate production and staging builds, and test identifiers for UI automation with Appium. Since launch, I've been shipping small releases every week or two as feedback comes in from users and the distribution companies.
+The app reached the stores at the start of 2026. It opened to the public in September with six distribution companies, and the rest joined in October. I ship small releases every week or two.

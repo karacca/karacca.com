@@ -3,8 +3,8 @@ title: Coiny
 description: A crypto wallet from Istanbul for buying and selling Bitcoin, Ethereum, XRP and Litecoin with Turkish lira, made for people new to crypto.
 year: 2018
 company: Ovidos
+role: iOS Developer
 status: discontinued
-detail: true
 impact: 2
 icon:
   src: ./coiny/icon.png
@@ -21,7 +21,7 @@ screens:
     alt: Coiny App Store screenshot from 2019 about withdrawing crypto any time, with the send screen in Turkish showing fields for the recipient address with QR scan, tag and amount, plus the miner fee.
 ---
 
-Coiny was a crypto wallet from an Istanbul startup of the same name. It called itself Türkiye's first mobile wallet for digital currencies, and it set out to make buying and selling crypto with Turkish lira easy for people who had never tried it. You topped up from Papara or a bank account, or paid by card, and bought Bitcoin, Ethereum, XRP or Litecoin at any hour.
+Coiny came from an Istanbul startup of the same name and called itself Türkiye's first mobile wallet for digital currencies. The company has since shut down.
 
 ## What I did
 
@@ -31,16 +31,7 @@ At Ovidos I developed Coiny's iPhone app in Swift, with live market prices, the 
 
 The screenshots are from the App Store in 2019, about a year after I left Ovidos.
 
-- **Markets.** Live prices in lira, each with a small chart, and a detail screen with charts from one minute to a month.
-- **Buy and sell.** Pay from your lira balance or by credit card, at any hour.
-- **Wallets.** Bitcoin, Ethereum, XRP, Litecoin and Turkish lira, each with its balance.
-- **Send.** Crypto to any address, with a QR scanner, a tag field and the miner fee shown up front.
-- **Security.** A PIN, and two-factor sign-in with Google Authenticator.
-
-## Timeline
-
-- **May 2018.** The app was out with Bitcoin, and Ethereum had just been added.
-- **September 2018.** Coiny opened its own exchange on the web, Coiny Pro.
-- **December 2019.** The app's last update.
-
-The company has since shut down, and the app is no longer in the App Store.
+- **Markets.** Live prices in lira, each with a chart from one minute to a month.
+- **Buy and sell.** Pay from your lira balance or by card, at any hour.
+- **Send.** Crypto to any address, with a QR scanner and the fee shown up front.
+- **Security.** A PIN, and two-factor sign-in.

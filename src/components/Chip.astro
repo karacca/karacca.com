@@ -1,25 +1,54 @@
 ---
+import { getEntry } from "astro:content";
 import Icon from "@/components/Icon.astro";
+import ThemedImage from "@/components/ThemedImage.astro";
 import { isExternal } from "@/lib/paths";
+import { image } from "@/styles/tokens/image";
 
 interface Props {
   icon?: string;
   href?: string;
+  project?: string;
 }
 
-const { icon, href } = Astro.props;
+const { icon, project: projectId } = Astro.props;
+const project = projectId ? await getEntry("projects", projectId) : undefined;
+
+if (projectId && !project) {
+  throw new Error(`Missing project: src/content/projects/${projectId}`);
+}
+
+const href = Astro.props.href ?? (project && `/projects/${project.id}`);
 const Tag = href ? "a" : "span";
-const rel = href && isExternal(href) ? "noopener" : undefined;
+const external = href !== undefined && isExternal(href);
+const projectIcon = project?.data.icon;
 ---
 
-<Tag class="chip" href={href} rel={rel}>
+<Tag
+  class="chip"
+  href={href}
+  target={external ? "_blank" : undefined}
+  rel={external ? "noopener" : undefined}
+>
   {icon && <Icon name={icon} class="chip-icon" />}
-  {<slot />}
+  {projectIcon && (
+    <ThemedImage
+      class="chip-icon chip-image"
+      src={projectIcon.src}
+      dark={projectIcon.dark}
+      alt=""
+      widths={[...image.chip.widths]}
+      sizes={image.chip.sizes}
+    />
+  )}
+  <slot>{project?.data.title}</slot>
 </Tag>
 
 <style>
   .chip {
-    display: inline-block;
+    position: relative;
+    top: 0;
+    display: inline;
     padding: var(--space-3xs) var(--space-xs);
     border-radius: var(--radius-pill);
     background: var(--color-surface);
@@ -29,7 +58,7 @@ const rel = href && isExternal(href) ? "noopener" : undefined;
     line-height: var(--text-leading-chip);
     text-decoration-line: none;
     white-space: nowrap;
-    transition-property: background-color, box-shadow, transform;
+    transition-property: background-color, box-shadow, top;
     transition-duration: var(--motion-hover-duration);
     transition-timing-function: var(--motion-hover-ease);
   }
@@ -46,11 +75,16 @@ const rel = href && isExternal(href) ? "noopener" : undefined;
     vertical-align: var(--icon-baseline-offset);
   }
 
+  .chip :global(.chip-image) {
+    border-radius: var(--radius-icon);
+    object-fit: cover;
+  }
+
   @media (hover: hover) {
     .chip:hover {
       background: var(--color-surface-hover);
       box-shadow: inset 0 0 0 var(--border-width) var(--color-border-strong);
-      transform: translateY(var(--motion-nudge-distance));
+      top: var(--motion-nudge-distance);
     }
   }
 </style>

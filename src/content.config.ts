@@ -63,8 +63,7 @@ const projects = defineCollection({
         })
         .default({}),
       status: z.string().optional(),
-      detail: z.boolean().default(false),
-      impact: z.number().int().min(1).max(5).default(1),
+      impact: z.number().int().min(1).max(10).default(1),
       icon: z
         .strictObject({ src: image(), dark: image().optional() })
         .optional(),

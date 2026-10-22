@@ -50,6 +50,8 @@ All copy lives in `src/content/`. Components and `.astro` pages contain no text.
 - **Projects**: `src/content/projects/<slug>.md` with `title`, `description`, `year`, optional `company`, `links` (`website`, `appStore`, `googlePlay`), `status`, `detail`, `featured`, `order`. Set `detail: true` to give a project its own page.
 - **Bookmarks**: entries in `src/content/bookmarks.yaml` with `title`, `url`, `date`, optional `description`.
 
+Bookmarks and desk are not built in v1. Their routes are parked as `src/pages/_bookmarks.astro` and `src/pages/_desk.astro`, which Astro skips. To turn them on, drop the `_` prefix, add them back to `menu` in `src/site.config.ts`, remove them from `excludedPages` in `src/pages/og/[...slug].png.ts`, and add their URLs to `lighthouserc.json`.
+
 The schemas in `src/content.config.ts` are strict. A key that is not in the schema (a typo such as `drfat`), a missing required key, or a date that is not written as `YYYY-MM-DD` fails the build and names the entry.
 
 MDX files can use `<Chip icon="name" href="https://...">Label</Chip>`. Icons are SVG files in `src/icons/`, named after the `icon` value.
@@ -62,7 +64,7 @@ Add `draft: true` to a post's frontmatter. Drafts show up in `pnpm dev` only. Ev
 
 ### Site config
 
-`src/site.config.ts` holds everything that is not page content: site URL and name, the monogram drawn as the favicon, menu, social links, book-a-call link, resume file, timezone label, the analytics token, and shared labels.
+`src/site.config.ts` holds everything that is not page content: site URL and name, the monogram drawn as the favicon, menu, social links, book-a-call link, resume file, the analytics token, and shared labels.
 
 ### Design tokens
 

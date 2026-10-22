@@ -18,12 +18,10 @@ import { image } from "@/styles/tokens/image";
 
 export const getStaticPaths = (async () => {
   const projects = await getProjects();
-  return projects
-    .filter((project) => project.data.detail)
-    .map((project) => ({
-      params: { slug: project.id },
-      props: { project },
-    }));
+  return projects.map((project) => ({
+    params: { slug: project.id },
+    props: { project },
+  }));
 }) satisfies GetStaticPaths;
 
 type Props = InferGetStaticPropsType<typeof getStaticPaths>;
