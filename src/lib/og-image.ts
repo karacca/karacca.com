@@ -5,9 +5,7 @@ import satori, { type Font } from "satori";
 import sharp from "sharp";
 import { iconSvg } from "@/lib/favicon";
 import { domainOf } from "@/lib/format";
-import { toDate, type ContributionDay } from "@/lib/github";
 import { site } from "@/site.config";
-import { chart } from "@/styles/tokens/chart";
 import { og } from "@/styles/tokens/og";
 
 export interface OgImage {
@@ -15,7 +13,6 @@ export interface OgImage {
   description?: string;
   meta?: string[];
   icon?: string;
-  chart?: ContributionDay[][];
 }
 
 type Style = Record<string, string | number>;
@@ -185,27 +182,8 @@ function picture(
   return { type: "img", props: { src, width, height, style } };
 }
 
-function contributions(weeks: ContributionDay[][], width: number): Node {
-  const step = chart.cell + chart.gap;
-  const viewWidth = weeks.length * step - chart.gap;
-  const viewHeight = 7 * step - chart.gap;
-  const cells = weeks.flatMap((week, index) =>
-    week.map(
-      (day) =>
-        `<rect x="${index * step}" y="${toDate(day.date).getUTCDay() * step}" width="${chart.cell}" height="${chart.cell}" rx="${chart.radius}" fill="${og.color.chart[day.level] ?? ""}"/>`,
-    ),
-  );
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${viewWidth} ${viewHeight}">${cells.join("")}</svg>`;
-  return picture(
-    dataUri("image/svg+xml", svg),
-    width,
-    Math.round((width * viewHeight) / viewWidth),
-    { marginTop: og.space.chartBefore },
-  );
-}
-
 function layout(
-  { title, description, meta = [], chart: weeks }: OgImage,
+  { title, description, meta = [] }: OgImage,
   mark: string,
   icon: string | undefined,
 ): Node {
@@ -249,9 +227,6 @@ function layout(
             maxWidth: measure.description,
           }),
         ]
-      : []),
-    ...(weeks && weeks.length > 0
-      ? [contributions(weeks, og.size.width - space.padding * 2)]
       : []),
   ]);
 

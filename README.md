@@ -4,23 +4,22 @@ Personal site of Ömer Karaca. A fully static [Astro](https://astro.build) site:
 
 ## Requirements
 
-- Node 24 (see `.nvmrc`). Node 22.18 is the oldest version that works: `pnpm contributions:update` runs a TypeScript file directly.
+- Node 24 (see `.nvmrc`). Node 22.12 is the oldest version that works.
 - pnpm (the version pinned in `packageManager` in `package.json`)
 
 ## Commands
 
-| Command                     | What it does                                           |
-| --------------------------- | ------------------------------------------------------ |
-| `pnpm install`              | Install dependencies                                   |
-| `pnpm dev`                  | Dev server at `http://localhost:4321`, drafts included |
-| `pnpm build`                | Production build into `dist/`                          |
-| `pnpm preview`              | Serve `dist/` with Astro's preview server              |
-| `pnpm check`                | Type check (`astro check`)                             |
-| `pnpm lint`                 | ESLint                                                 |
-| `pnpm format`               | Prettier, write                                        |
-| `pnpm format:check`         | Prettier, check only                                   |
-| `pnpm lighthouse`           | Lighthouse against `dist/` (run `pnpm build` first)    |
-| `pnpm contributions:update` | Refresh the committed GitHub contributions snapshot    |
+| Command             | What it does                                           |
+| ------------------- | ------------------------------------------------------ |
+| `pnpm install`      | Install dependencies                                   |
+| `pnpm dev`          | Dev server at `http://localhost:4321`, drafts included |
+| `pnpm build`        | Production build into `dist/`                          |
+| `pnpm preview`      | Serve `dist/` with Astro's preview server              |
+| `pnpm check`        | Type check (`astro check`)                             |
+| `pnpm lint`         | ESLint                                                 |
+| `pnpm format`       | Prettier, write                                        |
+| `pnpm format:check` | Prettier, check only                                   |
+| `pnpm lighthouse`   | Lighthouse against `dist/` (run `pnpm build` first)    |
 
 ## Where things live
 
@@ -33,14 +32,12 @@ src/
     posts/            blog posts (.md / .mdx)
     projects/         projects (.md / .mdx)
     bookmarks.yaml    bookmarks
-  data/               committed GitHub contributions snapshot
   styles/tokens/      design tokens
   icons/              local SVG icons used by chips and links
   components/         Astro components
   layouts/            page shell
   lib/                content, formatting and build-time helpers
   pages/              routes
-scripts/              maintenance scripts
 public/               files copied as-is (resume, _headers)
 ```
 
@@ -65,7 +62,7 @@ Add `draft: true` to a post's frontmatter. Drafts show up in `pnpm dev` only. Ev
 
 ### Site config
 
-`src/site.config.ts` holds everything that is not page content: site URL and name, the monogram drawn as the favicon, menu, social links, GitHub username, book-a-call link, resume file, timezone label, the analytics token, and shared labels.
+`src/site.config.ts` holds everything that is not page content: site URL and name, the monogram drawn as the favicon, menu, social links, book-a-call link, resume file, timezone label, the analytics token, and shared labels.
 
 ### Design tokens
 
@@ -76,10 +73,9 @@ Every visual value is a CSS custom property in `src/styles/tokens/`:
 - `og.ts` holds the same kind of values for the generated Open Graph images.
 - `favicon.ts` holds the font, letter spacing, fit and corner radius of the favicon. `favicon.svg` (light and dark), `favicon.ico` and `apple-touch-icon.png` are drawn from the monogram in `src/site.config.ts` at build time, and the same icon sits next to the name on the Open Graph images.
 - `code.ts` names the two Shiki themes for code blocks, plus the code block surface colors and the minimum contrast that token colors are adjusted to at build time.
-- `chart.ts` holds the cell size, gap and corner radius of the contributions chart drawn into the home page's Open Graph image.
 - `sound.ts` holds the notes, level and timing of the resume download sound.
 
-`color.css` is the only place colors are defined. `og.ts`, `favicon.ts` and `code.ts` do not contain hex values: they ask `src/lib/palette.ts` for a token such as `--color-surface` in the light or dark scheme. That helper reads `color.css` at build time, follows `var()`, `light-dark()` and `color-mix(in oklch, …)` to the `oklch()` primitive, converts it to sRGB hex, and fails the build if a token cannot be resolved. A change to the palette therefore reaches the OG images, the favicons and the code contrast check on the next build. In `pnpm dev`, restart the server after a palette change to see it in those places.
+`color.css` is the only place colors are defined. `og.ts`, `favicon.ts` and `code.ts` do not contain hex values: they ask `src/lib/palette.ts` for a token such as `--color-surface` in the light or dark scheme. That helper reads `color.css` at build time, follows `var()` and `light-dark()` to the `oklch()` primitive, converts it to sRGB hex, and fails the build if a token cannot be resolved. A change to the palette therefore reaches the OG images, the favicons and the code contrast check on the next build. In `pnpm dev`, restart the server after a palette change to see it in those places.
 
 ### Fonts
 
@@ -90,18 +86,6 @@ Fonts are self-hosted through Astro's fonts API and Fontsource. `fontsource()` i
 3. The preloaded faces are chosen by the `preload` option on the two `<Font>` tags in `src/layouts/Base.astro`. Three faces are preloaded because every page uses them: sans 400 (body), sans 600 (the name in the header) and mono 400 (footer and meta text), latin subset, normal style. Everything else (italic, `turkish`, latin-ext) is downloaded only by pages that use it. If a weight stops being used on every page, remove it from the preload list.
 4. Turkish needs five letters that are not in Fontsource's latin subset: Ğ ğ İ Ş ş (ı is in latin). They live in latin-ext, which is about 35 KB per face, so a Turkish post would download a latin-ext file for every weight and style it uses. Instead, the `turkish` subset defined at the top of `fonts.ts` is cut from each face's latin-ext file at build time with `subset-font`, which gives one woff2 of about 1.5 KB per face, cached in `node_modules/.astro/font-subsets/`. A character that more than one listed subset covers is served only by the first of them, and a cut subset always wins over the subset it comes from. So latin-ext no longer claims ı or the Turkish letters, and the latin-ext file is only downloaded for other letters (ł or č, for example). This works for any Fontsource family that has a latin-ext subset. To cover another language the same way, add an entry with `from` and `unicodeRange` and list its name in `subsets`.
 5. OG images read font files from `node_modules/@fontsource/<family>/files/`. If the sans or mono family changes, add the matching `@fontsource/<family>` package and update `fonts` and `family` in `src/styles/tokens/og.ts`. Each entry there also names its `subset` and the package's `unicode.json`. The build checks every OG title, description and meta line against those ranges and fails, naming the entry and the character, if one is not covered (an arrow or an emoji, for example). Reword the text or add a font that covers the character.
-
-## GitHub contributions chart
-
-The chart appears only in the home page's Open Graph image, not on the page itself, and is drawn at build time. The build looks for data in this order:
-
-1. With `GITHUB_TOKEN` set, the contribution calendar of `site.github.username` from the GitHub GraphQL API.
-2. Without a token, or if that request fails, the public contributions page on github.com.
-3. If GitHub cannot be reached at all, the snapshot committed in `src/data/github-contributions.json`.
-
-The chart is only as fresh as the last build, and every push to `master` rebuilds it. `pnpm contributions:update` fetches the same data and rewrites the snapshot. Commit the result now and then so the fallback does not get too old.
-
-The token is optional but makes the build less dependent on GitHub's page markup. A personal access token without any scopes is enough for public contributions. For local work, copy `.env.example` to `.env` and fill it in; `pnpm build` and `pnpm contributions:update` both read it. `.env` is git-ignored.
 
 ## Deploy
 
@@ -123,7 +107,7 @@ The site is served by Cloudflare Workers static assets. There is no Worker scrip
    - Root directory: `/`
    - Production branch: `master`
 4. Enable builds for non-production branches. Every pushed branch then gets a preview URL on `workers.dev`.
-5. Build variables and secrets: add `GITHUB_TOKEN` as a secret (optional, see the chart section above). The Node version is read from `.nvmrc`. If the build image picks a different pnpm than the one in `packageManager`, set `PNPM_VERSION` as a build variable.
+5. Build variables: the Node version is read from `.nvmrc`. If the build image picks a different pnpm than the one in `packageManager`, set `PNPM_VERSION` as a build variable.
 6. Worker → Settings → Domains & Routes → add `karacca.com` as a custom domain.
 
 After that, every push to `master` builds and deploys production. Wrangler is not a dependency of this repo; Cloudflare's build fetches it for the deploy step.

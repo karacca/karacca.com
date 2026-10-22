@@ -11,9 +11,6 @@ export const og = {
     bg: palette("--color-bg", scheme),
     text: palette("--color-text", scheme),
     textMuted: palette("--color-text-muted", scheme),
-    chart: [0, 1, 2, 3, 4].map((level) =>
-      palette(`--color-chart-${level}`, scheme),
-    ),
   },
   space: {
     padding: 80,
@@ -21,7 +18,6 @@ export const og = {
     metaGap: 28,
     markGap: 16,
     iconAfter: 8,
-    chartBefore: 28,
   },
   mark: {
     size: 44,

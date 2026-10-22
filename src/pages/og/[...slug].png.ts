@@ -2,12 +2,10 @@ import type { APIRoute, GetStaticPaths, ImageMetadata } from "astro";
 import { getCollection } from "astro:content";
 import { getPosts, getProjects } from "@/lib/content";
 import { formatDate } from "@/lib/format";
-import { getContributions } from "@/lib/github";
 import { renderOgImage, type OgImage } from "@/lib/og-image";
 import { site } from "@/site.config";
 
 const excludedPages = new Set(["404"]);
-const chartPage = "home";
 
 function titled(title: string, description: string) {
   return description === title ? { title } : { title, description };
@@ -28,22 +26,17 @@ export const getStaticPaths = (async () => {
   );
   const posts = await getPosts();
   const projects = await getProjects();
-  const { weeks } = await getContributions();
 
   return [
-    ...pages.map(({ id, data }) => {
-      const title =
+    ...pages.map(({ id, data }) => ({
+      params: { slug: id },
+      props: titled(
         data.title === site.name
           ? (data.heading ?? data.description)
-          : data.title;
-      return {
-        params: { slug: id },
-        props:
-          id === chartPage
-            ? { title, chart: weeks }
-            : titled(title, data.description),
-      };
-    }),
+          : data.title,
+        data.description,
+      ),
+    })),
     ...posts.map(({ id, data }) => ({
       params: { slug: `writing/${id}` },
       props: {

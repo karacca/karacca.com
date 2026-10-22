@@ -61,7 +61,6 @@
 - Social links: X, LinkedIn, GitHub as plain text links
 - Resume: native `download` link to the PDF, with a subtle Web Audio sound
 - Sound is used only for the resume download, nowhere else
-- GitHub contributions chart only in the home page's OG image, not on the page itself; rendered at build time, in site palette (no GitHub green)
 - Inline chips: icon + name pill in prose, gentle CSS hover, local SVG icons
 - Chips link where useful (company → site, project → detail page); otherwise plain
 - Handwritten signature as static SVG at the end of about/intro; follows light/dark
@@ -97,7 +96,7 @@
 
 - Public GitHub repo
 - Cloudflare Workers static assets; auto-deploy on push to `master`, preview deploys for branches
-- No GitHub Actions workflows; the GitHub chart refreshes on each deploy
+- No GitHub Actions workflows
 - Fully static, no backend
 - Cloudflare Web Analytics (cookieless, no consent banner)
 - Commit directly to `master` with conventional commits (`feat:`, `fix:`, `content:`, `style:`, `chore:`)

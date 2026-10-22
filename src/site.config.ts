@@ -18,9 +18,6 @@ export const site = {
     { label: "LinkedIn", href: "https://www.linkedin.com/in/karacca/" },
     { label: "GitHub", href: "https://github.com/karacca" },
   ],
-  github: {
-    username: "karacca",
-  },
   bookCall: {
     label: "Book a call",
     href: "https://cal.com/omer/intro",

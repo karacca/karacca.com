@@ -6,5 +6,4 @@ dist/
 .lighthouseci/
 .env
 .env.*
-!.env.example
 screenshots/
