@@ -11,8 +11,6 @@ impact: 4
 highlights:
   - value: 1 call
     label: to put a chatbot in an Android app
-  - value: 2 days
-    label: before launch, the SDK was on Maven Central
 icon:
   src: ./suppa/icon.png
 gallery:

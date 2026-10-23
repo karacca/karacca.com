@@ -34,11 +34,13 @@ Nami gives you the major AI models for one subscription instead of one each. You
 
 I started Nami at Wite in October 2025.
 
-- **1.0.** Built with one other developer in React Native, and released on the App Store in January 2026.
+- **1.0.** Built in React Native, and released on the App Store in January 2026.
 - **2.0.** A new design with sheets for models, chat history and settings, released in April. I built most of it.
 - **3.0.** A fresh start, released in October. I wrote the product spec it was built from, screen by screen, and the team built it.
 
 ## The app
+
+The App Store screenshots still show Nami before 3.0.
 
 - **Models.** Every model with its cost and the plan it needs. With several picked, each answer gets its own pane.
 - **Projects.** Chats grouped with shared files and instructions.

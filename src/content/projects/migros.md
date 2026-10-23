@@ -1,7 +1,7 @@
 ---
 title: Migros
 description: The app of Migros, one of Türkiye's largest supermarket chains, with groceries on a schedule or in minutes and meals from restaurants.
-year: 2021
+year: 2022
 company: Mobillium
 role: Android Developer
 links:
@@ -36,10 +36,12 @@ Sanal Market delivers groceries on the day and time you pick, Migros Hemen bring
 
 At Mobillium I worked on the Migros Android app, building new features and keeping a large app stable.
 
+- **Migros Yemek.** Meals from restaurants, which came to the app as a new tab in June 2022.
+
 ## The app
 
 While I was there, Migros brought its separate apps together. Migros Hemen moved into the main app in May 2021, and a month later Sanal Market, Hemen, Migros Ekstra and the MoneyPay wallet became one app, which Migros called a step toward a super app.
 
 ## Since then
 
-Migros Yemek arrived as a new tab in June 2022, and the app now also carries Migros's other stores, from electronics to pet supplies.
+The app now also carries Migros's other stores, from electronics to pet supplies.

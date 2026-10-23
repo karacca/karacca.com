@@ -38,9 +38,9 @@ MASS, short for Milli Akıllı Sayaç Sistemi (National Smart Meter System), is 
 We built MASS at Wite: the iOS and Android app, a web app, an admin panel for EPİAŞ, and the backend behind them. I led the project on our side and the mobile app.
 
 - **Project.** Running the sprints, the demos and the acceptance testing with EPİAŞ.
-- **Mobile app.** I built its first version in Flutter, then developed it with one other developer.
+- **Mobile app.** I built its first version in Flutter and have kept developing it since.
 - **Launch.** Before the public pilot I audited the app end to end and fixed how it behaved on slow networks, with push notifications and on older Android phones.
-- **Quality.** More than 300 unit and widget tests, and separate production and staging builds.
+- **Quality.** More than 300 unit and widget tests.
 
 ## The app
 

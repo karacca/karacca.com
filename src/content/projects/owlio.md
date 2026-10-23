@@ -8,11 +8,6 @@ links:
   appStore: https://apps.apple.com/tr/app/id6475001698
   googlePlay: https://play.google.com/store/apps/details?id=tech.wite.quiz
 impact: 3
-highlights:
-  - value: 3
-    label: developers on the 2.0 team I led
-  - value: 3 months
-    label: to rebuild it as 2.0
 icon:
   src: ./owlio/icon.png
 screens:
@@ -33,7 +28,7 @@ Owlio prepares you for Türkiye's English exams with real questions from past se
 ## What I did
 
 - **1.0.** I built the first version in Flutter at the end of 2023, while a colleague wrote the backend. It reached the App Store in April 2024.
-- **2.0.** In August 2024 we started over, and I led it with a team of three developers. I set up the project, reviewed the team's work, and built the onboarding, the quiz with its explanations, and sign-in. It shipped at the end of October.
+- **2.0.** In August 2024 we started over, and I led the rebuild. I set up the project, reviewed the team's work, and built the onboarding, the quiz with its explanations, and sign-in. It shipped at the end of October.
 
 ## The app
 

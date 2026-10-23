@@ -24,13 +24,13 @@ gallery:
     caption: The Studio, running in the browser.
 ---
 
-Moodstone gives an AI agent a face that shows what it is doing: waiting, thinking, streaming an answer, done or failed. Every avatar is generated, so two agents in the same color can still look different.
+Moodstone gives an AI agent a face that shows what it is doing: idle, thinking, working, done or failed. Every avatar is generated, so two agents in the same color can still look different.
 
 ## What I did
 
 Moodstone is a side project and a small step outside Android. I designed and built it, and released 1.0 in September 2026. The source is on [GitHub](https://github.com/karacca/moodstone) under the MIT license, and the package is on [npm](https://www.npmjs.com/package/moodstone).
 
-The face, a single color with two eyes, comes from Plane's [Agent Avatar Lab](https://agents.plane.so/), and reading it as what a long-running agent is doing from xAI's post on [designing Grok Bot](https://x.ai/news/designing-grok-bot). The surface, shapes, palette, timing and code are my own.
+The face, a single color with two eyes, comes from Plane's [Agent Avatar Lab](https://agents.plane.so/), and the idea that it should show what a long-running agent is doing comes from xAI's post on [designing Grok Bot](https://x.ai/news/designing-grok-bot). The surface, shapes, palette, timing and code are my own.
 
 ## The library
 
