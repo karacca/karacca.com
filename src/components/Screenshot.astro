@@ -8,9 +8,10 @@ interface Props {
   dark?: ImageMetadata;
   alt: string;
   caption?: string;
+  eager?: boolean;
 }
 
-const { src, dark, alt, caption } = Astro.props;
+const { src, dark, alt, caption, eager = false } = Astro.props;
 ---
 
 <figure>
@@ -21,6 +22,8 @@ const { src, dark, alt, caption } = Astro.props;
     alt={alt}
     widths={[...image.cover.widths]}
     sizes={image.cover.sizes}
+    loading={eager ? "eager" : "lazy"}
+    fetchpriority={eager ? "high" : undefined}
   />
   {caption && <figcaption>{caption}</figcaption>}
 </figure>

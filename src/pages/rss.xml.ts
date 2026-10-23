@@ -5,13 +5,14 @@ import { experimental_AstroContainer as AstroContainer } from "astro/container";
 import { loadRenderers } from "astro:container";
 import { render } from "astro:content";
 import Chip from "@/components/Chip.astro";
+import Screenshot from "@/components/Screenshot.astro";
 import { getPage, getPosts } from "@/lib/content";
 import { site } from "@/site.config";
 
 const iconPattern = /<svg\b[^>]*aria-hidden="true"[^>]*>[\s\S]*?<\/svg>/gi;
 const tagPattern = /<[a-z][^>]*>/gi;
 const attributePattern = /\s([\w:-]+)(?:="[^"]*")?/g;
-const noisePattern = /^(?:data-astro-|style$|tabindex$)/;
+const noisePattern = /^(?:data-astro-|style$|tabindex$|srcset$|sizes$)/;
 const urlPattern = /\s(href|src|poster)="(\/(?!\/)[^"]*|#[^"]*)"/g;
 
 function feedHtml(html: string, base: URL): string {
@@ -43,7 +44,7 @@ export const GET: APIRoute = async (context) => {
       const link = new URL(`/writing/${post.id}`, origin);
       const { Content } = await render(post);
       const html = await container.renderToString(Content, {
-        props: { components: { Chip } },
+        props: { components: { Chip, Screenshot } },
       });
       return {
         title: post.data.title,
