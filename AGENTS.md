@@ -93,6 +93,7 @@
 - Platform icons (website / App Store / Google Play) always visible but faint, brighter on hover
 - Projects that aren't live get a faint archive icon instead of platform icons, with the `status` (default "not live") as its tooltip in list rows and as its label on the detail page
 - Stretched-link pattern: row opens detail page, icons link out directly
+- Projects that must not go public use `published: false`: shown in `pnpm dev` only, never built (no list row, page or OG image), and chips to them render unlinked
 
 ## Writing, bookmarks, desk
 

@@ -2,6 +2,7 @@
 import { getEntry } from "astro:content";
 import Icon from "@/components/Icon.astro";
 import ThemedImage from "@/components/ThemedImage.astro";
+import { isPublished } from "@/lib/content";
 import { isExternal } from "@/lib/paths";
 import { image } from "@/styles/tokens/image";
 
@@ -18,7 +19,9 @@ if (projectId && !project) {
   throw new Error(`Missing project: src/content/projects/${projectId}`);
 }
 
-const href = Astro.props.href ?? (project && `/projects/${project.id}`);
+const href =
+  Astro.props.href ??
+  (project && isPublished(project) ? `/projects/${project.id}` : undefined);
 const Tag = href ? "a" : "span";
 const external = href !== undefined && isExternal(href);
 const projectIcon = project?.data.icon;

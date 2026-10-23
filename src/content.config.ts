@@ -1,9 +1,29 @@
 import { defineCollection, type SchemaContext } from "astro:content";
-import { file, glob } from "astro/loaders";
+import { file, glob, type Loader } from "astro/loaders";
 import { z } from "astro/zod";
 import { parse } from "yaml";
 
 const date = z.union([z.date(), z.iso.date()]).pipe(z.coerce.date());
+
+function hideUnpublished(loader: Loader): Loader {
+  return {
+    ...loader,
+    load: async (context) => {
+      await loader.load(context);
+      if (import.meta.env.SHOW_DRAFTS) {
+        return;
+      }
+      for (const { id, data } of context.store.values()) {
+        if (data.published === false) {
+          context.store.set({
+            id,
+            data: { title: data.title, published: false },
+          });
+        }
+      }
+    },
+  };
+}
 
 function shot(image: SchemaContext["image"]) {
   return z.strictObject({
@@ -37,7 +57,9 @@ const posts = defineCollection({
 });
 
 const projects = defineCollection({
-  loader: glob({ pattern: "*.{md,mdx}", base: "./src/content/projects" }),
+  loader: hideUnpublished(
+    glob({ pattern: "*.{md,mdx}", base: "./src/content/projects" }),
+  ),
   schema: ({ image }) =>
     z.strictObject({
       title: z.string(),
@@ -69,6 +91,7 @@ const projects = defineCollection({
         .optional(),
       gallery: z.array(shot(image)).default([]),
       screens: z.array(shot(image)).default([]),
+      published: z.boolean().default(true),
     }),
 });
 

@@ -41,13 +41,17 @@ function byImpact(a: Project, b: Project): number {
   return b.data.impact - a.data.impact || byTime(a, b);
 }
 
+export function isPublished(project: Project): boolean {
+  return import.meta.env.SHOW_DRAFTS || project.data.published;
+}
+
 export async function getProjects(): Promise<Project[]> {
-  const projects = await getCollection("projects");
+  const projects = await getCollection("projects", isPublished);
   return projects.sort(byTime);
 }
 
 export async function getProjectsByImpact(): Promise<Project[]> {
-  const projects = await getCollection("projects");
+  const projects = await getCollection("projects", isPublished);
   return projects.sort(byImpact);
 }
 

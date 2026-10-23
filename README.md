@@ -47,7 +47,7 @@ All copy lives in `src/content/`. Components and `.astro` pages contain no text.
 
 - **Pages**: one file per page in `src/content/pages/`. Frontmatter holds `title`, `description`, an optional `heading`, and a `labels` map for every small string that page needs.
 - **Posts**: `src/content/posts/<slug>.md` with `title`, `description`, `date`, optional `updated` and `lang`. The file name is the URL: `/writing/<slug>`. Set `lang` (for example `tr`) on a post that is not in English; it marks the post's title and text with that language. Images and videos for a post go in a folder named after the post, next to it.
-- **Projects**: `src/content/projects/<slug>.md` with `title`, `description`, `year`, optional `company`, `links` (`website`, `appStore`, `googlePlay`), `status`, `detail`, `featured`, `order`. Set `detail: true` to give a project its own page.
+- **Projects**: `src/content/projects/<slug>.md` with `title`, `description`, `year`, optional `company`, `role`, `links` (`website`, `appStore`, `googlePlay`, `github`), `status`, `impact`, `icon`, `highlights`, `gallery`, `screens` and `published`. Every project gets its own page at `/projects/<slug>`.
 - **Bookmarks**: entries in `src/content/bookmarks.yaml` with `title`, `url`, `date`, optional `description`.
 
 Bookmarks and desk are not built in v1. Their routes are parked as `src/pages/_bookmarks.astro` and `src/pages/_desk.astro`, which Astro skips. To turn them on, drop the `_` prefix, add them back to `menu` in `src/site.config.ts`, remove them from `excludedPages` in `src/pages/og/[...slug].png.ts`, and add their URLs to `lighthouserc.json`.
@@ -61,6 +61,8 @@ Markdown links to `.xml` and `.pdf` files get `data-astro-prefetch="false"` at b
 ### Drafts
 
 Add `draft: true` to a post's frontmatter. Drafts show up in `pnpm dev` only. Every `astro build` leaves them out entirely, whatever `NODE_ENV` is set to: no page, no sitemap entry, no OG image. The RSS feed never includes drafts, in dev or in a build.
+
+Projects work the same way with `published: false`: the project shows up in `pnpm dev` only, and a build leaves out its list row, page, sitemap entry and OG image. A `<Chip project="...">` pointing at it still renders, without a link. The entry and its images stay in the repo, so anything that must stay private has to be removed, not just unpublished.
 
 ### Site config
 
