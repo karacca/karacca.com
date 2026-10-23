@@ -29,13 +29,6 @@ screens:
     alt: MASS store screenshot in Turkish about querying your data, with the usage query form of a home subscription.
 ---
 
-import complaintsNew from "./mass/complaints-new.png";
-import complaintsSent from "./mass/complaints-sent.png";
-import notifications from "./mass/notifications.png";
-import subscriptionsAlert from "./mass/subscriptions-alert.png";
-import subscriptionsList from "./mass/subscriptions-list.png";
-import subscriptionsQuery from "./mass/subscriptions-query.png";
-
 MASS, short for Milli Akıllı Sayaç Sistemi (National Smart Meter System), is EPİAŞ's platform for electricity consumers. Each distribution company has its own systems, website and call center. MASS lets you sign in once with e-Devlet and deal with all of them, without needing to know which company serves which address.
 
 ## What I did
@@ -56,48 +49,6 @@ The app is in Turkish and English.
 - **Outages and compensation.** Past outages for each subscription, and the compensation owed for long or frequent ones.
 - **Complaints.** Requests go straight to the distribution company, and the replies come back into the app.
 - **Notifications.** Alerts for outages, complaint updates, a usage limit you set yourself, and unexpected spikes.
-
-<Screens
-  title="MASS subscriptions"
-  screens={[
-    {
-      src: subscriptionsList,
-      alt: "The subscription list with a home and a business subscription from Uludağ Elektrik Dağıtım, and a button to add a new one.",
-      caption: "Subscriptions.",
-    },
-    {
-      src: subscriptionsQuery,
-      alt: "The usage query form of a home subscription, with the period, date range and analysis types to compare.",
-      caption: "A usage query.",
-    },
-    {
-      src: subscriptionsAlert,
-      alt: "The sheet for the unexpected usage alert, with its threshold slider set to 50 percent.",
-      caption: "The unexpected usage alert.",
-    },
-  ]}
-/>
-
-<Screens
-  title="MASS complaints and notifications"
-  screens={[
-    {
-      src: complaintsNew,
-      alt: "A new complaint form for a home subscription, with its category, subcategory, description and an attached file.",
-      caption: "A new complaint.",
-    },
-    {
-      src: complaintsSent,
-      alt: "The active complaints list with a confirmation that the request was received.",
-      caption: "Sent and listed.",
-    },
-    {
-      src: notifications,
-      alt: "The notifications list with four usage limit alerts for a home subscription.",
-      caption: "Usage limit alerts.",
-    },
-  ]}
-/>
 
 ## Twenty-one systems behind one screen
 
