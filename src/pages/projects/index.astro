@@ -82,8 +82,7 @@ const sorts = [
     }
   }
 
-  :global(.section):has(.sort [value="year"]:checked)
-    :global(.projects > li) {
+  :global(.section):has(.sort [value="year"]:checked) :global(.projects > li) {
     order: var(--rank-time);
   }
 
