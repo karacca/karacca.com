@@ -12,6 +12,8 @@ impact: 10
 highlights:
   - value: 100K+
     label: downloads on Google Play
+  - value: 138K+
+    label: downloads on the App Store
   - value: e-Devlet
     label: sign-in through Türkiye's government gateway
   - value: 300+
