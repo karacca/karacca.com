@@ -17,10 +17,6 @@ screens:
     alt: Taxi 7x24 App Store screenshot from 2019 in Turkish, with the Yolculuklarım list of past rides in Adapazarı showing fares and star ratings for the driver and the car.
 ---
 
-import launchCall from "./taxi-7x24/2018-1.webp";
-import launchRoutes from "./taxi-7x24/2018-3.webp";
-import launchSignIn from "./taxi-7x24/2018-2.webp";
-
 Taxi 7x24 launched in Istanbul with Turkcell in May 2018 and put two tablets in every taxi: one for the driver, which took calls and worked as the taximeter, and one for the passenger, with internet, music, TV and deals for the ride.
 
 ## What I did
@@ -32,24 +28,3 @@ At Bulut Yazılım I worked on the passenger app and the kiosk apps on the back-
 - **Calling a taxi.** A map with your location and the taxi stands nearby, and one button to call.
 - **Fares.** An estimate before the ride, comparing the shortest, fastest and cheapest routes.
 - **History.** Past rides with their fares, and ratings for the driver and the car.
-
-<Screens
-  title="At launch, on Android"
-  screens={[
-    {
-      src: launchSignIn,
-      alt: "Taxi 7x24 Android screenshot from 2018 in Turkish, with the sign-in screen asking for a +90 phone number under the 7x24 app icon and a yellow city skyline.",
-      caption: "Phone sign-in.",
-    },
-    {
-      src: launchCall,
-      alt: "Taxi 7x24 Android screenshot from 2018 in Turkish, with a dark Google map of the old city around Beyazıt, a pickup pin on Yeniçeriler Caddesi and a yellow Taksi Çağır button.",
-      caption: "Calling a taxi.",
-    },
-    {
-      src: launchRoutes,
-      alt: "Taxi 7x24 Android screenshot from 2018 in Turkish, with a dark map from Eminönü to Kadıköy dotted with taxi stands and three routes priced as En Kısa, En Hızlı and En Hesaplı.",
-      caption: "Three routes, three fares.",
-    },
-  ]}
-/>
