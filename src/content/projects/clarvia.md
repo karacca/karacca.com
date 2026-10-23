@@ -7,6 +7,7 @@ role: Project Lead
 links:
   website: https://clarvia.tech
 impact: 7
+published: false
 icon:
   src: ./clarvia/icon.png
 gallery:
