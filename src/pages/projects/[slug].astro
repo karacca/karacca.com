@@ -63,11 +63,18 @@ const { Content } = await render(project);
       </a>
       <span class="meta">
         {[year, company].filter(Boolean).join(site.labels.metaSeparator)}
+        {role && (
+          <span class="role">
+            <span class="role-separator">{site.labels.metaSeparator}</span>
+            {role}
+          </span>
+        )}
       </span>
-      {role && <span class="meta">{role}</span>}
       <PlatformLinks project={project} labelled />
     </div>
-    <p class="description muted">{description}</p>
+    <p class="description muted" slot="intro">
+      {description}
+    </p>
     {highlights.length > 0 && <Highlights class="summary" items={highlights} />}
     {gallery.length > 0 && (
       <Gallery class="media" slides={gallery} title={title} />
@@ -91,16 +98,14 @@ const { Content } = await render(project);
 <style>
   .project-meta {
     display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 0 var(--space-m);
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   .app-icon {
     display: block;
     width: var(--layout-icon);
     height: auto;
-    margin-block-end: var(--space-m);
     border-radius: var(--radius-icon);
   }
 
@@ -121,10 +126,19 @@ const { Content } = await render(project);
     margin-block-start: var(--space-prose);
   }
 
-  @media (min-width: 52rem) {
+  @media (width < 52rem) {
     .project-meta {
-      flex-direction: column;
-      align-items: flex-start;
+      margin-block-end: var(--space-m);
+    }
+  }
+
+  @media (min-width: 52rem) {
+    .role {
+      display: block;
+    }
+
+    .role-separator {
+      display: none;
     }
   }
 </style>
