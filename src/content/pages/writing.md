@@ -1,8 +1,8 @@
 ---
 title: Writing
-description: Notes on Android, building software, and what I learn along the way.
+description: Android course notes, post-mortems of things that broke, and news about my own apps.
 labels:
   empty: Nothing published yet.
 ---
 
-Notes on Android, building software, and what I learn along the way. Mostly short, sometimes with code. There is an [RSS feed](/rss.xml) if you prefer to read in your own reader.
+Mostly Android: notes from the courses I teach, post-mortems of things that broke, and news about my own apps. A few posts are in Turkish. If you'd rather read somewhere else, there's an [RSS feed](/rss.xml).
