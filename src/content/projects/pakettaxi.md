@@ -3,7 +3,7 @@ title: PaketTaxi
 description: A courier company from Istanbul that delivers for restaurants and online stores, with an app for its couriers to take orders and find the way.
 year: 2018
 company: Ovidos
-role: iOS Developer
+role: Mobile Developer
 links:
   website: https://www.pakettaxi.com
   appStore: https://apps.apple.com/tr/app/id1337658131

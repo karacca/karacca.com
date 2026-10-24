@@ -3,7 +3,7 @@ title: Taxi 7x24
 description: A taxi service in Istanbul with an app to call a cab and two tablets in every taxi, a taximeter up front and entertainment in the back.
 year: 2018
 company: Bulut Yazılım
-role: Android Developer
+role: Mobile Developer
 status: discontinued
 impact: 3
 icon:

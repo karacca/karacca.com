@@ -3,7 +3,7 @@ title: Owlio
 description: An app for Türkiye's English exams, YDS, YDT and YÖKDİL, with real past questions and AI-written practice sets.
 year: 2024
 company: Wite
-role: Mobile Lead
+role: Founding Developer
 links:
   appStore: https://apps.apple.com/tr/app/id6475001698
   googlePlay: https://play.google.com/store/apps/details?id=tech.wite.quiz

@@ -3,7 +3,7 @@ title: Suppa
 description: A no-code platform for building AI chatbots that answer customers and act on your systems, on the web and in mobile apps.
 year: 2025
 company: Wite
-role: Development Lead
+role: Project Lead
 links:
   website: https://www.suppa.ai
   github: https://github.com/witetech/suppa-android

@@ -3,7 +3,7 @@ title: Kilowatt
 description: Every EV charging station in Türkiye on one map, with sockets, prices and reviews from every operator.
 year: 2026
 company: Wite
-role: Solo Developer
+role: Founding Developer
 links:
   website: https://kilowatt.com.tr
   appStore: https://apps.apple.com/tr/app/id6772964948

@@ -3,7 +3,7 @@ title: MASS
 description: Türkiye's national electricity app. Usage, outages and complaints from all 21 distribution companies in one place.
 year: 2026
 company: Wite
-role: Project and Mobile Lead
+role: Project Lead & Mobile Developer
 links:
   website: https://massportal.com.tr
   appStore: https://apps.apple.com/tr/app/mass/id6744158894
