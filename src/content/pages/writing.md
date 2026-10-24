@@ -1,8 +1,8 @@
 ---
 title: Writing
-description: Android course notes, post-mortems of things that broke, and news about my own apps.
+description: Things I've figured out and wanted to write down.
 labels:
   empty: Nothing published yet.
 ---
 
-Mostly Android: notes from the courses I teach, post-mortems of things that broke, and news about my own apps. A few posts are in Turkish. If you'd rather read somewhere else, there's an [RSS feed](/rss.xml).
+Things I've figured out and wanted to write down, partly to share and partly so I don't forget. If you'd rather read somewhere else, there's an [RSS feed](/rss.xml).
