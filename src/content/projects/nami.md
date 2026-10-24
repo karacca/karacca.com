@@ -7,7 +7,7 @@ role: Founding Developer
 links:
   website: https://nami.chat
   appStore: https://apps.apple.com/app/id6749753781
-impact: 6
+impact: 4
 highlights:
   - value: 9
     label: AI providers in one app

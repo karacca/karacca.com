@@ -6,7 +6,7 @@ company: Wite
 role: Project Lead
 links:
   website: https://vesika.ai
-impact: 6
+impact: 4
 highlights:
   - value: 11.5M+
     label: decisions and laws, in full text

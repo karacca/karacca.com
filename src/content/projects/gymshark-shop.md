@@ -7,7 +7,7 @@ role: Android Developer
 links:
   appStore: https://apps.apple.com/app/id1139155460
   googlePlay: https://play.google.com/store/apps/details?id=com.gymshark.store
-impact: 8
+impact: 7
 highlights:
   - value: 1M+
     label: downloads on Google Play

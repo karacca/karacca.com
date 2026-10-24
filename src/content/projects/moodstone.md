@@ -6,7 +6,7 @@ role: Author
 links:
   website: https://moodstone.expo.app
   github: https://github.com/karacca/moodstone
-impact: 3
+impact: 4
 icon:
   src: ./moodstone/icon.png
   dark: ./moodstone/icon-dark.png

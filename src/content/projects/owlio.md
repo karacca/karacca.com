@@ -7,7 +7,7 @@ role: Founding Developer
 links:
   appStore: https://apps.apple.com/tr/app/id6475001698
   googlePlay: https://play.google.com/store/apps/details?id=tech.wite.quiz
-impact: 3
+impact: 4
 icon:
   src: ./owlio/icon.png
 screens:

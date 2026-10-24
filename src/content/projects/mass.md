@@ -8,7 +8,7 @@ links:
   website: https://massportal.com.tr
   appStore: https://apps.apple.com/tr/app/mass/id6744158894
   googlePlay: https://play.google.com/store/apps/details?id=tr.com.massportal
-impact: 10
+impact: 8
 highlights:
   - value: 100K+
     label: downloads on Google Play

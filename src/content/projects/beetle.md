@@ -5,7 +5,7 @@ year: 2022
 role: Author
 links:
   github: https://github.com/karacca/beetle
-impact: 3
+impact: 4
 icon:
   src: ./beetle/icon.png
 screens:

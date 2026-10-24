@@ -8,7 +8,7 @@ links:
   website: https://www.migros.com.tr
   appStore: https://apps.apple.com/tr/app/id397585390
   googlePlay: https://play.google.com/store/apps/details?id=com.inomera.sm
-impact: 7
+impact: 8
 icon:
   src: ./migros/icon.png
 screens:

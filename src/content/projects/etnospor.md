@@ -7,7 +7,7 @@ role: Mobile Developer
 links:
   appStore: https://apps.apple.com/tr/app/id1583600631
   googlePlay: https://play.google.com/store/apps/details?id=org.worldethnosport.android
-impact: 4
+impact: 5
 highlights:
   - value: 10K+
     label: downloads on Google Play

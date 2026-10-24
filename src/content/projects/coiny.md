@@ -5,7 +5,7 @@ year: 2018
 company: Ovidos
 role: iOS Developer
 status: discontinued
-impact: 2
+impact: 3
 icon:
   src: ./coiny/icon.png
 screens:

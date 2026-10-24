@@ -6,7 +6,7 @@ company: Wite
 role: Project Lead
 links:
   website: https://clarvia.tech
-impact: 7
+impact: 4
 published: false
 icon:
   src: ./clarvia/icon.png
