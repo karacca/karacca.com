@@ -35,6 +35,7 @@ export const og = {
     sans: "Inter, Inter Ext",
     mono: "JetBrains Mono, JetBrains Mono Ext",
   },
+  featureSettings: '"calt" 0',
   text: {
     name: {
       size: 30,
@@ -69,7 +70,7 @@ export const og = {
       weight: 400,
       leading: 1.4,
       tracking: "-0.011em",
-      maxLines: 2,
+      maxLines: 3,
     },
   },
   titleLongFrom: 64,

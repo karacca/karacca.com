@@ -160,6 +160,7 @@ function text(
         fontWeight: token.weight,
         lineHeight: token.leading,
         letterSpacing: token.tracking,
+        fontFeatureSettings: og.featureSettings,
         wordBreak: "break-word",
         color,
         ...(token.maxLines ? { lineClamp: token.maxLines } : {}),
