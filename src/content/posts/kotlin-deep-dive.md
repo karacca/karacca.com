@@ -763,7 +763,7 @@ suspend fun LegacyClient.requestSuspending(): String =
     }
 ```
 
-Prefer it over `suspendCoroutine`: without `invokeOnCancellation`, a cancelled coroutine keeps waiting for the callback forever. Resume exactly once, since resuming twice throws. For a callback that fires repeatedly, like a listener, use `callbackFlow { }` instead.
+Prefer it over `suspendCoroutine`, where a cancelled coroutine keeps waiting for the callback forever. `invokeOnCancellation` also cancels the underlying request, so the work stops with the coroutine. Resume exactly once, since resuming twice throws. For a callback that fires repeatedly, like a listener, use `callbackFlow { }` instead.
 
 ### Mutex and Semaphore vs synchronized
 
@@ -927,7 +927,7 @@ class SearchViewModel : ViewModel() {
         field = MutableStateFlow<UiState>(UiState.Loading)
 
     fun load() {
-        state.value = UiState.Ready
+        state.value = UiState.Success(emptyList())
     }
 }
 ```
@@ -954,6 +954,6 @@ actual fun platformName() = "Android ${Build.VERSION.SDK_INT}"
 actual fun platformName() = UIDevice.currentDevice.systemName
 ```
 
-`expect`/`actual` is a compile-time contract: every target has to provide an `actual`. The modern guidance is to use it for small leaf functions, and interfaces with dependency injection for larger abstractions. The old Kotlin/Native memory model, with frozen objects and `InvalidMutabilityException`, has been gone since 1.7.20. The new one is a tracing GC that allows shared mutable state, with the same discipline as the JVM.
+`expect`/`actual` is a compile-time contract: every target has to provide an `actual`. The modern guidance is to use it for small leaf functions, and interfaces with dependency injection for larger abstractions. The old Kotlin/Native memory model, with frozen objects and `InvalidMutabilityException`, stopped being the default in 1.7.20 and was removed in 1.9.20. The new one is a tracing GC that allows shared mutable state, with the same discipline as the JVM.
 
 The next lesson moved from the language to the UI: [Accessibility in Jetpack Compose](/writing/accessibility-in-jetpack-compose).

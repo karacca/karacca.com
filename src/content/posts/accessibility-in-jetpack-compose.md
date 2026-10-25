@@ -44,7 +44,7 @@ The Material `Button` gets its semantics for free and is announced as "Save, but
 composeTestRule.onRoot().printToLog("SEMANTICS")
 ```
 
-There are two views of it. The merged tree is what TalkBack uses. The unmerged tree has every node, and it's what you usually assert against in tests.
+There are two views of it. The merged tree is what TalkBack uses, and it's what test finders query by default. The unmerged tree has every node; pass `useUnmergedTree = true` to a finder to assert against it.
 
 Before fixing anything, classify the element. Material components are free. Composites need merging. Custom components need a role. Decorative things get cleared.
 

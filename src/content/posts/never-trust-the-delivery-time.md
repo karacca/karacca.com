@@ -12,7 +12,7 @@ I immediately focused on the fact that the notification fired right after he lau
 
 ## What actually happened
 
-I naively expected that if I ask `AlarmManager` for 20:48, my receiver runs at 20:48. Of course I was wrong. I test on a Pixel, and it turns out that's a whole different story from other devices like Xiaomi.
+I naively expected that if I ask `AlarmManager` for 19:26, my receiver runs at 19:26. Of course I was wrong. I test on a Pixel, and it turns out that's a whole different story from other devices like Xiaomi.
 
 Doze, App Standby, and especially the OEM battery managers sit between your alarm and your code. They don't drop the alarm, they hold onto it, sometimes for hours, and let it through the moment something wakes the app up. Usually that's the user opening it.
 

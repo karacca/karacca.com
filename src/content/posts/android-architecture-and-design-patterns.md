@@ -196,7 +196,7 @@ Pick based on the size of the app and how early you want to catch mistakes: manu
 | Error detection | Manual | Compile time  | Runtime  |
 | Learning curve  | Low    | High          | Low      |
 | Scalability     | Poor   | Excellent     | Moderate |
-| KMP support     | Yes    | Partial       | Yes      |
+| KMP support     | Yes    | No            | Yes      |
 | Boilerplate     | High   | Medium        | Low      |
 
 Manual DI gives you full control but falls apart as the graph grows. Hilt catches missing or mismatched bindings at compile time, so you never ship a crash from a missing provider. Koin is the easiest to adopt, but it trades that safety for runtime resolution: a missing binding only surfaces when that code path runs, possibly in production. For a team project, Hilt is the right call. The build cost is a one-time investment and the compile-time guarantees pay off across the team.
