@@ -52,7 +52,9 @@ const single = total === 1;
               alt={slide.alt}
               widths={[...image.cover.widths]}
               sizes={image.cover.sizes}
+              quality={image.gallery.quality}
               loading={index === 0 ? "eager" : "lazy"}
+              fetchpriority={index === 0 ? "high" : undefined}
             />
           </div>
           {slide.caption && (

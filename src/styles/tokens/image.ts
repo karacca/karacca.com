@@ -7,6 +7,9 @@ export const image = {
     widths: [640, 800, 960, 1280, 1600, 1920, 2400],
     sizes: "(min-width: 52rem) min(60vw + 3rem, 86rem), calc(100vw - 2.5rem)",
   },
+  gallery: {
+    quality: 80,
+  },
   screen: {
     widths: [240, 320, 480, 640, 800, 960],
     height: 32,
