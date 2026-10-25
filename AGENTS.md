@@ -114,7 +114,5 @@
 
 ## Open
 
-- Where social links go (header, footer, intro)
 - Final font
-- Whether light mode is tinted too (decide with the font)
-- Assets needed: signature scan, social profile URLs
+- Whether light mode stays tinted (it is now; decide with the font)

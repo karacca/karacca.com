@@ -135,7 +135,7 @@ There is no CI. Before pushing, run:
 4. `pnpm build`
 5. `pnpm lighthouse`
 
-`pnpm lighthouse` uses the config in `lighthouserc.json`. It starts Astro's preview server on port 4322, audits the main routes, one post and one project detail page three times each, and fails unless performance, accessibility, best practices and SEO all score 100. The post URL in that file has to point at a post that exists and is not a draft, and the project URL (`/projects/nami`) at a project with `detail: true`. Update both when those entries are renamed or removed. Reports are written to `.lighthouseci/`, which is git-ignored.
+`pnpm lighthouse` uses the config in `lighthouserc.json`. It starts Astro's preview server on port 4322, audits the main routes, one post and one project detail page three times each, and fails unless performance, accessibility, best practices and SEO all score 100. The post URL in that file has to point at a post that exists and is not a draft, and the project URL (`/projects/moodstone`) at a project that is not `published: false`. Update both when those entries are renamed or removed. Reports are written to `.lighthouseci/`, which is git-ignored.
 
 ## Conventions
 
