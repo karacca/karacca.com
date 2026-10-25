@@ -56,8 +56,6 @@ The schemas in `src/content.config.ts` are strict. A key that is not in the sche
 
 MDX files can use `<Chip icon="name" href="https://...">Label</Chip>`. Icons are SVG files in `src/icons/`, named after the `icon` value.
 
-`src/content/pages/resume.mdx` is the `/resume` page, an HTML copy of `public/resume.pdf`, so update both together. It is written with `<Header>`, `<Section label>`, `<Job>` and `<Terms>`.
-
 Markdown links to `.xml` and `.pdf` files get `data-astro-prefetch="false"` at build time, so hovering them does not download the file. This is done by a small Markdown plugin in `astro.config.ts`.
 
 ### Drafts
