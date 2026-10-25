@@ -8,13 +8,13 @@ lang: tr
 import demo from "./jetpack-compose-ile-declarative-ui-gelistirme/demo.mp4";
 import poster from "./jetpack-compose-ile-declarative-ui-gelistirme/poster.webp";
 
-Son yıllarda, mobil uygulama geliştirme trendlerinde çokça hareketlilik görüyoruz. Mobil kullanım oranları ve cihazların kapasiteleri-kabiliyetleri her geçen gün artıyor. Artık kullandığımız her servisin bir mobil versiyonu da muhakkak mevcut oluyor. Sektörün mobil yönde ilerleyişi hızlanarak devam ediyor. Çok değil, bundan 3–4 sene öncesine kadar, bir mobil uygulama geliştirmek için bilmemiz gereken teknoloji ve yöntemlerin sayısı bu güne kıyasla çok daha az. Geliştirmemiz gereken özelliklerin sayısı artıyor ve bu özellikler, geliştirme esnasında çokça değişebiliyor. Uygulamalarımızı geliştirirken bir yandan kullandığımız metodlara sadık kalıp performanslı, okunabilir, ölçeklendirilebilir kod yazmamız; bir yandan da bu bahsettiğim isteklere cevap vermemiz gerekiyor. _Ne trendlerin peşinden koşup ana meseleyi ıskalayabiliriz ne de bu teknolojilerden bihaber geliştirme hayatımızı sürdürebiliriz._
+Son yıllarda, mobil uygulama geliştirme trendlerinde çokça hareketlilik görüyoruz. Mobil kullanım oranları ve cihazların kapasiteleri-kabiliyetleri her geçen gün artıyor. Artık kullandığımız her servisin bir mobil versiyonu da muhakkak mevcut oluyor. Sektörün mobil yönde ilerleyişi hızlanarak devam ediyor. Çok değil, bundan 3–4 sene öncesine kadar, bir mobil uygulama geliştirmek için bilmemiz gereken teknoloji ve yöntemlerin sayısı bugüne kıyasla çok daha azdı. Geliştirmemiz gereken özelliklerin sayısı artıyor ve bu özellikler, geliştirme esnasında çokça değişebiliyor. Uygulamalarımızı geliştirirken bir yandan kullandığımız metotlara sadık kalıp performanslı, okunabilir, ölçeklendirilebilir kod yazmamız; bir yandan da bu bahsettiğim isteklere cevap vermemiz gerekiyor. _Ne trendlerin peşinden koşup ana meseleyi ıskalayabiliriz ne de bu teknolojilerden bihaber geliştirme hayatımızı sürdürebiliriz._
 
 Hâl böyle olunca, kullandığımız mimarilerde paradigma değişiklikleri oldu. Klasik MVC/MVP mimarileri yerine MVVM gibi daha _reactive_ bir yapıda olan mimariler tercih edilmeye başlandı. Bu paradigma değişikliğini kullanıcı arayüzü tasarlarken kullandığımız yöntemlere uyguladığımızda karşımıza Jetpack Compose çıkıyor. Google’ın 2019 I/O etkinliğinde tanıttığı bu kütüphane, Kotlin dilinin avantajlarını kullanarak _declarative_ bir yaklaşım ile kullanıcı arayüzü tasarlamamıza olanak sağlıyor. Öncelikle, yukarıda da değindiğimiz paradigma değişikliğini incelemeliyiz.
 
 ## Declarative vs Imperative
 
-Klasik Imperative programlama tekniğinde, derleyiciye istediğimiz işlemin **nasıl** yapılacağını anlatırken, Declarative yaklaşımında **ne** istediğimizi beyan(declare) edip, bu işlemin nasıl yapılacağı ile pek fazla ilgilenmiyoruz. Bu ikisi arasındaki farkı ne kadar yazsam da bir kod örneği paylaşmak kadar faydalı olmayacaktır. O yüzden şöyle buyrun:
+Klasik Imperative programlama tekniğinde, derleyiciye istediğimiz işlemin **nasıl** yapılacağını anlatırken, Declarative yaklaşımında **ne** istediğimizi beyan (declare) edip, bu işlemin nasıl yapılacağı ile pek fazla ilgilenmiyoruz. Bu ikisi arasındaki farkı ne kadar yazsam da bir kod örneği paylaşmak kadar faydalı olmayacaktır. O yüzden şöyle buyrun:
 
 ```kotlin
 val numbers = listOf(1, 2, 3, 4, 5, 6, 7, 8)
@@ -35,17 +35,17 @@ fun sumEvens(): Int {
 fun sumEvens() = numbers.filter { n -> n % 2 == 0}.sum()
 ```
 
-Örnekte, bir liste içindeki çift sayıların toplamını dönen fonksiyonu yazıyoruz.
+Örnekte, bir liste içindeki çift sayıların toplamını döndüren fonksiyonu yazıyoruz.
 
 Örnekten de anlaşılacağı gibi, aslında Declarative ve Imperative kavramlarının hudutları kesin çizgiler ile ayrılmış değil. Declarative olarak verdiğim örnek, tahmin edebileceğiniz gibi bir alt katmanda Imperative olarak çalışıyor. Yazdığımız kod ne kadar _declarative_ olursa o kadar kısalıyor; okunuşu kolaylaşıyor. Şimdi bu iyileştirmeyi arayüz tasarımında nasıl uygularız ve neden uygulamalıyız ondan bahsedelim.
 
 ## Mevcut Yöntem & Problemler
 
-Android uygulamalarımızı geliştirirken kullanıcı arayüzü oluşturmak için `Activity`, `Fragment` ve `View` gibi sınıfların yanı sıra `layout`, `attrs` ve `style` gibi xml dosyalarını kullanıyoruz. Android tanıtıldığı günden bu yana cihazlar, ekran boyutları ve formları, uygulamaların yapabildikleri ve kullanım alanları gibi aklınıza gelebilecek bütün faktörlerde değişiklikler oldu fakat bizim kullandığımız bu metod aynı kaldı. Bu parçalı yapı, kodun okunmasını oldukça zorlaştırıyor ve basit bir `View` oluşturmak için yukarıda bahsettiğim parçaları kullanmak zorunda kalıyoruz. Aynı zamanda kullandığımız tasarım öğelerinin içinde bulunduğu `android.widget` paketi ancak SDK güncellemeleri ile elimize ulaşabiliyor.
+Android uygulamalarımızı geliştirirken kullanıcı arayüzü oluşturmak için `Activity`, `Fragment` ve `View` gibi sınıfların yanı sıra `layout`, `attrs` ve `style` gibi XML dosyalarını kullanıyoruz. Android tanıtıldığı günden bu yana cihazlar, ekran boyutları ve formları, uygulamaların yapabildikleri ve kullanım alanları gibi aklınıza gelebilecek bütün faktörlerde değişiklikler oldu fakat bizim kullandığımız bu metot aynı kaldı. Bu parçalı yapı, kodun okunmasını oldukça zorlaştırıyor ve basit bir `View` oluşturmak için yukarıda bahsettiğim parçaları kullanmak zorunda kalıyoruz. Aynı zamanda kullandığımız tasarım öğelerinin içinde bulunduğu `android.widget` paketi ancak SDK güncellemeleri ile elimize ulaşabiliyor.
 
 ## Jetpack Compose
 
-Android ekibi, bu problemleri çözmek ve bizim Declarative bir yöntem ile arayüz tasarımı yapabilmemiz için Jetpack Compose kütüphanesini tanıttı. Bu kütüphaneyi geliştirirken `React` ve `Flutter` gibi yapılardan ilham aldılar. Şu an bu kütüphanenin beta durumunda olduğunu, canlıda olan uygulamalarımızda kullanmanın sakıncalı olduğunu belirtmeliyim. Bu kütüphaneyi sıfırdan Kotlin dili ile geliştirip `androidx.ui` paketi içinde bizlere sunuyorlar.
+Android ekibi, bu problemleri çözmek ve bizim Declarative bir yöntem ile arayüz tasarımı yapabilmemiz için Jetpack Compose kütüphanesini tanıttı. Bu kütüphaneyi geliştirirken `React` ve `Flutter` gibi yapılardan ilham aldılar. Şu an bu kütüphanenin geliştirici önizlemesi (developer preview) aşamasında olduğunu, canlıda olan uygulamalarımızda kullanmanın sakıncalı olduğunu belirtmeliyim. Bu kütüphaneyi sıfırdan Kotlin dili ile geliştirip `androidx.ui` paketi içinde bizlere sunuyorlar.
 
 Şimdi bir örnekle bu kütüphaneyi nasıl kullandığımızdan bahsedeyim: Öncelikle, Android Studio’nun güncelleme kanalını `canary` olarak değiştirip en güncel versiyonu indirmemiz lazım. Yeni proje açarken `Empty Compose Activity` seçeneğini seçersek IDE bizim için gerekli kütüphaneleri projeye ekliyor. Jetpack Compose ile basit bir renk seçme uygulaması yapacağız. Uygulamanın son hali şu şekilde:
 
@@ -60,7 +60,7 @@ Android ekibi, bu problemleri çözmek ve bizim Declarative bir yöntem ile aray
   aria-label="Renk seçme uygulamasının ekran kaydı"
 />
 
-Ekranda _state_’ini tutmak istediğimiz veriyi `Model` annotation'u ile işaretliyoruz. Yine compose kütüphaneleri ile elimize gelen bu annotation ile işaretlenen sınıfların _instance_'ları _observable_ hale geliyor. Input olarak bir `Model` alan compose _function_'lar, veri değişikliklerinde yeni veriyi ekrana çizer.
+Ekranda _state_’ini tutmak istediğimiz veriyi `Model` annotation'ı ile işaretliyoruz. Yine compose kütüphaneleri ile elimize gelen bu annotation ile işaretlenen sınıfların _instance_'ları _observable_ hale geliyor. Input olarak bir `Model` alan compose _function_'lar, veri değişikliklerinde yeni veriyi ekrana çizer.
 
 ```kotlin
 enum class Rgb {
@@ -74,7 +74,7 @@ data class ColorModel(
 )
 ```
 
-Sonra bu `ColorModel` ile `ColorSlider` _function_'unu yazıyoruz. Ekranda gördüğünüz her bir Slider için bu _function_'u kullanıyoruz. Compose function'ları iç içe koyarak view'ı oluşturuyoruz. Compose _function_ ancak yine başka bir compose _function_ tarafından çağırılabiliyor.
+Sonra bu `ColorModel` ile `ColorSlider` _function_'ını yazıyoruz. Ekranda gördüğünüz her bir Slider için bu _function_'ı kullanıyoruz. Compose function'ları iç içe koyarak view'ı oluşturuyoruz. Compose _function_ ancak yine başka bir compose _function_ tarafından çağrılabiliyor.
 
 ```kotlin
 @Composable
@@ -93,7 +93,7 @@ fun ColorSlider(color: ColorModel) {
 }
 ```
 
-Son olarak bütün `ColorSlider`'ları birleştirdiğimiz ve çıktıyı göstermek için `Surface` eklediğimiz _function_'ı yazıyoruz. Bu view'ı `Activity`'mizin `onCreate` methodunda çağırdığımızda işimiz bitmiş oluyor. Composable fonksiyonlar ile layout'u set etmek için `setContentView(layoutId)` yerine `setContent { }` _extension_'unu kullanıp, içinde composable function'umuzu çağırmamız yeterli oluyor.
+Son olarak bütün `ColorSlider`'ları birleştirdiğimiz ve çıktıyı göstermek için `Surface` eklediğimiz _function_'ı yazıyoruz. Bu view'ı `Activity`'mizin `onCreate` metodunda çağırdığımızda işimiz bitmiş oluyor. Composable fonksiyonlar ile layout'u set etmek için `setContentView(layoutId)` yerine `setContent { }` _extension_'ını kullanıp, içinde composable function'ımızı çağırmamız yeterli oluyor.
 
 ```kotlin
 @Composable
@@ -113,7 +113,7 @@ fun ColorPicker() {
 }
 ```
 
-Bu yazıda, kısaca Jetpack Compose nedir ve niçin böyle bir şeye ihtiyaç duyuldu onu anlatmaya çalıştım. Kullandığımız _framework_’lerde soyutlama seviyesi ne kadar artarsa kod satır sayımız o kadar düşüyor; bu da okunabilirliği arttırıp geliştirme sürelerini kısaltıyor; büyük takımlar halinde çalışırken bizlere kolaylık sağlıyor. Tabii şunu da unutmamak gerekir: Bir framework _declarative_ hale geldikçe bizim dikkat kesilmemiz gereken meseleler farklılaşıyor fakat ortadan kalkmıyor. Sonuç itibarıyla bizim verdiğimiz komut, bir yerde _imperative_ bir usul ile makineye giriliyor; biz sadece o nokta ile aramıza mesafe koymuş oluyoruz. Kullandığımız soyutlama araçlarını iyi tanımalı, sınırlarını yetkinliklerini bilmeli, bizim ilk bakışta göremediğimiz çalışma prensiplerini iyi bilmeliyiz ki bu aracı doğru kullanabilelim. Bir sonraki yazımda, bunu yine Jetpack Compose özelinde inceleyeceğim.
+Bu yazıda, kısaca Jetpack Compose nedir ve niçin böyle bir şeye ihtiyaç duyuldu onu anlatmaya çalıştım. Kullandığımız _framework_’lerde soyutlama seviyesi ne kadar artarsa kod satır sayımız o kadar düşüyor; bu da okunabilirliği artırıp geliştirme sürelerini kısaltıyor; büyük takımlar halinde çalışırken bizlere kolaylık sağlıyor. Tabii şunu da unutmamak gerekir: Bir framework _declarative_ hale geldikçe bizim dikkat kesilmemiz gereken meseleler farklılaşıyor fakat ortadan kalkmıyor. Sonuç itibarıyla bizim verdiğimiz komut, bir yerde _imperative_ bir usul ile makineye giriliyor; biz sadece o nokta ile aramıza mesafe koymuş oluyoruz. Kullandığımız soyutlama araçlarını iyi tanımalı, sınırlarını ve yetkinliklerini bilmeli, bizim ilk bakışta göremediğimiz çalışma prensiplerini iyi bilmeliyiz ki bu aracı doğru kullanabilelim. Bir sonraki yazımda, bunu yine Jetpack Compose özelinde inceleyeceğim.
 
 Yazımda kullandığım projenin kaynak kodlarını [burada](https://github.com/mobillium/jetpack-compose-example) bulabilirsiniz. Kolaylıklar dilerim.
 
