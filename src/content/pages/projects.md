@@ -1,6 +1,6 @@
 ---
 title: Projects
-description: Projects I worked on or contributed to.
+description: Apps, platforms and libraries I worked on or contributed to, and what I did on each.
 labels:
   sortBy: sort by
   byImpact: impact

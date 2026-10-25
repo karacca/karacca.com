@@ -1,6 +1,6 @@
 ---
 title: Writing
-description: Things I've figured out and wanted to write down.
+description: Things I've figured out about Android, Kotlin and building apps, and wanted to write down.
 labels:
   empty: Nothing published yet.
 ---

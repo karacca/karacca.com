@@ -1,6 +1,6 @@
 ---
 title: Accessibility in Jetpack Compose
-description: The semantics tree, merging, state, traversal, live regions, forms, contrast, font scaling, touch targets and testing, from the accessibility lesson of my Android course.
+description: The semantics tree, traversal, live regions, forms, contrast, font scaling, touch targets and testing, from the accessibility lesson of my Android course.
 date: 2026-06-26
 ---
 
