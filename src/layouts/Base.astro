@@ -2,7 +2,9 @@
 import { Font } from "astro:assets";
 import Footer from "@/components/Footer.astro";
 import Header from "@/components/Header.astro";
+import { isoDate } from "@/lib/format";
 import { cleanPath, ogImagePath, pageTitle } from "@/lib/paths";
+import { structuredData } from "@/lib/structured-data";
 import { site } from "@/site.config";
 import { og } from "@/styles/tokens/og";
 import "@/styles/global.css";
@@ -12,7 +14,9 @@ interface Props {
   description: string;
   isHome?: boolean;
   type?: "website" | "article";
+  lang?: string;
   publishedTime?: Date;
+  modifiedTime?: Date;
   ogImage?: boolean;
   noindex?: boolean;
 }
@@ -22,15 +26,35 @@ const {
   description,
   isHome = false,
   type = "website",
+  lang = site.language,
   publishedTime,
+  modifiedTime,
   ogImage = true,
   noindex = false,
 } = Astro.props;
+
+const locales: Record<string, string | undefined> = site.locales;
+const locale = locales[lang];
+if (!locale) {
+  throw new Error(`Missing locale for "${lang}" in src/site.config.ts`);
+}
 
 const path = cleanPath(Astro.url.pathname);
 const fullTitle = pageTitle(title, isHome);
 const canonical = new URL(path, Astro.site).href;
 const image = ogImage ? new URL(ogImagePath(path), Astro.site).href : undefined;
+const schema = noindex
+  ? undefined
+  : structuredData({
+      isHome,
+      url: canonical,
+      title,
+      description,
+      image,
+      lang,
+      publishedTime,
+      modifiedTime,
+    });
 const analyticsToken = site.analytics.cloudflareToken;
 ---
 
@@ -59,26 +83,38 @@ const analyticsToken = site.analytics.cloudflareToken;
     <link rel="sitemap" href="/sitemap-index.xml" />
     <meta property="og:site_name" content={site.name} />
     <meta property="og:type" content={type} />
+    <meta property="og:locale" content={locale} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     {!noindex && <meta property="og:url" content={canonical} />}
     {image && <meta property="og:image" content={image} />}
+    {image && <meta property="og:image:type" content="image/png" />}
     {image && (
       <meta property="og:image:width" content={String(og.size.width)} />
     )}
     {image && (
       <meta property="og:image:height" content={String(og.size.height)} />
     )}
+    {image && <meta property="og:image:alt" content={fullTitle} />}
     {publishedTime && (
       <meta
         property="article:published_time"
-        content={publishedTime.toISOString()}
+        content={isoDate(publishedTime)}
       />
+    )}
+    {modifiedTime && (
+      <meta property="article:modified_time" content={isoDate(modifiedTime)} />
     )}
     <meta
       name="twitter:card"
       content={image ? "summary_large_image" : "summary"}
     />
+    <meta name="twitter:site" content={site.xHandle} />
+    <meta name="twitter:creator" content={site.xHandle} />
+    {image && <meta name="twitter:image:alt" content={fullTitle} />}
+    {schema && (
+      <script is:inline type="application/ld+json" set:html={schema} />
+    )}
     <Font
       cssVariable="--font-sans"
       preload={[

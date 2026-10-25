@@ -1,7 +1,11 @@
 import { site } from "@/site.config";
 
 export function pageTitle(title: string, isHome = false): string {
-  return isHome ? title : site.titleTemplate.replace("%s", title);
+  if (isHome) {
+    return title;
+  }
+  const full = site.titleTemplate.replace("%s", title);
+  return full.length > site.titleMaxLength ? title : full;
 }
 
 export function cleanPath(pathname: string): string {

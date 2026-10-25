@@ -30,7 +30,9 @@ const { Content } = await render(post);
   title={title}
   description={description}
   type="article"
+  lang={lang}
   publishedTime={date}
+  modifiedTime={updated}
 >
   <Section as="article" title={title} lang={lang}>
     <div class="post-meta" slot="rail">

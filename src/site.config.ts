@@ -6,6 +6,11 @@ export const site = {
   numberLocale: "en-GB",
   monthLocale: "en-US",
   titleTemplate: "%s — Ömer Karaca",
+  titleMaxLength: 60,
+  locales: {
+    en: "en_US",
+    tr: "tr_TR",
+  },
   menu: [
     { label: "about", href: "/about" },
     { label: "writing", href: "/writing" },
@@ -16,6 +21,7 @@ export const site = {
     { label: "LinkedIn", href: "https://www.linkedin.com/in/karacca/" },
     { label: "GitHub", href: "https://github.com/karacca" },
   ],
+  xHandle: "@karacca",
   bookCall: {
     label: "Book a call",
     href: "https://cal.com/omer/intro",

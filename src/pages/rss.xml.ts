@@ -52,6 +52,9 @@ export const GET: APIRoute = async (context) => {
         pubDate: post.data.date,
         link: link.href,
         content: feedHtml(html, link),
+        ...(post.data.lang
+          ? { customData: `<dc:language>${post.data.lang}</dc:language>` }
+          : {}),
       };
     }),
   );
@@ -61,7 +64,10 @@ export const GET: APIRoute = async (context) => {
     description: page.data.description,
     site: origin,
     trailingSlash: false,
-    xmlns: { atom: "http://www.w3.org/2005/Atom" },
+    xmlns: {
+      atom: "http://www.w3.org/2005/Atom",
+      dc: "http://purl.org/dc/elements/1.1/",
+    },
     customData: [
       `<language>${site.language}</language>`,
       `<atom:link href="${new URL(site.rss.href, origin).href}" rel="self" type="application/rss+xml"/>`,
