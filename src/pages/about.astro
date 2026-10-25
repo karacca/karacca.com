@@ -3,7 +3,6 @@ import { render } from "astro:content";
 import BookCall from "@/components/BookCall.astro";
 import Chip from "@/components/Chip.astro";
 import Prose from "@/components/Prose.astro";
-import ResumeLink from "@/components/ResumeLink.astro";
 import Section from "@/components/Section.astro";
 import Signature from "@/components/Signature.astro";
 import Base from "@/layouts/Base.astro";
@@ -16,7 +15,7 @@ const { Content } = await render(page);
 <Base title={page.data.title} description={page.data.description}>
   <Section as="div" title={page.data.title} hideTitle>
     <Prose>
-      <Content components={{ BookCall, Chip, ResumeLink }} />
+      <Content components={{ BookCall, Chip }} />
     </Prose>
     <div class="sign-off">
       <Signature />

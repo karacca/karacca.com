@@ -60,8 +60,7 @@
 ## Content
 
 - Social links: X, LinkedIn, GitHub as plain text links
-- Resume: native `download` link to the PDF, with a subtle Web Audio sound
-- Sound is used only for the resume download, nowhere else
+- No sound anywhere on the site
 - Inline chips: icon + name pill in prose, gentle CSS hover, local SVG icons
 - Chips link where useful (company → site, project → detail page); otherwise plain
 - Handwritten signature as static SVG at the end of about/intro; follows light/dark
@@ -118,5 +117,4 @@
 - Where social links go (header, footer, intro)
 - Final font
 - Whether light mode is tinted too (decide with the font)
-- Resume sound source and playback approach
-- Assets needed: resume PDF, signature scan, social profile URLs
+- Assets needed: signature scan, social profile URLs
