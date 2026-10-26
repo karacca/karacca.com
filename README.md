@@ -66,7 +66,7 @@ Projects work the same way with `published: false`: the project shows up in `pnp
 
 ### Site config
 
-`src/site.config.ts` holds everything that is not page content: site URL and name, the monogram drawn as the favicon, menu, social links, book-a-call link, the analytics token, and shared labels.
+`src/site.config.ts` holds everything that is not page content: site URL and name, the monogram drawn as the favicon, menu, social links, book-a-call link, and shared labels.
 
 ### Design tokens
 
@@ -117,13 +117,9 @@ After that, every push to `master` builds and deploys production. Wrangler is no
 
 ### Analytics
 
-Cloudflare Web Analytics is cookieless and needs no consent banner.
+Cloudflare Web Analytics is cookieless and needs no consent banner. The `karacca.com` site uses automatic setup: Cloudflare adds the beacon script to HTML pages as it serves them, so the repo has no analytics code. Local builds and `workers.dev` preview URLs don't get the beacon, and `pnpm lighthouse` doesn't measure it.
 
-1. Cloudflare dashboard → Analytics & Logs → Web Analytics → Add a site → `karacca.com`.
-2. Copy the token from the JavaScript snippet it shows.
-3. Paste it into `analytics.cloudflareToken` in `src/site.config.ts` and push.
-
-The beacon script is only added to production builds, and only when the token is set.
+Its settings are in the Cloudflare dashboard → Analytics & Logs → Web Analytics → `karacca.com` → Manage site. Don't also add the JavaScript snippet to the site, or every page view is counted twice.
 
 ## Checks
 

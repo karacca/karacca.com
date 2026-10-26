@@ -30,9 +30,6 @@ export const site = {
     label: "RSS",
     href: "/rss.xml",
   },
-  analytics: {
-    cloudflareToken: "",
-  },
   labels: {
     skipToContent: "Skip to content",
     mainMenu: "Main",
