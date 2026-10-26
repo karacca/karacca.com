@@ -92,7 +92,7 @@ Fonts are self-hosted through Astro's fonts API and Fontsource. `fontsource()` i
 
 ## Deploy
 
-The site is served by Cloudflare Workers static assets. There is no Worker script; `wrangler.jsonc` only points at `dist/`.
+The site is served by Cloudflare Workers static assets. There is no Worker script; `wrangler.jsonc` points at `dist/` and turns off the production `workers.dev` URL, so production is only served on `karacca.com`. Preview URLs for branches stay on.
 
 - `html_handling: "drop-trailing-slash"` serves `dist/about.html` at `/about` and redirects `/about/` to `/about`.
 - `not_found_handling: "404-page"` serves `dist/404.html` with a 404 status.
