@@ -102,7 +102,7 @@ The site is served by Cloudflare Workers static assets. There is no Worker scrip
 ### One-time setup (Workers Builds)
 
 1. Cloudflare dashboard → Workers & Pages → Create → Import a repository, and pick this GitHub repo.
-2. Name the Worker `karacca-com`. It has to match `name` in `wrangler.jsonc`.
+2. Name the Worker `karacca`. It has to match `name` in `wrangler.jsonc`.
 3. Build settings:
    - Build command: `pnpm build`
    - Deploy command: `npx wrangler deploy`
