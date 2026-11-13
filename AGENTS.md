@@ -35,7 +35,7 @@
 - Desktop layout 70–80% of viewport with a max width
 - Long-form text capped at ~65–75 characters per line
 - Mobile friendly
-- Start with a neutral placeholder font; pick the final font by trying candidates on the built site
+- Final fonts: Inter for text and interface, JetBrains Mono for code and meta
 - Free / open-source fonts only
 - No loud hero text
 - No dock / tab-bar / icon navigation; plain text links with real URLs in the header
@@ -114,5 +114,4 @@
 
 ## Open
 
-- Final font
-- Whether light mode stays tinted (it is now; decide with the font)
+- Whether light mode stays tinted (it is now)
