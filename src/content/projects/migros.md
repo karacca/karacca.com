@@ -9,6 +9,15 @@ links:
   appStore: https://apps.apple.com/tr/app/id397585390
   googlePlay: https://play.google.com/store/apps/details?id=com.inomera.sm
 impact: 8
+highlights:
+  - value: 10M+
+    label: downloads on Google Play
+  - value: 4.5
+    label: Google Play rating, from 229K reviews
+  - value: 4.7
+    label: App Store rating, from 390K ratings
+  - value: 7
+    label: services in one app, from groceries to meals
 icon:
   src: ./migros/icon.png
 screens:
