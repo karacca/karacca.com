@@ -49,8 +49,6 @@ const projectIcon = project?.data.icon;
 
 <style>
   .chip {
-    position: relative;
-    top: 0;
     display: inline;
     padding: var(--space-3xs) var(--space-xs);
     border-radius: var(--radius-pill);
@@ -61,7 +59,7 @@ const projectIcon = project?.data.icon;
     line-height: var(--text-leading-chip);
     text-decoration-line: none;
     white-space: nowrap;
-    transition-property: background-color, box-shadow, top;
+    transition-property: background-color, box-shadow;
     transition-duration: var(--motion-hover-duration);
     transition-timing-function: var(--motion-hover-ease);
   }
@@ -87,7 +85,6 @@ const projectIcon = project?.data.icon;
     .chip:hover {
       background: var(--color-surface-hover);
       box-shadow: inset 0 0 0 var(--border-width) var(--color-border-strong);
-      top: var(--motion-nudge-distance);
     }
   }
 </style>
