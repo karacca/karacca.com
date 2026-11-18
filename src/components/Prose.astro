@@ -1,7 +1,18 @@
 ---
+import ProjectPeeks from "@/components/ProjectPeeks.astro";
 import "@/styles/prose.css";
+
+const html = await Astro.slots.render("default");
+const projects = [
+  ...new Set(
+    [...html.matchAll(/href="\/projects\/([^"/?#]+)\/?"/g)].flatMap(([, id]) =>
+      id ? [id] : [],
+    ),
+  ),
+];
 ---
 
 <div class="prose">
-  <slot />
+  <Fragment set:html={html} />
 </div>
+{projects.length > 0 && <ProjectPeeks ids={projects} />}

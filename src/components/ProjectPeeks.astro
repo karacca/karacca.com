@@ -1,0 +1,326 @@
+---
+import type { ImageMetadata } from "astro";
+import { getImage } from "astro:assets";
+import { getEntry } from "astro:content";
+import { isPublished, type Project } from "@/lib/content";
+import { image } from "@/styles/tokens/image";
+
+interface Props {
+  ids: string[];
+}
+
+interface Screen {
+  src: ImageMetadata;
+  dark?: ImageMetadata | undefined;
+}
+
+const { height, count, wideRatio, rootPx, density } = image.peek;
+const shown = (Astro.locals.peeks ??= new Set<string>());
+const ids = Astro.props.ids.filter((id) => !shown.has(id));
+ids.forEach((id) => shown.add(id));
+
+const entries = await Promise.all(ids.map((id) => getEntry("projects", id)));
+
+function widthFor(ratio: number): number {
+  const needed = height * rootPx * ratio * density;
+  const { widths } = image.screen;
+  return widths.find((width) => width >= needed) ?? Math.max(...widths);
+}
+
+async function shot({ src, dark }: Screen, index: number, total: number) {
+  const ratio = src.width / src.height;
+  const options = { width: widthFor(ratio), quality: image.screen.quality };
+  const light = await getImage({ src, ...options });
+  const night = dark ? await getImage({ src: dark, ...options }) : undefined;
+  const offset = index - (total - 1) / 2;
+  return {
+    light,
+    night,
+    ratio: ratio.toFixed(4),
+    offset,
+    depth: total - Math.floor(Math.abs(offset)),
+  };
+}
+
+const peeks = (
+  await Promise.all(
+    entries
+      .filter(
+        (project): project is Project =>
+          project !== undefined && isPublished(project),
+      )
+      .map(async (project) => {
+        const screens =
+          project.data.screens.length > 0
+            ? project.data.screens
+            : project.data.gallery;
+        const first = screens[0];
+        const limit =
+          first && first.src.width / first.src.height >= wideRatio ? 1 : count;
+        const picked = screens.slice(0, limit);
+        const shots = await Promise.all(
+          picked.map((screen, index) => shot(screen, index, picked.length)),
+        );
+        return { href: `/projects/${project.id}`, shots };
+      }),
+  )
+).filter(({ shots }) => shots.length > 0);
+---
+
+{peeks.map(({ href, shots }) => (
+  <template data-peek={href}>
+    <div class="peek" aria-hidden="true" style={`--peek-height: ${height}rem`}>
+      {shots.map(({ light, night, ratio, offset, depth }) => (
+        <div
+          class="shot"
+          style={`--ratio: ${ratio}; --offset: ${offset}; --lift: ${Math.abs(offset)}; --depth: ${depth}`}
+        >
+          <picture>
+            {night && (
+              <source media="(prefers-color-scheme: dark)" srcset={night.src} />
+            )}
+            <img
+              class="image"
+              src={light.src}
+              width={light.attributes.width}
+              height={light.attributes.height}
+              alt=""
+              loading="lazy"
+              decoding="async"
+            />
+          </picture>
+        </div>
+      ))}
+    </div>
+  </template>
+))}
+
+<script>
+  import { peek } from "@/styles/tokens/peek";
+
+  const hover = matchMedia("(hover: hover) and (pointer: fine)");
+  const templates = new Map<string, HTMLTemplateElement>();
+  const cards = new Map<string, HTMLElement>();
+  let active: { link: HTMLAnchorElement; key: string } | undefined;
+  let timer: number | undefined;
+
+  document
+    .querySelectorAll<HTMLTemplateElement>("template[data-peek]")
+    .forEach((template) => {
+      const key = template.dataset.peek;
+      if (key && !templates.has(key)) {
+        templates.set(key, template);
+      }
+    });
+
+  function keyOf(link: HTMLAnchorElement): string | undefined {
+    if (link.origin !== location.origin) {
+      return undefined;
+    }
+    const key = link.pathname.replace(/\/$/, "");
+    return templates.has(key) ? key : undefined;
+  }
+
+  function cardFor(key: string): HTMLElement | undefined {
+    const cached = cards.get(key);
+    if (cached) {
+      return cached;
+    }
+    const template = templates.get(key);
+    const node = template
+      ? document.importNode(template.content, true).firstElementChild
+      : null;
+    if (!(node instanceof HTMLElement)) {
+      return undefined;
+    }
+    document.body.append(node);
+    node.querySelectorAll("img").forEach((img) => {
+      img.loading = "eager";
+    });
+    cards.set(key, node);
+    return node;
+  }
+
+  function place(card: HTMLElement, link: HTMLAnchorElement, y: number) {
+    const rects = [...link.getClientRects()];
+    const rect =
+      rects.find(({ top, bottom }) => y >= top && y <= bottom) ?? rects[0];
+    if (!rect) {
+      return;
+    }
+    const { offsetWidth: width, offsetHeight: height } = card;
+    const viewport = document.documentElement.clientWidth;
+    const above = rect.top >= height;
+    const left = Math.min(
+      Math.max(rect.left + rect.width / 2 - width / 2, 0),
+      Math.max(viewport - width, 0),
+    );
+    card.dataset.side = above ? "above" : "below";
+    card.style.left = `${left}px`;
+    card.style.top = `${above ? rect.top - height : rect.bottom}px`;
+  }
+
+  function open(link: HTMLAnchorElement, key: string, y: number) {
+    const card = cardFor(key);
+    if (!card) {
+      return;
+    }
+    place(card, link, y);
+    const images = [...card.querySelectorAll("img")];
+    void Promise.all(
+      images.map((img) => img.decode().catch(() => undefined)),
+    ).then(() => {
+      if (active?.link !== link) {
+        return;
+      }
+      place(card, link, y);
+      requestAnimationFrame(() => {
+        if (active?.link === link) {
+          card.dataset.open = "";
+        }
+      });
+    });
+  }
+
+  function close() {
+    window.clearTimeout(timer);
+    if (active) {
+      delete cards.get(active.key)?.dataset.open;
+    }
+    active = undefined;
+  }
+
+  function linkFrom(target: EventTarget | null): HTMLAnchorElement | null {
+    return target instanceof Element
+      ? target.closest<HTMLAnchorElement>(".prose a[href]")
+      : null;
+  }
+
+  if (templates.size > 0) {
+    document.addEventListener("pointerover", (event) => {
+      if (event.pointerType !== "mouse" || !hover.matches) {
+        return;
+      }
+      const link = linkFrom(event.target);
+      if (!link || link === active?.link) {
+        return;
+      }
+      const key = keyOf(link);
+      close();
+      if (!key) {
+        return;
+      }
+      active = { link, key };
+      const y = event.clientY;
+      timer = window.setTimeout(() => open(link, key, y), peek.delay);
+    });
+
+    document.addEventListener("pointerout", (event) => {
+      const link = linkFrom(event.target);
+      if (
+        link &&
+        link === active?.link &&
+        !link.contains(event.relatedTarget as Node | null)
+      ) {
+        close();
+      }
+    });
+
+    document.addEventListener("pointerdown", close);
+    window.addEventListener("scroll", close, { passive: true });
+    window.addEventListener("blur", close);
+    window.addEventListener("resize", close);
+    window.addEventListener("pageshow", () => {
+      close();
+      cards.forEach((card) => delete card.dataset.open);
+    });
+  }
+</script>
+
+<style>
+  .peek {
+    --direction: 1;
+    position: fixed;
+    z-index: 1;
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    padding: var(--layout-peek-gap) var(--layout-peek-inset);
+    pointer-events: none;
+    visibility: hidden;
+    opacity: 0;
+    filter: blur(var(--motion-peek-blur));
+    transition-property: opacity, filter, visibility;
+    transition-duration: var(--motion-peek-exit-duration);
+    transition-timing-function: var(--motion-peek-ease);
+  }
+
+  .peek picture {
+    display: contents;
+  }
+
+  .peek[data-side="below"] {
+    --direction: -1;
+    align-items: start;
+  }
+
+  .peek[data-open] {
+    visibility: visible;
+    opacity: 1;
+    filter: blur(0);
+    transition-duration: var(--motion-peek-enter-duration);
+  }
+
+  .shot {
+    flex: none;
+    z-index: var(--depth);
+    width: calc(var(--peek-height) * var(--ratio));
+    transform-origin: 50% 100%;
+    transform: translate(
+        calc(var(--offset) * var(--motion-peek-gather) * -1),
+        calc(
+          var(--lift) * var(--layout-peek-drop) * var(--direction) +
+            var(--motion-peek-rise) * var(--direction)
+        )
+      )
+      rotate(calc(var(--offset) * var(--layout-peek-tilt) * var(--direction)))
+      scale(var(--motion-peek-scale));
+    transition: transform var(--motion-peek-exit-duration)
+      var(--motion-peek-ease);
+  }
+
+  .shot + .shot {
+    margin-inline-start: calc(var(--layout-peek-overlap) * -1);
+  }
+
+  .peek[data-side="below"] .shot {
+    transform-origin: 50% 0;
+  }
+
+  .peek[data-open] .shot {
+    transform: translate(
+        0,
+        calc(var(--lift) * var(--layout-peek-drop) * var(--direction))
+      )
+      rotate(calc(var(--offset) * var(--layout-peek-tilt) * var(--direction)))
+      scale(1);
+    transition-duration: var(--motion-peek-enter-duration);
+  }
+
+  .image {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: calc(var(--peek-height) * var(--layout-screen-corner));
+    outline: var(--border-width) solid var(--color-border);
+    outline-offset: calc(-1 * var(--border-width));
+    background: var(--color-surface);
+    box-shadow: var(--layout-peek-shadow);
+  }
+
+  @media print {
+    .peek {
+      display: none;
+    }
+  }
+</style>

@@ -18,6 +18,13 @@ export const image = {
     eager: 1,
     quality: 80,
   },
+  peek: {
+    height: 10,
+    count: 3,
+    wideRatio: 1,
+    rootPx: 20,
+    density: 2,
+  },
   thumb: {
     widths: [48, 96, 144, 192],
     sizes: "(min-width: 90rem) 3.75rem, 3rem",

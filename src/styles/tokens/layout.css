@@ -31,6 +31,8 @@
   --icon-3: 1.125rem;
   --icon-shift-1: -0.075em;
 
+  --angle-6: 6deg;
+
   --layout-page-max: var(--width-page);
   --layout-gutter: clamp(
     var(--gutter-min),
@@ -60,6 +62,12 @@
   );
   --layout-screen-corner: var(--ratio-screen-corner);
   --layout-screen-gap: var(--space-m);
+  --layout-peek-gap: var(--space-xs);
+  --layout-peek-inset: var(--space-l);
+  --layout-peek-overlap: var(--space-m);
+  --layout-peek-drop: var(--space-xs);
+  --layout-peek-tilt: var(--angle-6);
+  --layout-peek-shadow: 0 var(--size-2) var(--size-12) var(--color-shadow);
   --layout-header-space: var(--space-2xl);
   --layout-footer-space: var(--space-3xl);
 

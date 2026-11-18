@@ -2,6 +2,7 @@
   --duration-50: 90ms;
   --duration-100: 120ms;
   --duration-200: 180ms;
+  --duration-300: 260ms;
   --duration-500: 600ms;
 
   --ease-out: cubic-bezier(0.2, 0, 0, 1);
@@ -9,7 +10,10 @@
   --distance-0: 0px;
   --distance-1: 1px;
   --distance-8: 8px;
+  --shift-70: 70%;
+  --blur-3: 3px;
   --blur-6: 6px;
+  --scale-92: 0.92;
   --scale-96: 0.96;
   --scale-100: 1;
   --opacity-1: 0.01;
@@ -25,11 +29,23 @@
   --motion-enter-distance: var(--distance-8);
   --motion-enter-blur: var(--blur-6);
   --motion-enter-opacity: var(--opacity-1);
+
+  --motion-peek-enter-duration: var(--duration-300);
+  --motion-peek-exit-duration: var(--duration-100);
+  --motion-peek-ease: var(--ease-out);
+  --motion-peek-gather: var(--shift-70);
+  --motion-peek-rise: var(--distance-8);
+  --motion-peek-scale: var(--scale-92);
+  --motion-peek-blur: var(--blur-3);
 }
 
 @media (prefers-reduced-motion: reduce) {
   :root {
     --motion-press-scale: var(--scale-100);
     --motion-nudge-distance: var(--distance-0);
+    --motion-peek-gather: var(--distance-0);
+    --motion-peek-rise: var(--distance-0);
+    --motion-peek-scale: var(--scale-100);
+    --motion-peek-blur: var(--distance-0);
   }
 }

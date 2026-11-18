@@ -63,6 +63,7 @@
 - No sound anywhere on the site
 - Inline chips: icon + name pill in prose, gentle CSS hover, local SVG icons
 - Chips link where useful (company → site, project → detail page); otherwise plain
+- Hovering a project link in prose (chip or plain link) fans out up to three of its `screens` above the link (below near the top of the window); mouse only, decorative, anchored to the link rather than the cursor, and its images load only on hover
 - Handwritten signature as static SVG at the end of about/intro; follows light/dark
 - Book a call: plain link to https://cal.com/omer/intro
 - Notes / keyboard feature: not at launch
