@@ -270,7 +270,7 @@ a.back-link > .icon {
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
+@media screen and (prefers-reduced-motion: no-preference) {
   :root[data-enter] :is(.site-header, main > *, .site-footer) {
     animation: enter var(--motion-enter-duration) var(--motion-enter-ease)
       backwards;
@@ -317,5 +317,17 @@ a.back-link > .icon {
   :root[data-enter] main > :nth-child(n + 6 of :not(script)),
   :root[data-enter] main:has(> :nth-child(5 of :not(script))) ~ .site-footer {
     --enter-index: 6;
+  }
+}
+
+@media print {
+  body {
+    background: none;
+  }
+
+  .site-header,
+  .site-footer,
+  .skip-link {
+    display: none;
   }
 }

@@ -40,3 +40,9 @@
   --color-focus: var(--color-accent);
   --color-selection: light-dark(var(--tint-300), var(--tint-800));
 }
+
+@media print {
+  :root {
+    color-scheme: light;
+  }
+}

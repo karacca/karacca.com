@@ -1,0 +1,262 @@
+---
+import { render } from "astro:content";
+import Prose from "@/components/Prose.astro";
+import Section from "@/components/Section.astro";
+import Icon from "@/components/Icon.astro";
+import Base from "@/layouts/Base.astro";
+import {
+  getExperience,
+  getPage,
+  getResumeSections,
+  label,
+} from "@/lib/content";
+import { formatMonthYear, isoMonth, printableUrl } from "@/lib/format";
+import { isExternal } from "@/lib/paths";
+import { site } from "@/site.config";
+
+const page = await getPage("resume");
+const { Content } = await render(page);
+const present = label(page, "present");
+const contacts = page.data.links.map((link) => ({
+  ...link,
+  printed: printableUrl(link.href),
+  external: isExternal(link.href),
+}));
+const experience = await Promise.all(
+  (await getExperience()).map(async (entry) => ({
+    ...entry.data,
+    Content: (await render(entry)).Content,
+  })),
+);
+const sections = await Promise.all(
+  (await getResumeSections()).map(async (section) => ({
+    title: section.data.label,
+    Content: (await render(section)).Content,
+  })),
+);
+---
+
+<Base title={page.data.title} description={page.data.description}>
+  <Section as="header">
+    <h1 class="name">{site.name}</h1>
+    <p class="role">
+      {[label(page, "role"), label(page, "location")].join(
+        site.labels.metaSeparator,
+      )}
+    </p>
+    <ul class="contact" role="list" aria-label={label(page, "contact")}>
+      {contacts.map(({ label, href, printed, external }, index) => (
+        <li>
+          <a
+            href={href}
+            target={external ? "_blank" : undefined}
+            rel={external ? "noopener" : undefined}
+          >
+            <span class:list={{ "screen-only": printed }}>{label}</span>
+            {printed && <span class="print-only">{printed}</span>}
+          </a>
+          {index < contacts.length - 1 && (
+            <span class="separator" aria-hidden="true">
+              {site.labels.metaSeparator}
+            </span>
+          )}
+        </li>
+      ))}
+    </ul>
+    <p class="download">
+      <a
+        class="download-link"
+        href={site.resume.pdf}
+        download
+        data-astro-prefetch="false"
+      >
+        <Icon name="download" class="download-icon" />
+        {label(page, "download")}
+      </a>
+    </p>
+  </Section>
+  <Section label={label(page, "summary")}>
+    <Prose>
+      <Content />
+    </Prose>
+  </Section>
+  {experience.length > 0 && (
+    <Section label={label(page, "experience")}>
+      <ol class="entries" role="list">
+        {experience.map(
+          ({ role, company, url, type, location, start, end, Content }) => (
+            <li class="entry">
+              <div class="entry-head">
+                <h3 class="entry-role">{role}</h3>
+                <p class="meta dates">
+                  <time datetime={isoMonth(start)}>
+                    {formatMonthYear(start)}
+                  </time>
+                  {site.labels.rangeSeparator}
+                  {end ? (
+                    <time datetime={isoMonth(end)}>{formatMonthYear(end)}</time>
+                  ) : (
+                    present
+                  )}
+                </p>
+              </div>
+              <p class="company">
+                {url ? (
+                  <a href={url} target="_blank" rel="noopener">
+                    {company}
+                  </a>
+                ) : (
+                  company
+                )}
+                {[type, location]
+                  .filter(Boolean)
+                  .map((part) => `${site.labels.metaSeparator}${part}`)
+                  .join("")}
+              </p>
+              <div class="entry-body">
+                <Prose>
+                  <Content />
+                </Prose>
+              </div>
+            </li>
+          ),
+        )}
+      </ol>
+    </Section>
+  )}
+  {sections.map(({ title, Content }) => (
+    <Section label={title}>
+      <Prose>
+        <Content />
+      </Prose>
+    </Section>
+  ))}
+</Base>
+
+<style>
+  .name {
+    font-size: var(--text-size-title);
+    line-height: var(--text-leading-heading);
+  }
+
+  .role {
+    margin-block-start: var(--space-xs);
+  }
+
+  .contact {
+    display: flex;
+    flex-wrap: wrap;
+    margin-block-start: var(--space-2xs);
+    color: var(--color-text-muted);
+  }
+
+  .separator {
+    white-space: pre;
+  }
+
+  .download {
+    margin-block-start: var(--space-m);
+  }
+
+  .download-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    padding: var(--space-2xs) var(--space-s);
+    border: var(--border-width) solid var(--color-border-strong);
+    border-radius: var(--radius-pill);
+    color: var(--color-text-muted);
+    font-size: var(--text-size-small);
+    text-decoration-line: none;
+    transition-property: color, border-color, transform;
+    transition-duration: var(--motion-hover-duration);
+    transition-timing-function: var(--motion-hover-ease);
+  }
+
+  .download-link:focus-visible {
+    color: var(--color-text);
+    border-radius: var(--radius-pill);
+  }
+
+  .download-link:active {
+    transform: scale(var(--motion-press-scale));
+  }
+
+  @media (hover: hover) {
+    .download-link:hover {
+      color: var(--color-text);
+      border-color: currentColor;
+    }
+  }
+
+  .download-link :global(.download-icon) {
+    width: var(--icon-size-s);
+    height: var(--icon-size-s);
+  }
+
+  .entries {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+    max-width: var(--layout-measure);
+    margin: 0;
+    padding: 0;
+  }
+
+  .entry-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-2xs) var(--space-l);
+  }
+
+  .entry-role {
+    font-size: var(--text-size-body);
+    font-weight: var(--text-weight-strong);
+  }
+
+  .dates {
+    flex: none;
+  }
+
+  .company {
+    margin-block-start: var(--space-3xs);
+    color: var(--color-text-muted);
+  }
+
+  .entry-body {
+    margin-block-start: var(--space-s);
+  }
+
+  .print-only {
+    display: none;
+  }
+
+  @media print {
+    .screen-only,
+    .download {
+      display: none;
+    }
+
+    .print-only {
+      display: inline;
+    }
+
+    :global(.section .label) {
+      font-size: var(--text-size-body);
+      font-weight: var(--text-weight-strong);
+      color: var(--color-text);
+    }
+
+    :global(.section .label::first-letter) {
+      text-transform: uppercase;
+    }
+
+    .entry-head,
+    .company {
+      break-inside: avoid;
+      break-after: avoid;
+    }
+  }
+</style>

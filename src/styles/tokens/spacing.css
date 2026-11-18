@@ -26,3 +26,10 @@
   --space-prose: var(--space-l);
   --space-row: var(--space-s);
 }
+
+@media print {
+  :root {
+    --space-section: var(--space-l);
+    --space-prose: var(--space-s);
+  }
+}

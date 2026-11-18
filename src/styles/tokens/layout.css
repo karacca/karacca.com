@@ -78,3 +78,13 @@
   --icon-size-l: var(--icon-3);
   --icon-baseline-offset: var(--icon-shift-1);
 }
+
+@media print {
+  :root {
+    --layout-gutter: 0px;
+    --layout-measure: none;
+    --layout-wide: none;
+    --layout-header-space: 0px;
+    --layout-footer-space: 0px;
+  }
+}

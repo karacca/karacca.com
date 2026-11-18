@@ -4,6 +4,8 @@ export type Page = CollectionEntry<"pages">;
 export type Post = CollectionEntry<"posts">;
 export type Project = CollectionEntry<"projects">;
 export type Bookmark = CollectionEntry<"bookmarks">;
+export type Experience = CollectionEntry<"experience">;
+export type ResumeSection = CollectionEntry<"resume">;
 
 export async function getPage(id: string): Promise<Page> {
   const page = await getEntry("pages", id);
@@ -66,4 +68,22 @@ export async function getBookmarks(): Promise<Bookmark[]> {
   return bookmarks.sort(
     (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
   );
+}
+
+function endTime(entry: Experience): number {
+  return entry.data.end?.valueOf() ?? Number.POSITIVE_INFINITY;
+}
+
+export async function getExperience(): Promise<Experience[]> {
+  const entries = await getCollection("experience");
+  return entries.sort(
+    (a, b) =>
+      endTime(b) - endTime(a) ||
+      b.data.start.valueOf() - a.data.start.valueOf(),
+  );
+}
+
+export async function getResumeSections(): Promise<ResumeSection[]> {
+  const sections = await getCollection("resume");
+  return sections.sort((a, b) => a.data.order - b.data.order);
 }

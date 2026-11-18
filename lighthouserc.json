@@ -11,7 +11,8 @@
         "http://localhost:4322/writing",
         "http://localhost:4322/writing/jetpack-compose-ile-declarative-ui-gelistirme",
         "http://localhost:4322/projects",
-        "http://localhost:4322/projects/moodstone"
+        "http://localhost:4322/projects/moodstone",
+        "http://localhost:4322/resume"
       ],
       "settings": {
         "chromeFlags": "--no-sandbox"

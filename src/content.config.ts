@@ -41,6 +41,18 @@ const pages = defineCollection({
     description: z.string(),
     heading: z.string().optional(),
     labels: z.record(z.string(), z.string()).default({}),
+    links: z
+      .array(
+        z.strictObject({
+          label: z.string(),
+          href: z.union([
+            z.url({ protocol: /^https?$/ }),
+            z.string().regex(/^\/(?!\/)/),
+            z.string().regex(/^mailto:[^@\s]+@[^@\s]+$/),
+          ]),
+        }),
+      )
+      .default([]),
   }),
 });
 
@@ -95,6 +107,32 @@ const projects = defineCollection({
     }),
 });
 
+const month = z
+  .string()
+  .regex(/^\d{4}-(0[1-9]|1[0-2])$/)
+  .transform((value) => new Date(`${value}-01T00:00:00Z`));
+
+const experience = defineCollection({
+  loader: glob({ pattern: "*.md", base: "./src/content/experience" }),
+  schema: z.strictObject({
+    role: z.string(),
+    company: z.string(),
+    url: z.url().optional(),
+    type: z.string().optional(),
+    location: z.string().optional(),
+    start: month,
+    end: month.optional(),
+  }),
+});
+
+const resume = defineCollection({
+  loader: glob({ pattern: "*.md", base: "./src/content/resume" }),
+  schema: z.strictObject({
+    label: z.string(),
+    order: z.number().int(),
+  }),
+});
+
 const bookmarks = defineCollection({
   loader: file("./src/content/bookmarks.yaml", {
     parser: (text) =>
@@ -114,4 +152,11 @@ const bookmarks = defineCollection({
   }),
 });
 
-export const collections = { pages, posts, projects, bookmarks };
+export const collections = {
+  pages,
+  posts,
+  projects,
+  experience,
+  resume,
+  bookmarks,
+};

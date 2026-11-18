@@ -15,12 +15,31 @@ export function formatDate(date: Date): string {
   return `${date.getUTCDate()}\u00a0${formatMonth(date)}\u00a0${date.getUTCFullYear()}`;
 }
 
+export function formatMonthYear(date: Date): string {
+  return `${formatMonth(date)}\u00a0${date.getUTCFullYear()}`;
+}
+
+export function isoMonth(date: Date): string {
+  return date.toISOString().slice(0, 7);
+}
+
 export function isoDate(date: Date): string {
   return date.toISOString().slice(0, 10);
 }
 
 export function formatNumber(value: number): string {
   return numberFormat.format(value);
+}
+
+export function printableUrl(href: string): string | undefined {
+  if (href.startsWith("mailto:")) {
+    return undefined;
+  }
+  const url = new URL(href, site.url);
+  return `${url.hostname.replace(/^www\./, "")}${url.pathname}`.replace(
+    /\/$/,
+    "",
+  );
 }
 
 export function domainOf(url: string): string {

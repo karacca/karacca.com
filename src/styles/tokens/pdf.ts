@@ -1,0 +1,121 @@
+import { palette } from "../../lib/palette";
+
+const scheme = "light";
+
+export const pdf = {
+  page: {
+    size: "A4",
+    margins: { top: 54, bottom: 54, left: 54, right: 54 },
+  },
+  color: {
+    text: palette("--color-text", scheme),
+    textMuted: palette("--color-text-muted", scheme),
+    rule: palette("--color-border", scheme),
+  },
+  rule: {
+    width: 0.5,
+  },
+  features: {
+    calt: false,
+    liga: false,
+    clig: false,
+    dlig: false,
+  },
+  text: {
+    name: { family: "sans", weight: 600, size: 20, leading: 1.2 },
+    role: { family: "sans", weight: 400, size: 11, leading: 1.4 },
+    contact: { family: "sans", weight: 400, size: 8.5, leading: 1.5 },
+    heading: { family: "sans", weight: 600, size: 10.5, leading: 1.3 },
+    entryRole: { family: "sans", weight: 600, size: 10, leading: 1.4 },
+    dates: { family: "mono", weight: 400, size: 8.5, leading: 1.4 },
+    company: { family: "sans", weight: 400, size: 9.5, leading: 1.4 },
+    body: { family: "sans", weight: 400, size: 9.5, leading: 1.45 },
+  },
+  space: {
+    afterName: 4,
+    afterRole: 2,
+    section: 16,
+    headingRule: 3,
+    afterHeading: 8,
+    entry: 11,
+    afterCompany: 4,
+    block: 5,
+    item: 2.5,
+    bulletIndent: 11,
+    datesGap: 16,
+  },
+  strong: 600,
+  bullet: "•",
+  fonts: [
+    {
+      family: "sans",
+      weight: 400,
+      subset: "latin",
+      file: "@fontsource/inter/files/inter-latin-400-normal.woff",
+      ranges: "@fontsource/inter/unicode.json",
+    },
+    {
+      family: "sans",
+      weight: 400,
+      subset: "latin-ext",
+      file: "@fontsource/inter/files/inter-latin-ext-400-normal.woff",
+      ranges: "@fontsource/inter/unicode.json",
+    },
+    {
+      family: "sans",
+      weight: 600,
+      subset: "latin",
+      file: "@fontsource/inter/files/inter-latin-600-normal.woff",
+      ranges: "@fontsource/inter/unicode.json",
+    },
+    {
+      family: "sans",
+      weight: 600,
+      subset: "latin-ext",
+      file: "@fontsource/inter/files/inter-latin-ext-600-normal.woff",
+      ranges: "@fontsource/inter/unicode.json",
+    },
+    {
+      family: "sans-italic",
+      weight: 400,
+      subset: "latin",
+      file: "@fontsource/inter/files/inter-latin-400-italic.woff",
+      ranges: "@fontsource/inter/unicode.json",
+    },
+    {
+      family: "sans-italic",
+      weight: 400,
+      subset: "latin-ext",
+      file: "@fontsource/inter/files/inter-latin-ext-400-italic.woff",
+      ranges: "@fontsource/inter/unicode.json",
+    },
+    {
+      family: "sans-italic",
+      weight: 600,
+      subset: "latin",
+      file: "@fontsource/inter/files/inter-latin-600-italic.woff",
+      ranges: "@fontsource/inter/unicode.json",
+    },
+    {
+      family: "sans-italic",
+      weight: 600,
+      subset: "latin-ext",
+      file: "@fontsource/inter/files/inter-latin-ext-600-italic.woff",
+      ranges: "@fontsource/inter/unicode.json",
+    },
+    {
+      family: "mono",
+      weight: 400,
+      subset: "latin",
+      file: "@fontsource/jetbrains-mono/files/jetbrains-mono-latin-400-normal.woff",
+      ranges: "@fontsource/jetbrains-mono/unicode.json",
+    },
+    {
+      family: "mono",
+      weight: 400,
+      subset: "latin-ext",
+      file: "@fontsource/jetbrains-mono/files/jetbrains-mono-latin-ext-400-normal.woff",
+      ranges: "@fontsource/jetbrains-mono/unicode.json",
+    },
+  ],
+} as const;

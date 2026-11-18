@@ -53,3 +53,10 @@
   --underline-offset: var(--decoration-offset-1);
   --underline-thickness: var(--decoration-thickness-1);
 }
+
+@media print {
+  :root {
+    --text-size-root: var(--font-size-200);
+    --text-leading-body: var(--line-height-200);
+  }
+}

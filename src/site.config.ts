@@ -26,6 +26,11 @@ export const site = {
     label: "Book a call",
     href: "https://cal.com/omer/intro",
   },
+  resume: {
+    label: "Resume",
+    href: "/resume",
+    pdf: "/omer-karaca-resume.pdf",
+  },
   rss: {
     label: "RSS",
     href: "/rss.xml",
@@ -41,6 +46,7 @@ export const site = {
     notLive: "not live",
     platformLink: "{label}: {title}",
     metaSeparator: " · ",
+    rangeSeparator: " – ",
     updated: "Updated",
     backToWriting: "writing",
     backToProjects: "projects",

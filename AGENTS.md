@@ -64,7 +64,6 @@
 - Inline chips: icon + name pill in prose, gentle CSS hover, local SVG icons
 - Chips link where useful (company → site, project → detail page); otherwise plain
 - Handwritten signature as static SVG at the end of about/intro; follows light/dark
-- No location or timezone label, no live clock
 - Book a call: plain link to https://cal.com/omer/intro
 - Notes / keyboard feature: not at launch
 
