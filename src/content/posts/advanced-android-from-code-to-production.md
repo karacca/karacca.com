@@ -4,7 +4,7 @@ description: The Android course I gave with MultiGroup Community, the app it's b
 date: 2026-05-15T17:00:00Z
 ---
 
-In May and June I gave an online course with [MultiGroup Community](https://www.linkedin.com/company/devmultigroup) called Advanced Android: From Code to Production. I taught four lessons in it: an opening session, then one each on architecture, Kotlin and accessibility. This post is the written version of the opening session. The other three have their own posts:
+In May and June I gave a course with [MultiGroup Community](https://www.linkedin.com/company/devmultigroup) called Advanced Android: From Code to Production. I taught four lessons in it: an opening session, then one each on architecture, Kotlin and accessibility. This post is the written version of the opening session. The other three have their own posts:
 
 - [Architecture and Design Patterns on Android](/writing/android-architecture-and-design-patterns)
 - [Kotlin Deep Dive](/writing/kotlin-deep-dive)

@@ -32,7 +32,7 @@ Qoluna gathers data from wearables and health apps, learns what is normal for yo
 
 ## What I did
 
-I moved to Qoluna through RE Partners in late 2024, after a year and a half on [Gymshark Shop](/projects/gymshark-shop), and worked on its Android app until I left in November 2025. The app reached the App Store in March 2026 and Google Play in September 2026.
+I moved to Qoluna through RE Partners in late 2024, after a year and a half on [Gymshark Shop](/projects/gymshark-shop), and we built its Android app from zero. I worked on it until I left in November 2025. The app reached the App Store in March 2026 and Google Play in September 2026.
 
 ## The app
 
